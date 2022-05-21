@@ -1,3 +1,5 @@
+import GAME_SETTINGS from "../constants/gameSettings.js";
+
 /** @type {CanvasRenderingContext2D} */
 let canvasContext = null;
 let previousObject = {};
@@ -88,6 +90,34 @@ export function getRandomElement(
     }
 
     return random;
+}
+
+/**
+ * @param {string} imagePath 
+ * @param {number} x 
+ * @param {number} y 
+ * @param {number} width
+ * @param {number} height 
+ */
+export function drawImage(
+    imagePath,
+    x,
+    y,
+    width = 150,
+    height = 150
+) {
+    let image = new Image();
+    image.src = imagePath;
+
+    // Draw first to "guarantee" this position on canvas
+    // then draw again when the image is fully loaded
+    canvasContext.drawImage(image, x, y, width, height);
+    
+    image.onload = function () {
+        canvasContext.clearRect(x, y, width, height);
+        canvasContext.drawImage(image, x, y, width, height);
+    }
+    image.onerror = function (error) { console.log(error) }
 }
 
 /**

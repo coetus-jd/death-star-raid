@@ -3,11 +3,15 @@ import GAME_SETTINGS from "./constants/gameSettings.js";
 
 import player from "./components/player.js";
 import obstacle from "./components/obstacle.js";
-import floor from "./components/floor.js";
+import scenario from "./components/scenario.js";
+import bullet from "./components/bullet.js";
 
-import { drawRectangle, drawRectangleWithGradient, drawText, init as initUtils, getRandomElement } from "./utils/index.js";
+import {
+    drawRectangle,
+    init as initUtils,
+} from "./utils/index.js";
 
-/** Starts the game only when the DOM was fully loaded */
+/** Starts the game only when the DOM is fully loaded */
 document.addEventListener("DOMContentLoaded", main);
 
 /** @type {CanvasRenderingContext2D} */
@@ -17,18 +21,27 @@ function main() {
     configureCanvas();
     getScore();
     initUtils(canvasContext);
+    scenario.create();
 
     run();
 }
 
 function run() {
+    canvasContext.restore();
+
     drawElements();
     player.update();
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
-        obstacle.draw();
-        obstacle.update();
+        scenario.create();
+        scenario.draw();
+        scenario.update();
+
     }
+    bullet.draw();
+    bullet.update();
+
+    canvasContext.save();
 
     window.requestAnimationFrame(run);
 }
@@ -40,11 +53,21 @@ function configureCanvas() {
     const canvas = document.createElement("canvas")
     canvas.width = GAME_SETTINGS.BASE_WIDTH;
     canvas.height = GAME_SETTINGS.BASE_HEIGHT;
-    canvas.style.border = "1px solid #000";
+    // canvas.style.border = "1px solid #000";
 
     canvasContext = canvas.getContext("2d");
+    // New shapes are drawn behind the existing canvas content
+    // OBS: default is "source-over"
+    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
+    // canvasContext.globalCompositeOperation = "destination-over";
+
     document.body.appendChild(canvas);
-    document.addEventListener("mousedown", handleGameState);
+    // document.addEventListener("mousedown", handleGameState);
+    document.addEventListener("keydown", (event) => {
+        if (event.key === " " || event.code === 'Space') {
+            bullet.create();
+        }
+    });
 }
 
 /**
@@ -75,55 +98,14 @@ function handleGameState() {
 
 /**
  * Draw all the necessary elements for the game
+ * 
+ * New shapes are drawn behind the existing canvas content
+ * because of the globalCompositeOperation property
  */
 function drawElements() {
+    
     // Sky
     drawRectangle(0, 0, GAME_SETTINGS.BASE_WIDTH, GAME_SETTINGS.BASE_HEIGHT, "#53d6ed");
-    // Floor
-    drawRectangle(floor.x, floor.y, GAME_SETTINGS.BASE_WIDTH, 200, "#cf9044");
-    // Player
-    drawRectangleWithGradient(
-        player.x,
-        player.y,
-        player.width,
-        player.height,
-        player.color,
-        "#FF0000"
-    );
 
-    // Current score
-    drawText(player.score || 'No score', 20, 100);
-
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAY) {
-        drawRectangle(GAME_SETTINGS.BASE_WIDTH / 2 - 50, GAME_SETTINGS.BASE_HEIGHT / 2 - 50, 100, 100, "green");
-    }
-
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
-        drawRectangle(GAME_SETTINGS.BASE_WIDTH / 2 - 50, GAME_SETTINGS.BASE_HEIGHT / 2 - 50, 100, 100, "red");
-        // Score
-        drawScore();
-    }
+    player.draw();
 }
-
-function drawScore() {
-    canvasContext.save();
-
-    if (player.score > GAME_SETTINGS.RECORD)
-        drawText("New record!", (GAME_SETTINGS.BASE_WIDTH / 2) - 125, (GAME_SETTINGS.BASE_HEIGHT / 2) - 100);
-    else if (GAME_SETTINGS.RECORD < 10)
-        drawText(`Record: ${GAME_SETTINGS.RECORD}`, (GAME_SETTINGS.BASE_WIDTH / 2) - 120, (GAME_SETTINGS.BASE_HEIGHT / 2) - 100);
-    else if (GAME_SETTINGS.RECORD > 10 && GAME_SETTINGS.RECORD < 100)
-        drawText(`Record: ${GAME_SETTINGS.RECORD}`, (GAME_SETTINGS.BASE_WIDTH / 2) - 120, (GAME_SETTINGS.BASE_HEIGHT / 2) - 100);
-    else
-        drawText(`Record: ${GAME_SETTINGS.RECORD}`, (GAME_SETTINGS.BASE_WIDTH / 2) - 115, (GAME_SETTINGS.BASE_HEIGHT / 2) - 100);
-
-    if (player.score < 10)
-        drawText(player.score, GAME_SETTINGS.BASE_WIDTH / 2 - 15, GAME_SETTINGS.BASE_HEIGHT / 2 + 20);
-    else if (player.score >= 10 && player.score < 100)
-        drawText(player.score, GAME_SETTINGS.BASE_WIDTH / 2 - 30, GAME_SETTINGS.BASE_HEIGHT / 2 + 20);
-    else
-        drawText(player.score, GAME_SETTINGS.BASE_WIDTH / 2 - 45, GAME_SETTINGS.BASE_HEIGHT / 2 + 20);
-
-    canvasContext.restore();
-}
-

@@ -1,6 +1,6 @@
-import gameSettings from "../constants/gameSettings.js";
+import GAME_SETTINGS from "../constants/gameSettings.js";
 
 export default {
     x: 0,
-    y: gameSettings.BASE_HEIGHT * 0.8
+    y: GAME_SETTINGS.BASE_HEIGHT
 };

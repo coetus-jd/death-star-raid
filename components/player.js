@@ -4,10 +4,11 @@
  * @property {Number} y Position in the Y axis where the player will be created
  * @property {Number} height Height of the player
  * @property {Number} width Width of the player
- * @property {string} color Color of the player
+ * @property {string} image Asset of the player
  * @property {Number} gravity Gravity 
  * @property {Number} velocity Velocity of the movemnt of the player
  * @property {Number} score 
+ * @property {function} draw
  * @property {function} update
  * @property {function} reset
  */
@@ -15,17 +16,21 @@
 import floor from "./floor.js";
 
 import GAME_SETTINGS from "../constants/gameSettings.js";
+import { drawImage } from "../utils/index.js";
 
 /** @type Player */
 export default {
-    x: 50,
+    x: GAME_SETTINGS.BASE_WIDTH / 2,
     y: 0,
-    height: 50,
-    width: 50,
-    color: "#47fd",
+    height: 150,
+    width: 150,
+    image: 'assets/player-000.png',
     gravity: 1.6,
     velocity: 0,
     score: 0,
+    draw: function() {
+        drawImage(this.image, this.x - this.width / 2, this.y, this.width, this.height);
+    },
     update: function () {
         this.velocity += this.gravity;
         this.y += this.velocity;

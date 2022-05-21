@@ -1,9 +1,9 @@
 /**
  * @typedef Obstacle
- * @property {Obstacle[]} allObstacles
- * @property {string[]} colors
- * @property {Number[]} positions
- * @property {Number} insertTime
+ * @property {Obstacle[]} allObstacles All obstacles created
+ * @property {string[]} colors All posible colors fot a obstacle
+ * @property {Number[]} positions All posible positions
+ * @property {Number} insertTime 
  * @property {function} clear
  * @property {function} update
  * @property {function} draw
