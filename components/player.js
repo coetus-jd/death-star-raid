@@ -24,14 +24,14 @@ export default {
     y: 0,
     height: 150,
     width: 150,
-    image: 'assets/player-000.png',
+    image: 'assets/TieFighter/0003 - Neutro.png',
     gravity: 1.6,
     velocity: 0,
     score: 0,
     draw: function() {
         drawImage(this.image, this.x - this.width / 2, this.y, this.width, this.height);
     },
-    update: function () {
+    update: function() {
         this.velocity += this.gravity;
         this.y += this.velocity;
 
@@ -39,7 +39,7 @@ export default {
             this.y = floor.y - this.height;
         }
     },
-    reset: function () {
+    reset: function() {
         this.velocity = 0;
         this.y = 0;
 

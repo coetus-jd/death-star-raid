@@ -8,3 +8,9 @@
  * @property {string} imageSource
  * @property {string} color
  */
+
+/**
+ * @typedef Position
+ * @property {Number} x 
+ * @property {Number} y
+ */

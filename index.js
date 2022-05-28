@@ -10,6 +10,7 @@ import {
     drawRectangle,
     init as initUtils,
 } from "./utils/index.js";
+import enemy from "./components/enemy.js";
 
 /** Starts the game only when the DOM is fully loaded */
 document.addEventListener("DOMContentLoaded", main);
@@ -36,8 +37,12 @@ function run() {
         scenario.create();
         scenario.draw();
         scenario.update();
-
     }
+
+    enemy.create();
+    enemy.draw();
+    // enemy.update();
+
     bullet.draw();
     bullet.update();
 
@@ -62,7 +67,7 @@ function configureCanvas() {
     // canvasContext.globalCompositeOperation = "destination-over";
 
     document.body.appendChild(canvas);
-    // document.addEventListener("mousedown", handleGameState);
+    document.addEventListener("mousedown", handleGameState);
     document.addEventListener("keydown", (event) => {
         if (event.key === " " || event.code === 'Space') {
             bullet.create();
@@ -103,7 +108,7 @@ function handleGameState() {
  * because of the globalCompositeOperation property
  */
 function drawElements() {
-    
+
     // Sky
     drawRectangle(0, 0, GAME_SETTINGS.BASE_WIDTH, GAME_SETTINGS.BASE_HEIGHT, "#53d6ed");
 
