@@ -6,7 +6,7 @@
  * @property {Number} width Width of the player
  * @property {string} image Asset of the player
  * @property {Number} gravity Gravity 
- * @property {Number} velocity Velocity of the movemnt of the player
+ * @property {Number} velocity Velocity of the movement of the player
  * @property {Number} score 
  * @property {function} draw
  * @property {function} update
