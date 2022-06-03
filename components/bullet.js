@@ -8,7 +8,7 @@
  */
 
 import GAME_SETTINGS from "../constants/gameSettings.js";
-import { drawRectangle } from "../utils/index.js";
+import { drawRectangle, drawImage } from "../utils/index.js";
 import player from "./player.js";
 
 /** @type Bullet */
@@ -20,7 +20,7 @@ export default {
     },
     draw: function () {
         this.bullets.forEach((tile) => {
-            drawRectangle(tile.x, tile.y, tile.width, tile.height, tile.color);
+            drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
         });
     },
     create: function () {
@@ -31,7 +31,7 @@ export default {
             width: 6,
             height: 30,
             velocityInY: 0,
-            color: 'yellow'
+            imageSource: 'assets/MockupClaro.png'
         };
 
         this.bullets.push(rightTile);

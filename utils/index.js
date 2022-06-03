@@ -121,6 +121,26 @@ export function drawImage(
 }
 
 /**
+ * @param {string} basePath 
+ * @param {number} numberOfImages 
+ * @param {string} imageFileExtension 
+ * @param {number} quantityOfNumbers 
+ * @returns {string}
+ */
+export function getRandomImage(
+    basePath,
+    numberOfImages,
+    imageFileExtension = '.png',
+    quantityOfNumbers = 4
+) {
+    const value = Math.floor(Math.random() * numberOfImages);
+    const allNumbers = value.toString().padStart(quantityOfNumbers, '0');
+    console.log(`Number select: ${allNumbers}`)
+
+    return `${basePath}/${allNumbers}${imageFileExtension}`;
+}
+
+/**
  * @param {string} contextKey 
  * @param {Number | String} currentRandomValue
  * @returns 

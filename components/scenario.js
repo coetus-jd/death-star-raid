@@ -3,6 +3,7 @@
  * @property {Number} gravity
  * @property {Tile[]} allScenarioObjects
  * @property {Tile[]} tilesToDraw
+ * @property {Tile[]} initialTilesPositions
  * @property {Function} clear
  * @property {Function} create
  * @property {Function} update
@@ -10,7 +11,7 @@
  */
 
 import GAME_SETTINGS from "../constants/gameSettings.js";
-import { drawImage, drawRectangle } from "../utils/index.js";
+import { drawImage, drawRectangle, getRandomImage } from "../utils/index.js";
 
 const baseWidth = 150;
 const baseHeight = 150;
@@ -19,7 +20,7 @@ const baseHeight = 150;
 export default {
     gravity: 0.01,
     allScenarioObjects: [],
-    tilesPositions: [{
+    tilesCreationPositions: [{
             x: 0,
             y: 0,
             width: baseWidth,
@@ -56,6 +57,20 @@ export default {
             drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
         });
     },
+    /**
+     * Create initial elements in scenario
+     */
+    createBasicElements() {
+        const allScenarioBasicTiles = [
+            ...generateRightInitialTilesPositions(),
+            ...generateLeftInitialTilesPositions(),
+            ...generateMiddleInitialTilesPositions()
+        ];
+
+        allScenarioBasicTiles.forEach(tile => {
+            drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
+        });
+    },
     create: function() {
         const previousIndex = this.allScenarioObjects.length - 1;
 
@@ -65,7 +80,7 @@ export default {
         // Only create another tile if the previous was completed shown 
         // if (previousObject && previousObject.y <= baseHeight) return;
 
-        this.tilesPositions.forEach((tilePosition) => {
+        this.tilesCreationPositions.forEach((tilePosition) => {
             tilePosition.imageSource = 'assets/DeathStarTiles/1 - Laterais/0000.png';
             this.allScenarioObjects.push(tilePosition);
         });
@@ -92,3 +107,127 @@ export default {
         });
     },
 };
+
+/**
+ * @returns Tile[]
+ */
+function generateLeftInitialTilesPositions() {
+    const rows = 6;
+    /** Tile[] */
+    const array = [];
+
+    for (let index = 0; index < rows; index++) {
+        array.push({
+            x: 0,
+            y: baseHeight * index,
+            width: baseWidth,
+            height: baseHeight,
+            velocityInY: 0,
+            imageSource: getRandomImage(
+                'assets/DeathStarTiles/1 - Laterais',
+                20
+            )
+        });
+
+        array.push({
+            x: baseWidth,
+            y: baseHeight * index,
+            width: baseWidth,
+            height: baseHeight,
+            velocityInY: 0,
+            imageSource: getRandomImage(
+                'assets/DeathStarTiles/1 - Laterais',
+                20
+            )
+        })
+    }
+
+    return array;
+}
+
+/**
+ * @returns Tile[]
+ */
+function generateRightInitialTilesPositions() {
+    const rows = 6;
+    /** Tile[] */
+    const array = [];
+
+    for (let index = 0; index < rows; index++) {
+        array.push({
+            x: GAME_SETTINGS.BASE_WIDTH - baseWidth,
+            y: baseHeight * index,
+            width: baseWidth,
+            height: baseHeight,
+            velocityInY: 0,
+            imageSource: getRandomImage(
+                'assets/DeathStarTiles/1 - Laterais',
+                20
+            )
+        });
+
+        array.push({
+            x: GAME_SETTINGS.BASE_WIDTH - (baseWidth * 2),
+            y: baseHeight * index,
+            width: baseWidth,
+            height: baseHeight,
+            velocityInY: 0,
+            imageSource: getRandomImage(
+                'assets/DeathStarTiles/1 - Laterais',
+                20
+            )
+        })
+    }
+
+    return array;
+}
+
+/**
+ * @returns Tile[]
+ */
+function generateMiddleInitialTilesPositions() {
+    const rows = 6;
+    /** Tile[] */
+    const array = [];
+    const baseX = baseWidth * 2;
+
+    for (let index = 0; index < rows; index++) {
+        array.push({
+            x: baseX,
+            y: baseHeight * index,
+            width: baseWidth,
+            height: baseHeight,
+            velocityInY: 0,
+            imageSource: getRandomImage(
+                'assets/DeathStarTiles/2 - Fosso',
+                20
+            )
+        });
+
+        array.push({
+            x: baseX + baseWidth,
+            y: baseHeight * index,
+            width: baseWidth,
+            height: baseHeight,
+            velocityInY: 0,
+            imageSource: getRandomImage(
+                'assets/DeathStarTiles/2 - Fosso',
+                20
+            )
+        });
+
+        array.push({
+            x: baseX + (baseWidth * 2),
+            y: baseHeight * index,
+            width: baseWidth,
+            height: baseHeight,
+            velocityInY: 0,
+            imageSource: getRandomImage(
+                'assets/DeathStarTiles/2 - Fosso',
+                20
+            )
+        })
+    }
+
+    return array;
+}
