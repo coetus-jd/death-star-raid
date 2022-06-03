@@ -37,16 +37,16 @@ function start() {
         scenario.create();
         scenario.draw();
         scenario.update();
+
+        bullet.draw();
+        bullet.update();
     }
 
     // drawElements();
 
-    enemy.create();
-    enemy.draw();
-    enemy.update();
-
-    // bullet.draw();
-    // bullet.update();
+    // enemy.create();
+    // enemy.draw();
+    // enemy.update();
 
     player.draw();
     player.update();
@@ -107,6 +107,9 @@ function getScore() {
  * Handle the possibles games states
  */
 function handleGameState() {
+    if (GAME_SETTINGS.CURRENT_GAME_STATE == GAME_STATE.PLAYING)
+        return;
+
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAY) GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {}
