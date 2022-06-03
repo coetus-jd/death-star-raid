@@ -44,9 +44,9 @@ function start() {
         bullet.draw();
         bullet.update();
 
-        // enemy.create();
-        // enemy.draw();
-        // enemy.update();
+        enemy.create();
+        enemy.draw();
+        enemy.update();
     }
 
     // drawElements();
