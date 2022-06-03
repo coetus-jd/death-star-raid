@@ -15,6 +15,7 @@ import { drawImage, drawRectangle, getRandomImage } from "../utils/index.js";
 
 const baseWidth = 150;
 const baseHeight = 150;
+const baseRows = 6;
 
 /** @type Scenario */
 export default {
@@ -70,6 +71,8 @@ export default {
         allScenarioBasicTiles.forEach(tile => {
             drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
         });
+
+        this.allScenarioObjects.push(allScenarioBasicTiles);
     },
     create: function() {
         const previousIndex = this.allScenarioObjects.length - 1;
@@ -112,11 +115,10 @@ export default {
  * @returns Tile[]
  */
 function generateLeftInitialTilesPositions() {
-    const rows = 6;
     /** Tile[] */
     const array = [];
 
-    for (let index = 0; index < rows; index++) {
+    for (let index = 0; index < baseRows; index++) {
         array.push({
             x: 0,
             y: baseHeight * index,
@@ -149,11 +151,10 @@ function generateLeftInitialTilesPositions() {
  * @returns Tile[]
  */
 function generateRightInitialTilesPositions() {
-    const rows = 6;
     /** Tile[] */
     const array = [];
 
-    for (let index = 0; index < rows; index++) {
+    for (let index = 0; index < baseRows; index++) {
         array.push({
             x: GAME_SETTINGS.BASE_WIDTH - baseWidth,
             y: baseHeight * index,
@@ -186,12 +187,11 @@ function generateRightInitialTilesPositions() {
  * @returns Tile[]
  */
 function generateMiddleInitialTilesPositions() {
-    const rows = 6;
     /** Tile[] */
     const array = [];
     const baseX = baseWidth * 2;
 
-    for (let index = 0; index < rows; index++) {
+    for (let index = 0; index < baseRows; index++) {
         array.push({
             x: baseX,
             y: baseHeight * index,

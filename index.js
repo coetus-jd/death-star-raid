@@ -26,7 +26,7 @@ function wakeup() {
 
     drawSky();
     scenario.createBasicElements();
-    
+
     start();
 }
 
@@ -42,8 +42,8 @@ function start() {
         // scenario.update();
     }
 
-    enemy.create();
-    enemy.draw();
+    // enemy.create();
+    // enemy.draw();
     // enemy.update();
 
     bullet.draw();
@@ -95,7 +95,7 @@ function getScore() {
 function handleGameState() {
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAY) GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
 
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) { }
+    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {}
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
         player.reset();
