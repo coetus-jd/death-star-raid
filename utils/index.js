@@ -21,6 +21,16 @@ export class Utility {
         this.previousObject = {};
     }
 
+    hasCollided(object1, object2, remove = 10) {
+        if (!object1 || !object2) {
+            console.error('One of the objects in collision is not set');
+            return false;
+        }
+
+        return (object1.x < (object2.x + object2.width - remove) && (object1.x + object1.width - remove) > object2.x) &&
+            (object1.y < (object2.y + object2.height - remove) && (object1.y + object1.height - remove) > object2.y)
+    }
+
     /**
      * @param {number} x 
      * @param {number} y 

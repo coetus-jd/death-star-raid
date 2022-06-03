@@ -66,6 +66,7 @@ export default {
     create: function() {
         if (this.enemies.length !== 0) return;
 
+        // Reset the velocity
         this.maxVelocity = 3;
 
         /** @type Position */
@@ -142,10 +143,8 @@ export default {
             // tile.y = -172
             // tile.width= 150
             // tile.height = 150
-            if (
-                (player.x < (tile.x + tile.width) && (player.x + player.width) > tile.x) &&
-                (player.y < (tile.y + tile.height) && (player.y + player.height) > tile.y)
-            ) {
+            if (utility.hasCollided(player, tile)) {
+                debugger;
                 // GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATES.LOST;
                 console.debug(`Enemy ${index} collide with player`);
                 utility.clearRectUtil(tile.x, tile.y, tile.width, tile.height);
