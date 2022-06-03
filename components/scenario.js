@@ -2,7 +2,6 @@
  * @typedef Scenario
  * @property {Number} gravity
  * @property {Tile[]} allScenarioObjects
- * @property {Tile[]} tilesToDraw
  * @property {Tile[]} initialTilesPositions
  * @property {Function} clear
  * @property {Function} create
@@ -12,44 +11,18 @@
 
 import GAME_SETTINGS from "../constants/gameSettings.js";
 import { drawImage, drawRectangle, getRandomImage } from "../utils/index.js";
+import types from '../types.js';
 
 const baseWidth = 150;
 const baseHeight = 150;
 const baseRows = 6;
+let sharedVelocity = 0;
 
 /** @type Scenario */
 export default {
     gravity: 0.01,
+    maxVelocity: 3,
     allScenarioObjects: [],
-    tilesCreationPositions: [{
-            x: 0,
-            y: 0,
-            width: baseWidth,
-            height: baseHeight,
-            velocityInY: 0,
-        },
-        {
-            x: baseWidth,
-            y: 0,
-            width: baseWidth + baseWidth,
-            height: baseHeight,
-            velocityInY: 0,
-        },
-        {
-            x: GAME_SETTINGS.BASE_WIDTH - baseWidth,
-            y: 0,
-            width: baseWidth,
-            height: baseHeight,
-            velocityInY: 0,
-        },
-        {
-            x: GAME_SETTINGS.BASE_WIDTH - (baseWidth * 2),
-            y: 0,
-            width: baseWidth,
-            height: baseHeight,
-            velocityInY: 0,
-        }
-    ],
     clear: function() {
         this.allScenarioObjects = [];
     },
@@ -68,30 +41,48 @@ export default {
             ...generateMiddleInitialTilesPositions()
         ];
 
+        allScenarioBasicTiles[0].firstTile = true;
+
         allScenarioBasicTiles.forEach(tile => {
             drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
         });
 
-        this.allScenarioObjects.push(allScenarioBasicTiles);
+        this.allScenarioObjects.push(...allScenarioBasicTiles);
     },
     create: function() {
-        const previousIndex = this.allScenarioObjects.length - 1;
-
         /** @type Tile */
-        const previousObject = this.allScenarioObjects[previousIndex];
+        const firstTile = this.allScenarioObjects.find(x => x.firstTile);
 
         // Only create another tile if the previous was completed shown 
-        // if (previousObject && previousObject.y <= baseHeight) return;
+        if (!firstTile || firstTile.y < 1) return;
 
-        this.tilesCreationPositions.forEach((tilePosition) => {
-            tilePosition.imageSource = 'assets/DeathStarTiles/1 - Laterais/0000.png';
-            this.allScenarioObjects.push(tilePosition);
+        const index = this.allScenarioObjects.indexOf(firstTile);
+
+        this.allScenarioObjects[index].firstTile = false;
+
+        tilesCreationPositions.forEach((tilePosition) => {
+            const imagesPath = tilePosition.isInMiddle ?
+                'assets/DeathStarTiles/2 - Fosso' :
+                'assets/DeathStarTiles/1 - Laterais';
+
+            tilePosition.imageSource = getRandomImage(
+                imagesPath,
+                20
+            );
+            tilePosition.velocityInY = this.sharedVelocity;
+            this.allScenarioObjects.push({...tilePosition });
         });
+
+        const lastIndex = this.allScenarioObjects.length - 1;
+        this.allScenarioObjects[lastIndex].firstTile = true;
     },
     update: function() {
-        console.log('Tiles qtd: ' + this.allScenarioObjects.length);
+        console.debug(`Tiles quantity: ${this.allScenarioObjects.length}`)
         this.allScenarioObjects.forEach((tile, index) => {
-            tile.velocityInY += this.gravity;
+            if (!tile.velocityInY) tile.velocityInY = this.maxVelocity;
+            if (!tile.y) tile.y = 0;
+
+            // if (tile.velocityInY < this.maxVelocity) tile.velocityInY += this.gravity;
             tile.y += tile.velocityInY;
 
             if ((tile.y - tile.height) > GAME_SETTINGS.BASE_HEIGHT) {
@@ -115,7 +106,7 @@ export default {
  * @returns Tile[]
  */
 function generateLeftInitialTilesPositions() {
-    /** Tile[] */
+    /** @type Tile[] */
     const array = [];
 
     for (let index = 0; index < baseRows; index++) {
@@ -128,10 +119,8 @@ function generateLeftInitialTilesPositions() {
             imageSource: getRandomImage(
                 'assets/DeathStarTiles/1 - Laterais',
                 20
-            )
-        });
-
-        array.push({
+            ),
+        }, {
             x: baseWidth,
             y: baseHeight * index,
             width: baseWidth,
@@ -141,7 +130,7 @@ function generateLeftInitialTilesPositions() {
                 'assets/DeathStarTiles/1 - Laterais',
                 20
             )
-        })
+        });
     }
 
     return array;
@@ -165,9 +154,7 @@ function generateRightInitialTilesPositions() {
                 'assets/DeathStarTiles/1 - Laterais',
                 20
             )
-        });
-
-        array.push({
+        }, {
             x: GAME_SETTINGS.BASE_WIDTH - (baseWidth * 2),
             y: baseHeight * index,
             width: baseWidth,
@@ -202,9 +189,7 @@ function generateMiddleInitialTilesPositions() {
                 'assets/DeathStarTiles/2 - Fosso',
                 20
             )
-        });
-
-        array.push({
+        }, {
             x: baseX + baseWidth,
             y: baseHeight * index,
             width: baseWidth,
@@ -214,9 +199,7 @@ function generateMiddleInitialTilesPositions() {
                 'assets/DeathStarTiles/2 - Fosso',
                 20
             )
-        });
-
-        array.push({
+        }, {
             x: baseX + (baseWidth * 2),
             y: baseHeight * index,
             width: baseWidth,
@@ -226,8 +209,63 @@ function generateMiddleInitialTilesPositions() {
                 'assets/DeathStarTiles/2 - Fosso',
                 20
             )
-        })
+        });
     }
 
     return array;
 }
+
+/** @type Tile[] */
+const tilesCreationPositions = [{
+        x: 0,
+        y: -baseHeight,
+        width: baseWidth,
+        height: baseHeight,
+        velocityInY: 0,
+    },
+    {
+        x: baseWidth,
+        y: -baseHeight,
+        width: baseWidth,
+        height: baseHeight,
+        velocityInY: 0,
+    },
+    {
+        x: baseWidth * 2,
+        y: -baseHeight,
+        width: baseWidth,
+        height: baseHeight,
+        velocityInY: 0,
+        isInMiddle: true,
+    },
+    {
+        x: baseWidth * 3,
+        y: -baseHeight,
+        width: baseWidth,
+        height: baseHeight,
+        velocityInY: 0,
+        isInMiddle: true,
+    },
+    {
+        x: baseWidth * 4,
+        y: -baseHeight,
+        width: baseWidth,
+        height: baseHeight,
+        velocityInY: 0,
+        isInMiddle: true,
+    },
+    {
+        x: baseWidth * 5,
+        y: -baseHeight,
+        width: baseWidth,
+        height: baseHeight,
+        velocityInY: 0,
+    },
+    {
+        x: baseWidth * 6,
+        y: -baseHeight,
+        width: baseWidth,
+        height: baseHeight,
+        velocityInY: 0,
+    },
+]

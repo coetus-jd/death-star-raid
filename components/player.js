@@ -18,18 +18,21 @@ import floor from "./floor.js";
 import GAME_SETTINGS from "../constants/gameSettings.js";
 import { drawImage } from "../utils/index.js";
 
+const baseHeight = 150;
+const baseWidth = 150;
+
 /** @type Player */
 export default {
     x: GAME_SETTINGS.BASE_WIDTH / 2,
-    y: 0,
-    height: 150,
-    width: 150,
+    y: floor.y - baseHeight,
+    height: baseHeight,
+    width: baseWidth,
     image: 'assets/TieFighter/0003 - Neutro.png',
     gravity: 1.6,
     velocity: 0,
     score: 0,
     draw: function() {
-        drawImage(this.image, this.x - this.width / 2, this.y, this.width, this.height);
+        drawImage(this.image, this.x - this.width / 2, this.y, this.width, this.height, false);
     },
     update: function() {
         this.velocity += this.gravity;

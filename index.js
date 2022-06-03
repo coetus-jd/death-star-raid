@@ -13,12 +13,12 @@ import {
 import enemy from "./components/enemy.js";
 
 /** Starts the game only when the DOM is fully loaded */
-document.addEventListener("DOMContentLoaded", wakeup);
+document.addEventListener("DOMContentLoaded", awake);
 
 /** @type {CanvasRenderingContext2D} */
 let canvasContext = null;
 
-function wakeup() {
+function awake() {
     configureCanvas();
     getScore();
 
@@ -33,21 +33,21 @@ function wakeup() {
 function start() {
     canvasContext.restore();
 
-    // drawElements();
-    player.update();
-
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
-        // scenario.create();
-        // scenario.draw();
-        // scenario.update();
+        scenario.create();
+        scenario.draw();
+        scenario.update();
     }
+
+    drawElements();
+    player.update();
 
     // enemy.create();
     // enemy.draw();
     // enemy.update();
 
-    bullet.draw();
-    bullet.update();
+    // bullet.draw();
+    // bullet.update();
 
     canvasContext.save();
 
@@ -115,6 +115,11 @@ function drawElements() {
 }
 
 function drawSky() {
-    // Sky
-    drawRectangle(0, 0, GAME_SETTINGS.BASE_WIDTH, GAME_SETTINGS.BASE_HEIGHT, "#53d6ed");
+    drawRectangle(
+        0,
+        0,
+        GAME_SETTINGS.BASE_WIDTH,
+        GAME_SETTINGS.BASE_HEIGHT,
+        "#3D4651"
+    );
 }

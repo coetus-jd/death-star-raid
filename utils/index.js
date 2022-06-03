@@ -104,7 +104,8 @@ export function drawImage(
     x,
     y,
     width = 150,
-    height = 150
+    height = 150,
+    clearRect = true
 ) {
     let image = new Image();
     image.src = imagePath;
@@ -112,12 +113,12 @@ export function drawImage(
     // Draw first to "guarantee" this position on canvas
     // then draw again when the image is fully loaded
     canvasContext.drawImage(image, x, y, width, height);
-    
-    image.onload = function () {
-        canvasContext.clearRect(x, y, width, height);
+
+    image.onload = function() {
+        if (clearRect) canvasContext.clearRect(x, y, width, height);
         canvasContext.drawImage(image, x, y, width, height);
     }
-    image.onerror = function (error) { console.log(error) }
+    image.onerror = function(error) { console.log(error) }
 }
 
 /**
@@ -135,7 +136,6 @@ export function getRandomImage(
 ) {
     const value = Math.floor(Math.random() * numberOfImages);
     const allNumbers = value.toString().padStart(quantityOfNumbers, '0');
-    console.log(`Number select: ${allNumbers}`)
 
     return `${basePath}/${allNumbers}${imageFileExtension}`;
 }

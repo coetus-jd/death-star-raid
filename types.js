@@ -7,6 +7,8 @@
  * @property {Number} velocityInY
  * @property {string} imageSource
  * @property {string} color
+ * @property {boolean} firstTile
+ * @property {boolean} isInMiddle
  */
 
 /**
@@ -14,3 +16,5 @@
  * @property {Number} x 
  * @property {Number} y
  */
+
+export default {};
