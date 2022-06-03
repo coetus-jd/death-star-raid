@@ -27,6 +27,7 @@ let utility = null;
 export default {
     x: GAME_SETTINGS.BASE_WIDTH / 2,
     y: floor.y - baseHeight,
+    movementVelocity: 6,
     height: baseHeight,
     width: baseWidth,
     image: 'assets/TieFighter/0003 - Neutro.png',
@@ -38,9 +39,19 @@ export default {
      */
     init: function(newContext) {
         utility = new Utility(newContext);
+
+        document.addEventListener("keypress", (event) => {
+            if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
+                this.movePlayer(1);
+            }
+
+            if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
+                this.movePlayer(-1);
+            }
+        });
     },
     draw: function() {
-        utility.drawImage(this.image, this.x - this.width / 2, this.y, this.width, this.height, false);
+        utility.drawImage(this.image, this.x - this.width / 2, this.y, this.width, this.height);
     },
     update: function() {
         this.velocity += this.gravity;
@@ -61,4 +72,23 @@ export default {
 
         this.score = 0;
     },
+    movePlayer(direction = 0) {
+        if (!direction) return;
+
+        const newXPosition = this.movementVelocity * direction;
+
+        if (
+            direction === 1 &&
+            (this.x + (baseWidth / 3)) >= GAME_SETTINGS.LIMIT_IN_X.MAX
+        )
+            return;
+
+        if (
+            direction === -1 &&
+            (this.x - (baseWidth / 3)) <= GAME_SETTINGS.LIMIT_IN_X.MIN
+        )
+            return;
+
+        this.x += newXPosition;
+    }
 };

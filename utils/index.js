@@ -46,7 +46,7 @@ export class Utility {
         }
 
         this.canvasContext.fillStyle = color;
-        this.canvasContext.fillRect(x, y, width, height);
+        this.canvasContext.fillRect(Math.round(x), Math.round(y), width, height);
     }
 
     /**
@@ -66,7 +66,7 @@ export class Utility {
 
         this.canvasContext.fillStyle = color;
         this.canvasContext.font = `${fontSize} ${fontFamily}`;
-        this.canvasContext.fillText(text, x, y);
+        this.canvasContext.fillText(text, Math.round(x), Math.round(y));
     }
 
     /**
@@ -85,7 +85,7 @@ export class Utility {
         }
 
         this.canvasContext.fillStyle = createGradient(color1, color2);
-        this.canvasContext.fillRect(x, y, width, height);
+        this.canvasContext.fillRect(Math.round(x), Math.round(y), width, height);
     }
 
     /**
@@ -140,8 +140,8 @@ export class Utility {
                 return;
             }
 
-            if (clearRect) this.canvasContext.clearRect(x, y, width, height);
-            this.canvasContext.drawImage(image, x, y, width, height);
+            if (clearRect) this.canvasContext.clearRect(Math.round(x), Math.round(y), width, height);
+            this.canvasContext.drawImage(image, Math.round(x), Math.round(y), width, height);
         }
         image.onerror = function(error) { console.log(error) }
     }
@@ -172,7 +172,7 @@ export class Utility {
      * @param {number} height 
      */
     clearRectUtil(x, y, width, height) {
-        this.canvasContext.clearRect(x, y, width, height)
+        this.canvasContext.clearRect(Math.round(x), Math.round(y), width, height)
     }
 
     /**
