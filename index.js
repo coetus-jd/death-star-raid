@@ -33,6 +33,8 @@ function start() {
     canvasContext.restore();
     canvasBackgroundContext.restore();
 
+
+
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
         scenario.create();
         scenario.draw();

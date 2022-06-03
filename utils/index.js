@@ -155,6 +155,16 @@ export class Utility {
     }
 
     /**
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} width
+     * @param {number} height 
+     */
+    clearRectUtil(x, y, width, height) {
+        this.canvasContext.clearRect(x, y, width, height)
+    }
+
+    /**
      * @param {string} contextKey 
      * @param {Number | String} currentRandomValue
      * @returns 

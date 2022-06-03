@@ -32,7 +32,11 @@ export default {
         this.bullets = [];
     },
     draw: function() {
-        this.bullets.forEach((tile) => {
+        const length = this.bullets.length;
+
+        for (let index = 0; index < length; index++) {
+            const tile = this.bullets[index];
+
             utility.drawImage(
                 tile.imageSource,
                 tile.x,
@@ -40,13 +44,13 @@ export default {
                 tile.width,
                 tile.height
             );
-        });
+        }
     },
     create: function() {
         if (this.creationTime > 0) return;
 
         /** @type Tile */
-        const rightTile = {
+        const tile = {
             x: player.x,
             y: player.y - 90,
             width: baseWidth,
@@ -55,12 +59,14 @@ export default {
             imageSource: 'assets/Damage/Fire.png'
         };
 
-        this.bullets.push(rightTile);
+        this.bullets.push(tile);
         this.creationTime = 20 + Math.floor(31 * Math.random())
     },
     update: function() {
-        this.creationTime--;
         console.debug(`Bullets quantity ${this.bullets.length}`);
+
+        this.creationTime--;
+
         this.bullets.forEach((tile, index) => {
             tile.velocityInY += this.gravity;
             tile.y += tile.velocityInY;
