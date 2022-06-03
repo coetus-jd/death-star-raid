@@ -90,12 +90,13 @@ export class Utility {
         validateIfIsTheSame = false,
         contextKey = ''
     ) {
-        const random = elements[Math.floor(numberOfElements * Math.random())];
+        const randomIndex = Math.floor(numberOfElements * Math.random());
+        const random = elements[randomIndex];
 
         if (!validateIfIsTheSame) return random;
 
-        if (this.isTheSameValue(contextKey, random)) {
-            this.getRandomElement(elements, numberOfElements, true, contextKey);
+        if (this.isTheSameValue(contextKey, randomIndex)) {
+            return this.getRandomElement(elements, numberOfElements, true, contextKey);
         }
 
         return random;
@@ -166,18 +167,18 @@ export class Utility {
 
     /**
      * @param {string} contextKey 
-     * @param {Number | String} currentRandomValue
-     * @returns 
+     * @param {Number} currentRandomIndex
+     * @returns {Boolean}
      */
-    isTheSameValue(contextKey, currentRandomValue) {
+    isTheSameValue(contextKey, currentRandomIndex) {
         if (!this.previousObject.hasOwnProperty(contextKey)) {
-            this.previousObject[contextKey] = '';
+            this.previousObject[contextKey] = currentRandomIndex;
             return false;
         }
 
-        const result = this.previousObject[contextKey] === currentRandomValue;
+        const result = this.previousObject[contextKey] === currentRandomIndex;
 
-        if (!result) this.previousObject[contextKey] = currentRandomValue;
+        if (!result) this.previousObject[contextKey] = currentRandomIndex;
 
         return result;
     }

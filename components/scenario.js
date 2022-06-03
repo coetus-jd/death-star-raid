@@ -110,15 +110,6 @@ export default {
                 this.allScenarioObjects.splice(index, 1);
                 return;
             }
-
-            // if (
-            //     player.x < (object.x + object.width)
-            //     && (player.x + player.width) >= object.x
-            //     && (player.y + player.height) >= (floor.y - object.height)
-            // ) {
-            //     GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.LOST;
-            // }
-            // else if (object.x === player.x) player.score++;
         });
     },
 };

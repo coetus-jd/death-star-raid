@@ -14,6 +14,7 @@ import { Utility } from '../utils/index.js';
 import bullet from "./bullet.js";
 import player from "./player.js";
 import types from '../types.js';
+import GAME_STATES from "../constants/gameStates.js";
 
 const baseWidth = 150;
 const baseHeight = 150;
@@ -26,16 +27,16 @@ export default {
     maxVelocity: 3, //GAME_SETTINGS.MAX_VELOCITY,
     enemies: [],
     possiblesPositions: [{
-            x: GAME_SETTINGS.LIMIT_IN_X.MIN + (baseWidth / 2),
-            y: -baseHeight
+            x: GAME_SETTINGS.LIMIT_IN_X.MIN,
+            y: -baseHeight - 50
         },
         {
-            x: GAME_SETTINGS.LIMIT_IN_X.MIN + baseWidth + (baseWidth / 2),
-            y: -baseHeight
+            x: GAME_SETTINGS.LIMIT_IN_X.MIN + baseWidth,
+            y: -baseHeight - 25
         },
         {
-            x: GAME_SETTINGS.LIMIT_IN_X.MAX + baseWidth * 2 + (baseWidth / 2),
-            y: -baseHeight
+            x: GAME_SETTINGS.LIMIT_IN_X.MIN + baseWidth * 2,
+            y: -baseHeight - 10
         }
     ],
     /**
@@ -63,20 +64,33 @@ export default {
         }
     },
     create: function() {
-        if (this.enemies.length > 2) return;
+        if (this.enemies.length !== 0) return;
+
+        this.maxVelocity = 3;
 
         /** @type Position */
-        const randomPosition = utility.getRandomElement(
+        const randomPosition1 = utility.getRandomElement(
             this.possiblesPositions,
             this.possiblesPositions.length,
             true,
             'enemyPosition'
         );
 
+        // debugger;
+
+        /** @type Position */
+        const randomPosition2 = utility.getRandomElement(
+            this.possiblesPositions,
+            this.possiblesPositions.length,
+            true,
+            'enemyPosition'
+        );
+
+
         /** @type Tile */
-        const enemy = {
-            x: randomPosition.x,
-            y: randomPosition.y,
+        const enemy1 = {
+            x: randomPosition1.x,
+            y: randomPosition1.y,
             width: baseWidth,
             height: baseHeight,
             velocityInY: 0,
@@ -86,23 +100,58 @@ export default {
             )
         };
 
-        this.enemies.push(enemy);
+        const enemy2 = {
+            x: randomPosition2.x,
+            y: randomPosition2.y,
+            width: baseWidth,
+            height: baseHeight,
+            velocityInY: 0,
+            imageSource: utility.getRandomImage(
+                'assets/Enemies/X-Wing',
+                6
+            )
+        };
+
+        this.enemies.push(enemy1, enemy2);
     },
     update: function() {
-        const length = this.enemies.length;
+        console.debug(`Enemies quantity: ${this.enemies.length}`);
 
-        for (let index = 0; index < length; index++) {
-            const tile = this.enemies[index];
+        this.enemies.forEach((tile, index) => {
+            if (tile.y > 0) this.maxVelocity = -0.1;
 
             if (!tile.velocityInY) tile.velocityInY = this.maxVelocity;
             if (!tile.y) tile.y = 0;
 
             tile.y += tile.velocityInY;
 
+            console.log(`Enemy ${index} position in Y: ${tile.y} | X: ${tile.x}`)
+
             if ((tile.y - tile.height) > GAME_SETTINGS.BASE_HEIGHT) {
+                utility.clearRectUtil(tile.x, tile.y, tile.width, tile.height);
+                this.enemies.splice(index, 1);
+                player.score++;
+                return;
+            }
+
+            // player.x = 525
+            // player.y = 750
+            // player.width= 150
+            // player.height = 150
+            // tile.x = 525
+            // tile.y = -172
+            // tile.width= 150
+            // tile.height = 150
+            if (
+                (player.x < (tile.x + tile.width) && (player.x + player.width) > tile.x) &&
+                (player.y < (tile.y + tile.height) && (player.y + player.height) > tile.y)
+            ) {
+                // GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATES.LOST;
+                console.debug(`Enemy ${index} collide with player`);
+                utility.clearRectUtil(tile.x, tile.y, tile.width, tile.height);
                 this.enemies.splice(index, 1);
                 return;
             }
-        }
+        });
     },
 };

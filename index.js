@@ -34,21 +34,22 @@ function start() {
     canvasBackgroundContext.restore();
 
 
-
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
+        console.debug(`Record: ${GAME_SETTINGS.RECORD}`);
+
         scenario.create();
         scenario.draw();
         scenario.update();
 
         bullet.draw();
         bullet.update();
+
+        enemy.create();
+        enemy.draw();
+        enemy.update();
     }
 
     // drawElements();
-
-    // enemy.create();
-    // enemy.draw();
-    // enemy.update();
 
     player.draw();
     player.update();
