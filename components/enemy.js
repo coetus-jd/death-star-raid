@@ -27,15 +27,15 @@ export default {
     enemies: [],
     possiblesPositions: [{
             x: GAME_SETTINGS.LIMIT_IN_X.MIN + (baseWidth / 2),
-            y: 0 // -baseHeight
+            y: -baseHeight
         },
         {
             x: GAME_SETTINGS.LIMIT_IN_X.MIN + baseWidth + (baseWidth / 2),
-            y: 0 // -baseHeight
+            y: -baseHeight
         },
         {
             x: GAME_SETTINGS.LIMIT_IN_X.MAX + baseWidth * 2 + (baseWidth / 2),
-            y: 0 // -baseHeight
+            y: -baseHeight
         }
     ],
     /**
