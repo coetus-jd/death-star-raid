@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,23 @@
     <title>River raid</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <script type="module" src="index.js"></script>
+    <script>
+        if (navigator.serviceWorker) {
+            navigator.serviceWorker
+                .register("./service-worker.js", {
+                    scope: './'
+                })
+                .then(function() {
+                    console.log("Service Worker Registered");
+                })
+                .catch(function(err) {
+                    console.log("Service Worker Failed to Register", err);
+                });
+        }
+    </script>
 </body>
+
 </html>
