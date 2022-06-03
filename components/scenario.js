@@ -34,9 +34,18 @@ export default {
         this.allScenarioObjects = [];
     },
     draw: function() {
-        this.allScenarioObjects.forEach((tile) => {
-            utility.drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
-        });
+        const length = this.allScenarioObjects.length;
+
+        for (let index = 0; index < length; index++) {
+            const tile = this.allScenarioObjects[index];
+            utility.drawImage(
+                tile.imageSource,
+                tile.x,
+                tile.y,
+                tile.width,
+                tile.height
+            );
+        }
     },
     /**
      * Create initial elements in scenario
@@ -63,11 +72,15 @@ export default {
         // Only create another tile if the previous was completed shown 
         if (!firstTile || firstTile.y < 1) return;
 
-        const index = this.allScenarioObjects.indexOf(firstTile);
+        const firstTileIndex = this.allScenarioObjects.indexOf(firstTile);
 
-        this.allScenarioObjects[index].firstTile = false;
+        this.allScenarioObjects[firstTileIndex].firstTile = false;
 
-        tilesCreationPositions.forEach((tilePosition) => {
+        const length = tilesCreationPositions.length;
+
+        for (let index = 0; index < length; index++) {
+            const tilePosition = tilesCreationPositions[index];
+
             const imagesPath = tilePosition.isInMiddle ?
                 'assets/DeathStarTiles/2 - Fosso' :
                 'assets/DeathStarTiles/1 - Laterais';
@@ -76,15 +89,16 @@ export default {
                 imagesPath,
                 20
             );
-            tilePosition.velocityInY = this.sharedVelocity;
+            tilePosition.velocityInY = this.maxVelocity;
             this.allScenarioObjects.push({...tilePosition });
-        });
+        }
 
         const lastIndex = this.allScenarioObjects.length - 1;
         this.allScenarioObjects[lastIndex].firstTile = true;
     },
     update: function() {
-        console.debug(`Tiles quantity: ${this.allScenarioObjects.length}`)
+        console.debug(`Tiles quantity: ${this.allScenarioObjects.length}`);
+
         this.allScenarioObjects.forEach((tile, index) => {
             if (!tile.velocityInY) tile.velocityInY = this.maxVelocity;
             if (!tile.y) tile.y = 0;
