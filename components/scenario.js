@@ -10,25 +10,32 @@
  */
 
 import GAME_SETTINGS from "../constants/gameSettings.js";
-import { drawImage, drawRectangle, getRandomImage } from "../utils/index.js";
+import { Utility } from "../utils/index.js";
 import types from '../types.js';
 
 const baseWidth = 150;
 const baseHeight = 150;
 const baseRows = 6;
-let sharedVelocity = 0;
+/** @type Utility */
+let utility = null;
 
 /** @type Scenario */
 export default {
-    gravity: 0.01,
-    maxVelocity: 3,
+    gravity: GAME_SETTINGS.GRAVITY,
+    maxVelocity: GAME_SETTINGS.MAX_VELOCITY,
     allScenarioObjects: [],
+    /**
+     * @param {CanvasRenderingContext2D} newContext 
+     */
+    init: function(newContext) {
+        utility = new Utility(newContext);
+    },
     clear: function() {
         this.allScenarioObjects = [];
     },
     draw: function() {
         this.allScenarioObjects.forEach((tile) => {
-            drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
+            utility.drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
         });
     },
     /**
@@ -44,7 +51,7 @@ export default {
         allScenarioBasicTiles[0].firstTile = true;
 
         allScenarioBasicTiles.forEach(tile => {
-            drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
+            utility.drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
         });
 
         this.allScenarioObjects.push(...allScenarioBasicTiles);
@@ -65,7 +72,7 @@ export default {
                 'assets/DeathStarTiles/2 - Fosso' :
                 'assets/DeathStarTiles/1 - Laterais';
 
-            tilePosition.imageSource = getRandomImage(
+            tilePosition.imageSource = utility.getRandomImage(
                 imagesPath,
                 20
             );
@@ -116,7 +123,7 @@ function generateLeftInitialTilesPositions() {
             width: baseWidth,
             height: baseHeight,
             velocityInY: 0,
-            imageSource: getRandomImage(
+            imageSource: utility.getRandomImage(
                 'assets/DeathStarTiles/1 - Laterais',
                 20
             ),
@@ -126,7 +133,7 @@ function generateLeftInitialTilesPositions() {
             width: baseWidth,
             height: baseHeight,
             velocityInY: 0,
-            imageSource: getRandomImage(
+            imageSource: utility.getRandomImage(
                 'assets/DeathStarTiles/1 - Laterais',
                 20
             )
@@ -150,7 +157,7 @@ function generateRightInitialTilesPositions() {
             width: baseWidth,
             height: baseHeight,
             velocityInY: 0,
-            imageSource: getRandomImage(
+            imageSource: utility.getRandomImage(
                 'assets/DeathStarTiles/1 - Laterais',
                 20
             )
@@ -160,7 +167,7 @@ function generateRightInitialTilesPositions() {
             width: baseWidth,
             height: baseHeight,
             velocityInY: 0,
-            imageSource: getRandomImage(
+            imageSource: utility.getRandomImage(
                 'assets/DeathStarTiles/1 - Laterais',
                 20
             )
@@ -185,7 +192,7 @@ function generateMiddleInitialTilesPositions() {
             width: baseWidth,
             height: baseHeight,
             velocityInY: 0,
-            imageSource: getRandomImage(
+            imageSource: utility.getRandomImage(
                 'assets/DeathStarTiles/2 - Fosso',
                 20
             )
@@ -195,7 +202,7 @@ function generateMiddleInitialTilesPositions() {
             width: baseWidth,
             height: baseHeight,
             velocityInY: 0,
-            imageSource: getRandomImage(
+            imageSource: utility.getRandomImage(
                 'assets/DeathStarTiles/2 - Fosso',
                 20
             )
@@ -205,7 +212,7 @@ function generateMiddleInitialTilesPositions() {
             width: baseWidth,
             height: baseHeight,
             velocityInY: 0,
-            imageSource: getRandomImage(
+            imageSource: utility.getRandomImage(
                 'assets/DeathStarTiles/2 - Fosso',
                 20
             )

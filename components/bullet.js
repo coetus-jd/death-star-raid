@@ -8,22 +8,31 @@
  */
 
 import GAME_SETTINGS from "../constants/gameSettings.js";
-import { drawRectangle, drawImage } from "../utils/index.js";
+import { Utility } from "../utils/index.js";
 import player from "./player.js";
+
+/** @type Utility */
+let utility = null;
 
 /** @type Bullet */
 export default {
     gravity: -0.1,
     bullets: [],
-    clear: function () {
+    /**
+     * @param {CanvasRenderingContext2D} newContext 
+     */
+    init: function(newContext) {
+        utility = new Utility(newContext);
+    },
+    clear: function() {
         this.bullets = [];
     },
-    draw: function () {
+    draw: function() {
         this.bullets.forEach((tile) => {
-            drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
+            utility.drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
         });
     },
-    create: function () {
+    create: function() {
         /** @type Tile */
         const rightTile = {
             x: player.x - 4,
@@ -36,7 +45,7 @@ export default {
 
         this.bullets.push(rightTile);
     },
-    update: function () {
+    update: function() {
         this.bullets.forEach((tile, index) => {
             tile.velocityInY += this.gravity;
             tile.y += tile.velocityInY;

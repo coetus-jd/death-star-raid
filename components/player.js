@@ -16,10 +16,12 @@
 import floor from "./floor.js";
 
 import GAME_SETTINGS from "../constants/gameSettings.js";
-import { drawImage } from "../utils/index.js";
+import { Utility } from "../utils/index.js";
 
 const baseHeight = 150;
 const baseWidth = 150;
+/** @type Utility */
+let utility = null;
 
 /** @type Player */
 export default {
@@ -31,8 +33,14 @@ export default {
     gravity: 1.6,
     velocity: 0,
     score: 0,
+    /**
+     * @param {CanvasRenderingContext2D} newContext 
+     */
+    init: function(newContext) {
+        utility = new Utility(newContext);
+    },
     draw: function() {
-        drawImage(this.image, this.x - this.width / 2, this.y, this.width, this.height, false);
+        utility.drawImage(this.image, this.x - this.width / 2, this.y, this.width, this.height, false);
     },
     update: function() {
         this.velocity += this.gravity;

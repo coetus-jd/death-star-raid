@@ -1,7 +1,7 @@
 /**
  * @typedef Enemy
  * @property {Tile[]} enemies
- * @property {Array[Position]} possiblesPositions
+ * @property {Position[]} possiblesPositions
  * @property {Function} clear
  * @property {Function} draw
  * @property {Function} create
@@ -9,31 +9,64 @@
  */
 
 import GAME_SETTINGS from "../constants/gameSettings.js";
-import { drawRectangle, getRandomElement } from "../utils/index.js";
+import { Utility } from '../utils/index.js';
+
 import bullet from "./bullet.js";
 import player from "./player.js";
+import types from '../types.js';
+
+const baseWidth = 150;
+const baseHeight = 150;
+/** @type Utility */
+let utility = null;
 
 /** @type Enemy */
 export default {
-    gravity: 1,
+    gravity: GAME_SETTINGS.GRAVITY,
+    maxVelocity: 3, //GAME_SETTINGS.MAX_VELOCITY,
     enemies: [],
-    possiblesPositions: [
-        { x: GAME_SETTINGS.BASE_WIDTH / 2, y: GAME_SETTINGS.BASE_HEIGHT / 2  },
-        { x: GAME_SETTINGS.BASE_WIDTH / 3,  y: GAME_SETTINGS.BASE_HEIGHT / 3 }
+    possiblesPositions: [{
+            x: GAME_SETTINGS.LIMIT_IN_X.MIN + (baseWidth / 2),
+            y: 0 // -baseHeight
+        },
+        {
+            x: GAME_SETTINGS.LIMIT_IN_X.MIN + baseWidth + (baseWidth / 2),
+            y: 0 // -baseHeight
+        },
+        {
+            x: GAME_SETTINGS.LIMIT_IN_X.MAX + baseWidth * 2 + (baseWidth / 2),
+            y: 0 // -baseHeight
+        }
     ],
-    clear: function () {
-        this.bullets = [];
+    /**
+     * @param {CanvasRenderingContext2D} newContext 
+     */
+    init: function(newContext) {
+        utility = new Utility(newContext);
     },
-    draw: function () {
-        this.enemies.forEach((tile) => {
-            drawRectangle(tile.x, tile.y, tile.width, tile.height, tile.color);
-        });
+    clear: function() {
+        this.enemies = [];
     },
-    create: function () {
+    draw: function() {
+        const length = this.enemies.length;
+
+        for (let index = 0; index < length; index++) {
+            const tile = this.enemies[index];
+
+            utility.drawImage(
+                tile.imageSource,
+                tile.x,
+                tile.y,
+                tile.width,
+                tile.height
+            );
+        }
+    },
+    create: function() {
         if (this.enemies.length > 2) return;
-        
+
         /** @type Position */
-        const randomPosition = getRandomElement(
+        const randomPosition = utility.getRandomElement(
             this.possiblesPositions,
             this.possiblesPositions.length,
             true,
@@ -44,24 +77,32 @@ export default {
         const enemy = {
             x: randomPosition.x,
             y: randomPosition.y,
-            width: 6,
-            height: 30,
+            width: baseWidth,
+            height: baseHeight,
             velocityInY: 0,
-            color: 'red'
+            imageSource: utility.getRandomImage(
+                'assets/Enemies/X-Wing',
+                6
+            )
         };
 
         this.enemies.push(enemy);
     },
-    update: function () {
-        console.log(`The bullet is in Y: ${bullet.y}`);
-        this.enemies.forEach((tile, index) => {
-            tile.velocityInY += this.gravity;
+    update: function() {
+        const length = this.enemies.length;
+
+        for (let index = 0; index < length; index++) {
+            const tile = this.enemies[index];
+
+            if (!tile.velocityInY) tile.velocityInY = this.maxVelocity;
+            if (!tile.y) tile.y = 0;
+
             tile.y += tile.velocityInY;
 
-            if ((tile.y - tile.height) < 0) {
-                this.bullets.splice(index, 1);
+            if ((tile.y - tile.height) > GAME_SETTINGS.BASE_HEIGHT) {
+                this.enemies.splice(index, 1);
                 return;
             }
-        });
+        }
     },
 };

@@ -2,14 +2,8 @@ import GAME_STATE from "./constants/gameStates.js";
 import GAME_SETTINGS from "./constants/gameSettings.js";
 
 import player from "./components/player.js";
-import obstacle from "./components/obstacle.js";
 import scenario from "./components/scenario.js";
 import bullet from "./components/bullet.js";
-
-import {
-    drawRectangle,
-    init as initUtils,
-} from "./utils/index.js";
 import enemy from "./components/enemy.js";
 
 /** Starts the game only when the DOM is fully loaded */
@@ -17,14 +11,19 @@ document.addEventListener("DOMContentLoaded", awake);
 
 /** @type {CanvasRenderingContext2D} */
 let canvasContext = null;
+/** @type {CanvasRenderingContext2D} */
+let canvasBackgroundContext = null;
 
 function awake() {
     configureCanvas();
     getScore();
 
-    initUtils(canvasContext);
+    scenario.init(canvasBackgroundContext);
+    enemy.init(canvasContext);
+    bullet.init(canvasContext);
+    player.init(canvasContext);
 
-    drawSky();
+    // drawSky();
     scenario.createBasicElements();
 
     start();
@@ -32,6 +31,7 @@ function awake() {
 
 function start() {
     canvasContext.restore();
+    canvasBackgroundContext.restore();
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
         scenario.create();
@@ -39,17 +39,20 @@ function start() {
         scenario.update();
     }
 
-    drawElements();
-    player.update();
+    // drawElements();
 
-    // enemy.create();
-    // enemy.draw();
-    // enemy.update();
+    enemy.create();
+    enemy.draw();
+    enemy.update();
 
     // bullet.draw();
     // bullet.update();
 
+    player.draw();
+    player.update();
+
     canvasContext.save();
+    canvasBackgroundContext.save();
 
     window.requestAnimationFrame(start);
 }
@@ -58,16 +61,27 @@ function start() {
  * Set canvas attributes and append it to the body of the document
  */
 function configureCanvas() {
-    const canvas = document.createElement("canvas")
+    const canvasBackground = document.createElement("canvas");
+    canvasBackground.id = 'backgroundCanvas';
+    canvasBackground.width = GAME_SETTINGS.BASE_WIDTH;
+    canvasBackground.height = GAME_SETTINGS.BASE_HEIGHT;
+    // canvas.style.border = "1px solid #000";
+
+    canvasBackgroundContext = canvasBackground.getContext("2d");
+    // New shapes are drawn behind the existing canvas content
+    // OBS: default is "source-over"
+    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
+    // canvasContext.globalCompositeOperation = "destination-over";
+
+    document.body.appendChild(canvasBackground);
+
+    const canvas = document.createElement("canvas");
+    canvas.id = 'canvas';
     canvas.width = GAME_SETTINGS.BASE_WIDTH;
     canvas.height = GAME_SETTINGS.BASE_HEIGHT;
     // canvas.style.border = "1px solid #000";
 
     canvasContext = canvas.getContext("2d");
-    // New shapes are drawn behind the existing canvas content
-    // OBS: default is "source-over"
-    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
-    // canvasContext.globalCompositeOperation = "destination-over";
 
     document.body.appendChild(canvas);
     document.addEventListener("mousedown", handleGameState);
@@ -99,7 +113,6 @@ function handleGameState() {
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
         player.reset();
-        obstacle.clear();
         GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAY;
     }
 }
