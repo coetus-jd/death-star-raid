@@ -19,7 +19,7 @@ let scoreText = null;
 function awake() {
     GAME_SETTINGS.BEST_RECORD = localStorage.getItem("record");
     scoreText = document.getElementById("best-score");
-    scoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
+    scoreText.innerHTML = GAME_SETTINGS.BEST_RECORD || 'No best score yet';
 
     configureButtons();
     configureCanvas();
