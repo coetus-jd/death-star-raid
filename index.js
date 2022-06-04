@@ -13,9 +13,13 @@ document.addEventListener("DOMContentLoaded", awake);
 let canvasContext = null;
 /** @type {CanvasRenderingContext2D} */
 let canvasBackgroundContext = null;
+/** @type {HTMLElement} */
+let scoreText = null;
 
 function awake() {
     GAME_SETTINGS.BEST_RECORD = localStorage.getItem("record");
+    scoreText = document.getElementById("best-score");
+    scoreText.innerHTML = GAME_SETTINGS.BEST_RECORD || 'No best score yet';
 
     configureButtons();
     configureCanvas();
@@ -36,13 +40,13 @@ function start() {
         return;
     }
 
-    canvasContext.restore();
-    canvasBackgroundContext.restore();
-
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
         lostGame(GAME_STATE.PLAY);
         return;
     }
+
+    // canvasContext.restore();
+    // canvasBackgroundContext.restore();
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
         console.debug(`Record: ${GAME_SETTINGS.RECORD}`);
@@ -65,8 +69,8 @@ function start() {
     player.draw();
     player.update();
 
-    canvasContext.save();
-    canvasBackgroundContext.save();
+    // canvasContext.save();
+    // canvasBackgroundContext.save();
 
     window.requestAnimationFrame(start);
 }
@@ -81,7 +85,7 @@ function configureCanvas() {
     canvasBackground.height = GAME_SETTINGS.BASE_HEIGHT;
     // canvas.style.border = "1px solid #000";
 
-    canvasBackgroundContext = canvasBackground.getContext("2d");
+    canvasBackgroundContext = canvasBackground.getContext("2d", { alpha: false });
     // New shapes are drawn behind the existing canvas content
     // OBS: default is "source-over"
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
@@ -145,6 +149,7 @@ function lostGame(state) {
     enemy.reset();
     bullet.reset();
     GAME_SETTINGS.CURRENT_GAME_STATE = state;
+    scoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
 }
 
 function startGame() {
