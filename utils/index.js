@@ -30,19 +30,19 @@ export class Utility {
         const object1BoxCollier = object1.getBoxCollider();
         const object2BoxCollier = object2.getBoxCollider();
 
-        this.drawLine(
-            object1BoxCollier.x,
-            object1BoxCollier.y,
-            object1BoxCollier.width,
-            object1BoxCollier.height,
-        );
+        // this.drawLine(
+        //     object1BoxCollier.x,
+        //     object1BoxCollier.y,
+        //     object1BoxCollier.width,
+        //     object1BoxCollier.height,
+        // );
 
-        this.drawLine(
-            object2BoxCollier.x,
-            object2BoxCollier.y,
-            object2BoxCollier.width,
-            object2BoxCollier.height,
-        )
+        // this.drawLine(
+        //     object2BoxCollier.x,
+        //     object2BoxCollier.y,
+        //     object2BoxCollier.width,
+        //     object2BoxCollier.height,
+        // )
 
         return (object1BoxCollier.x < (object2BoxCollier.x + object2BoxCollier.width) &&
                 (object1BoxCollier.x + object1BoxCollier.width) > object2BoxCollier.x) &&
