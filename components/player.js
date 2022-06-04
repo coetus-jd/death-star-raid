@@ -34,7 +34,7 @@ export default {
     image: 'assets/TieFighter/0003 - Neutro.png',
     gravity: 1.6,
     velocity: 0,
-    life: 1,
+    life: 5,
     /**
      * @param {CanvasRenderingContext2D} newContext 
      */
@@ -70,6 +70,7 @@ export default {
     },
     reset: function() {
         this.velocity = 0;
+        this.life = 5;
         this.x = GAME_SETTINGS.BASE_WIDTH / 2 - (baseWidth / 2);
 
         if (GAME_SETTINGS.RECORD > GAME_SETTINGS.BEST_RECORD) {

@@ -36,13 +36,13 @@ function start() {
         return;
     }
 
-    canvasContext.restore();
-    canvasBackgroundContext.restore();
-
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
         lostGame(GAME_STATE.PLAY);
         return;
     }
+
+    canvasContext.restore();
+    canvasBackgroundContext.restore();
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
         console.debug(`Record: ${GAME_SETTINGS.RECORD}`);
