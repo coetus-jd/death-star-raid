@@ -1,14 +1,14 @@
 <h1 align="right">
-  <img src="https://ravennaareachamber.com/wp-content/uploads/2017/03/your-company-lsiting.png" width="200px" align="left" />
-  Project Name
+  <img src="https://github.com/coetus-jd/river-raid/blob/e023bec68df599dca86f3dd87cc9c6a17e3e5161/assets/TieFighter/0003%20-%20Neutro.png" width="150px" align="left" />
+  River Raid
 </h1>
 
 <p align="right">
-✍🏻 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock
+A River Raid reimplementation
   <br><br>
   <!-- License -->
   <a>
-    <img alt="license url" src="https://img.shields.io/badge/license%20-MIT-1C1E26?style=for-the-badge&labelColor=1C1E26&color=61ffca">
+    <img alt="License" src="https://img.shields.io/badge/License-GPL--3.0-green?style=for-the-badge&labelColor=1C1E26&color=61ffca">
   </a>
 </p>
 <br>
@@ -20,7 +20,9 @@ Put some images of your project here.
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
 
 ## :bricks: This project was built with: 
-- [Awesome technology here](http://link.here.com)
+- [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
+- [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
+- [Blender](https://www.blender.org/)
 
 ## 🏄‍♂️ Quick Start
  1. Clone this repository `git clone https://github.com/coetus-jd/river-raid.git`
