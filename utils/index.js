@@ -1,17 +1,3 @@
-import GAME_SETTINGS from "../constants/gameSettings.js";
-
-/** @type {CanvasRenderingContext2D} */
-// let canvasContext = null;
-
-
-/**
- * Init the canvas context that will be used on utils
- * @param {CanvasRenderingContext2D} newCanvasContext 
- */
-//  init(newCanvasContext) {
-//     canvasContext = newCanvasContext;
-// };
-
 export class Utility {
     /**
      * @param {CanvasRenderingContext2D} newContext 

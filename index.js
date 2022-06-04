@@ -14,12 +14,14 @@ let canvasContext = null;
 /** @type {CanvasRenderingContext2D} */
 let canvasBackgroundContext = null;
 /** @type {HTMLElement} */
-let scoreText = null;
+let bestScoreText = null;
+/** @type {HTMLElement} */
+let currentScoreText = null;
 
 function awake() {
     GAME_SETTINGS.BEST_RECORD = localStorage.getItem("record");
-    scoreText = document.getElementById("best-score");
-    scoreText.innerHTML = GAME_SETTINGS.BEST_RECORD || 'No best score yet';
+
+    configureTexts();
 
     configureButtons();
     configureCanvas();
@@ -51,6 +53,8 @@ function start() {
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
         console.debug(`Record: ${GAME_SETTINGS.RECORD}`);
         console.debug(`Life: ${player.life}`);
+
+        currentScoreText.innerHTML = GAME_SETTINGS.RECORD;
 
         scenario.create();
         scenario.draw();
@@ -149,7 +153,7 @@ function lostGame(state) {
     enemy.reset();
     bullet.reset();
     GAME_SETTINGS.CURRENT_GAME_STATE = state;
-    scoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
+    bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
 }
 
 function startGame() {
@@ -176,4 +180,11 @@ function configureButtons() {
 
     // const restartButton = document.getElementById("restart");
     // restartButton.addEventListener("click", lostGame(GAME_STATE.PLAYING));
+}
+
+function configureTexts() {
+    bestScoreText = document.getElementById("best-score");
+    currentScoreText = document.getElementById("current-score");
+    bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD || 'No best score yet';
+    currentScoreText.innerHTML = GAME_SETTINGS.RECORD || 'No score yet';
 }
