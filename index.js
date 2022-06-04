@@ -19,13 +19,11 @@ let bestScoreText = null;
 let currentScoreText = null;
 
 function awake() {
-    GAME_SETTINGS.BEST_RECORD = localStorage.getItem("record");
-
+    getScore();
     configureTexts();
 
     configureButtons();
     configureCanvas();
-    getScore();
 
     scenario.init(canvasBackgroundContext);
     enemy.init(canvasContext);
@@ -118,11 +116,13 @@ function configureCanvas() {
  * Verify if the user has a saved score, if yes, set it to the current record variable
  */
 function getScore() {
+    GAME_SETTINGS.RECORD = 0;
+
     let savedRecord = localStorage.getItem("record");
 
     if (!savedRecord) savedRecord = 0;
 
-    GAME_SETTINGS.RECORD = savedRecord;
+    GAME_SETTINGS.BEST_RECORD = savedRecord;
 }
 
 /**
