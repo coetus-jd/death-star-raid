@@ -21,14 +21,44 @@ export class Utility {
         this.previousObject = {};
     }
 
-    hasCollided(object1, object2, remove = 10) {
+    hasCollided(object1, object2) {
         if (!object1 || !object2) {
             console.error('One of the objects in collision is not set');
             return false;
         }
 
-        return (object1.x < (object2.x + object2.width - remove) && (object1.x + object1.width - remove) > object2.x) &&
-            (object1.y < (object2.y + object2.height - remove) && (object1.y + object1.height - remove) > object2.y)
+        const object1BoxCollier = object1.getBoxCollider();
+        const object2BoxCollier = object2.getBoxCollider();
+
+        // this.drawLine(
+        //     object1BoxCollier.x,
+        //     object1BoxCollier.y,
+        //     object1BoxCollier.width,
+        //     object1BoxCollier.height,
+        // );
+
+        // this.drawLine(
+        //     object2BoxCollier.x,
+        //     object2BoxCollier.y,
+        //     object2BoxCollier.width,
+        //     object2BoxCollier.height,
+        // )
+
+        return (object1BoxCollier.x < (object2BoxCollier.x + object2BoxCollier.width) &&
+                (object1BoxCollier.x + object1BoxCollier.width) > object2BoxCollier.x) &&
+            (object1BoxCollier.y < (object2BoxCollier.y + object2BoxCollier.height) &&
+                (object1BoxCollier.y + object1BoxCollier.height) > object2BoxCollier.y)
+    }
+
+    drawLine(x, y, width, height, color = "#F00", lineWidth = 1) {
+        this.canvasContext.strokeStyle = color;
+        this.canvasContext.lineWidth = lineWidth;
+        this.canvasContext.strokeRect(
+            x,
+            y,
+            width,
+            height,
+        );
     }
 
     /**

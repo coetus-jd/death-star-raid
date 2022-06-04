@@ -98,7 +98,15 @@ export default {
             imageSource: utility.getRandomImage(
                 'assets/Enemies/X-Wing',
                 6
-            )
+            ),
+            getBoxCollider() {
+                return {
+                    x: this.x + 30,
+                    y: this.y + 35,
+                    width: 90,
+                    height: 95
+                }
+            }
         };
 
         const enemy2 = {
@@ -108,9 +116,17 @@ export default {
             height: baseHeight,
             velocityInY: 0,
             imageSource: utility.getRandomImage(
-                'assets/Enemies/X-Wing',
-                6
-            )
+                'assets/Enemies/Y-Wing',
+                4
+            ),
+            getBoxCollider() {
+                return {
+                    x: this.x + 40,
+                    y: this.y + 5,
+                    width: 70,
+                    height: 135
+                }
+            }
         };
 
         this.enemies.push(enemy1, enemy2);

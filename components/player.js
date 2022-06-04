@@ -25,7 +25,7 @@ let utility = null;
 
 /** @type Player */
 export default {
-    x: GAME_SETTINGS.BASE_WIDTH / 2,
+    x: GAME_SETTINGS.BASE_WIDTH / 2 - (baseWidth / 2),
     y: floor.y - baseHeight,
     movementVelocity: 6,
     height: baseHeight,
@@ -51,7 +51,13 @@ export default {
         });
     },
     draw: function() {
-        utility.drawImage(this.image, this.x - this.width / 2, this.y, this.width, this.height);
+        utility.drawImage(
+            this.image,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        );
     },
     update: function() {
         this.velocity += this.gravity;
@@ -90,5 +96,13 @@ export default {
             return;
 
         this.x += newXPosition;
+    },
+    getBoxCollider() {
+        return {
+            x: this.x + 30,
+            y: this.y + 30,
+            width: 90,
+            height: 80
+        }
     }
 };
