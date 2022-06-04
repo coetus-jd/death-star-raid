@@ -15,6 +15,7 @@ let canvasContext = null;
 let canvasBackgroundContext = null;
 
 function awake() {
+    GAME_SETTINGS.BEST_RECORD = localStorage.getItem("record");
     configureCanvas();
     getScore();
 
@@ -33,8 +34,14 @@ function start() {
     canvasContext.restore();
     canvasBackgroundContext.restore();
 
+    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
+        lostGame();
+        return;
+    }
+
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
         console.debug(`Record: ${GAME_SETTINGS.RECORD}`);
+        console.debug(`Life: ${player.life}`);
 
         scenario.create();
         scenario.draw();
@@ -109,17 +116,13 @@ function getScore() {
  * Handle the possibles games states
  */
 function handleGameState() {
-    if (GAME_SETTINGS.CURRENT_GAME_STATE == GAME_STATE.PLAYING)
-        return;
-
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAY) GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
+    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAY) {
+        GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
+    }
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {}
 
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
-        player.reset();
-        GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAY;
-    }
+    // if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) lostGame();
 }
 
 /**
@@ -130,6 +133,13 @@ function handleGameState() {
  */
 function drawElements() {
     player.draw();
+}
+
+function lostGame() {
+    player.reset();
+    enemy.reset();
+    bullet.reset();
+    GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAY;
 }
 
 function drawSky() {

@@ -19,7 +19,8 @@ const baseHeight = 130;
 
 /** @type Bullet */
 export default {
-    gravity: -0.3,
+    // gravity: -0.3,
+    maxVelocity: -10,
     bullets: [],
     creationTime: 0,
     /**
@@ -32,14 +33,15 @@ export default {
         const length = this.bullets.length;
 
         for (let index = 0; index < length; index++) {
-            const tile = this.bullets[index];
+            const bullet = this.bullets[index];
 
             utility.drawImage(
-                tile.imageSource,
-                tile.x,
-                tile.y,
-                tile.width,
-                tile.height
+                bullet.imageSource,
+                bullet.x,
+                bullet.y,
+                bullet.width,
+                bullet.height,
+                10
             );
         }
     },
@@ -48,12 +50,20 @@ export default {
 
         /** @type Tile */
         const tile = {
-            x: player.x,
-            y: player.y - 90,
+            x: player.x + (player.width / 2.5),
+            y: player.y - 70,
             width: baseWidth,
             height: baseHeight,
             velocityInY: 0,
-            imageSource: 'assets/Damage/Fire.png'
+            imageSource: 'assets/Damage/Fire.png',
+            getBoxCollider() {
+                return {
+                    x: this.x,
+                    y: this.y,
+                    width: baseWidth,
+                    height: baseHeight
+                }
+            }
         };
 
         this.bullets.push(tile);
@@ -64,15 +74,23 @@ export default {
 
         this.creationTime--;
 
-        this.bullets.forEach((tile, index) => {
-            tile.velocityInY += this.gravity;
-            tile.y += tile.velocityInY;
+        this.bullets.forEach((bullet, index) => {
+            if (!bullet.velocityInY) bullet.velocityInY = this.maxVelocity;
+            if (!bullet.y) bullet.y = 0;
 
-            if ((tile.y + tile.height) < 0) {
-                utility.clearRectUtil(tile.x, tile.y, tile.width, tile.height);
+            bullet.y += bullet.velocityInY;
+
+            if ((bullet.y + bullet.height) < 0) {
+                utility.clearRectUtil(bullet.x, bullet.y, bullet.width, bullet.height);
                 this.bullets.splice(index, 1);
                 return;
             }
         });
+    },
+    reset() {
+        this.bullets.forEach(bullet => {
+            utility.clearRectUtil(bullet.x, bullet.y, bullet.width, bullet.height)
+        });
+        this.bullets = [];
     },
 };

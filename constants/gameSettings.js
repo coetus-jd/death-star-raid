@@ -3,7 +3,7 @@ import GAME_STATE from "./gameStates.js";
 export default {
     BASE_WIDTH: 1050,
     BASE_HEIGHT: 900,
-    MAX_VELOCITY: 5,
+    MAX_VELOCITY: 10,
     GRAVITY: 0.01,
     CURRENT_GAME_STATE: GAME_STATE.PLAY,
     LIMIT_IN_X: {

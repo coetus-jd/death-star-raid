@@ -24,7 +24,7 @@ let utility = null;
 /** @type Enemy */
 export default {
     gravity: GAME_SETTINGS.GRAVITY,
-    maxVelocity: 3, //GAME_SETTINGS.MAX_VELOCITY,
+    maxVelocity: 4, //GAME_SETTINGS.MAX_VELOCITY,
     enemies: [],
     possiblesPositions: [{
             x: GAME_SETTINGS.LIMIT_IN_X.MIN,
@@ -45,7 +45,10 @@ export default {
     init: function(newContext) {
         utility = new Utility(newContext);
     },
-    clear: function() {
+    reset: function() {
+        this.enemies.forEach(enemy => {
+            utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height)
+        });
         this.enemies = [];
     },
     draw: function() {
@@ -135,7 +138,7 @@ export default {
         console.debug(`Enemies quantity: ${this.enemies.length}`);
 
         this.enemies.forEach((enemy, index) => {
-            if (enemy.y > 0) this.maxVelocity = -0.1;
+            if (enemy.y > 0) this.maxVelocity = -1;
 
             if (!enemy.velocityInY) enemy.velocityInY = this.maxVelocity;
             if (!enemy.y) enemy.y = 0;
@@ -147,25 +150,21 @@ export default {
             if ((enemy.y - enemy.height) > GAME_SETTINGS.BASE_HEIGHT) {
                 utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
                 this.enemies.splice(index, 1);
-                player.score++;
+                GAME_SETTINGS.RECORD++;
                 return;
             }
 
-            // player.x = 525
-            // player.y = 750
-            // player.width= 150
-            // player.height = 150
-            // tile.x = 525
-            // tile.y = -172
-            // tile.width= 150
-            // tile.height = 150
             if (utility.hasCollided(player, enemy)) {
                 console.debug(`Enemy ${index} collide with player`);
                 utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
                 this.enemies.splice(index, 1);
+                player.life--;
+
+                if (player.life === 0) {
+                    GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATES.LOST;
+                }
                 return;
             }
-
 
             bullet.bullets.forEach((bulletTile, bulletIndex) => {
                 if (!utility.hasCollided(bulletTile, enemy)) return;
@@ -177,6 +176,8 @@ export default {
 
                 this.enemies.splice(index, 1);
                 bullet.bullets.splice(bulletIndex, 1);
+
+                GAME_SETTINGS.RECORD++;
             })
 
         });
