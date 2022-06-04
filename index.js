@@ -41,8 +41,8 @@ function start() {
         return;
     }
 
-    canvasContext.restore();
-    canvasBackgroundContext.restore();
+    // canvasContext.restore();
+    // canvasBackgroundContext.restore();
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
         console.debug(`Record: ${GAME_SETTINGS.RECORD}`);
@@ -65,8 +65,8 @@ function start() {
     player.draw();
     player.update();
 
-    canvasContext.save();
-    canvasBackgroundContext.save();
+    // canvasContext.save();
+    // canvasBackgroundContext.save();
 
     window.requestAnimationFrame(start);
 }
@@ -81,7 +81,7 @@ function configureCanvas() {
     canvasBackground.height = GAME_SETTINGS.BASE_HEIGHT;
     // canvas.style.border = "1px solid #000";
 
-    canvasBackgroundContext = canvasBackground.getContext("2d");
+    canvasBackgroundContext = canvasBackground.getContext("2d", { alpha: false });
     // New shapes are drawn behind the existing canvas content
     // OBS: default is "source-over"
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
