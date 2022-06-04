@@ -33,7 +33,6 @@ function start() {
     canvasContext.restore();
     canvasBackgroundContext.restore();
 
-
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
         console.debug(`Record: ${GAME_SETTINGS.RECORD}`);
 
@@ -41,12 +40,12 @@ function start() {
         scenario.draw();
         scenario.update();
 
-        bullet.draw();
-        bullet.update();
-
         enemy.create();
-        enemy.draw();
         enemy.update();
+        enemy.draw();
+
+        bullet.update();
+        bullet.draw();
     }
 
     // drawElements();

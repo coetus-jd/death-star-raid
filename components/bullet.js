@@ -28,9 +28,6 @@ export default {
     init: function(newContext) {
         utility = new Utility(newContext);
     },
-    clear: function() {
-        this.bullets = [];
-    },
     draw: function() {
         const length = this.bullets.length;
 
@@ -72,6 +69,7 @@ export default {
             tile.y += tile.velocityInY;
 
             if ((tile.y + tile.height) < 0) {
+                utility.clearRectUtil(tile.x, tile.y, tile.width, tile.height);
                 this.bullets.splice(index, 1);
                 return;
             }

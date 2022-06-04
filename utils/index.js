@@ -125,7 +125,6 @@ export class Utility {
         y,
         width = 150,
         height = 150,
-        clearRect = true
     ) {
         let image = new Image();
         image.src = imagePath;
@@ -140,8 +139,19 @@ export class Utility {
                 return;
             }
 
-            if (clearRect) this.canvasContext.clearRect(Math.round(x), Math.round(y), width, height);
-            this.canvasContext.drawImage(image, Math.round(x), Math.round(y), width, height);
+            this.canvasContext.clearRect(
+                Math.round(x),
+                Math.round(y),
+                width,
+                height
+            );
+            this.canvasContext.drawImage(
+                image,
+                Math.round(x),
+                Math.round(y),
+                width,
+                height
+            );
         }
         image.onerror = function(error) { console.log(error) }
     }

@@ -118,18 +118,18 @@ export default {
     update: function() {
         console.debug(`Enemies quantity: ${this.enemies.length}`);
 
-        this.enemies.forEach((tile, index) => {
-            if (tile.y > 0) this.maxVelocity = -0.1;
+        this.enemies.forEach((enemy, index) => {
+            if (enemy.y > 0) this.maxVelocity = -0.1;
 
-            if (!tile.velocityInY) tile.velocityInY = this.maxVelocity;
-            if (!tile.y) tile.y = 0;
+            if (!enemy.velocityInY) enemy.velocityInY = this.maxVelocity;
+            if (!enemy.y) enemy.y = 0;
 
-            tile.y += tile.velocityInY;
+            enemy.y += enemy.velocityInY;
 
-            console.log(`Enemy ${index} position in Y: ${tile.y} | X: ${tile.x}`)
+            console.log(`Enemy ${index} position in Y: ${enemy.y} | X: ${enemy.x}`)
 
-            if ((tile.y - tile.height) > GAME_SETTINGS.BASE_HEIGHT) {
-                utility.clearRectUtil(tile.x, tile.y, tile.width, tile.height);
+            if ((enemy.y - enemy.height) > GAME_SETTINGS.BASE_HEIGHT) {
+                utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
                 this.enemies.splice(index, 1);
                 player.score++;
                 return;
@@ -143,14 +143,26 @@ export default {
             // tile.y = -172
             // tile.width= 150
             // tile.height = 150
-            if (utility.hasCollided(player, tile)) {
-                debugger;
-                // GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATES.LOST;
+            if (utility.hasCollided(player, enemy)) {
                 console.debug(`Enemy ${index} collide with player`);
-                utility.clearRectUtil(tile.x, tile.y, tile.width, tile.height);
+                utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
                 this.enemies.splice(index, 1);
                 return;
             }
+
+
+            bullet.bullets.forEach((bulletTile, bulletIndex) => {
+                if (!utility.hasCollided(bulletTile, enemy)) return;
+
+                console.debug(`Bullet ${bulletIndex} collide with enemy`);
+
+                utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
+                utility.clearRectUtil(bulletTile.x, bulletTile.y, bulletTile.width, bulletTile.height);
+
+                this.enemies.splice(index, 1);
+                bullet.bullets.splice(bulletIndex, 1);
+            })
+
         });
     },
 };
