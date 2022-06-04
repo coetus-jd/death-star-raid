@@ -8,6 +8,8 @@
 
 html {
     font-family: 'Nunito', sans-serif;
+    margin-top: 5%;
+    background-color: #e8e7eb;
 }
 
 canvas {
@@ -16,12 +18,15 @@ canvas {
     bottom: 0%;
     left: 0%;
     right: 0%;
+    width: 1050;
+    height: 900;
     margin: auto;
 }
 
 #record {
     position: absolute;
-    left: var(--base-distance)
+    left: var(--base-distance);
+    cursor:default;
 }
 
 #actions {
@@ -33,17 +38,24 @@ canvas {
     justify-content: center;
 }
 
+#actions :hover{
+    opacity: 0.7;
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
 input[type=button],
 button {
     width: 10vw;
     height: 5vh;
-    font-size: 18px;
+    font-size: 2em;
     cursor: pointer;
     border-radius: 8px;
     border: none;
     margin-bottom: 20px;
     box-shadow: 0 10px 10px rgba(100, 100, 100, 0.5);
     font-family: 'Nunito', sans-serif;
+    color: white;
 }
 
 .btn-start {
