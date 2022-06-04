@@ -13,9 +13,13 @@ document.addEventListener("DOMContentLoaded", awake);
 let canvasContext = null;
 /** @type {CanvasRenderingContext2D} */
 let canvasBackgroundContext = null;
+/** @type {HTMLElement} */
+let scoreText = null;
 
 function awake() {
     GAME_SETTINGS.BEST_RECORD = localStorage.getItem("record");
+    scoreText = document.getElementById("best-score");
+    scoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
 
     configureButtons();
     configureCanvas();
@@ -145,6 +149,7 @@ function lostGame(state) {
     enemy.reset();
     bullet.reset();
     GAME_SETTINGS.CURRENT_GAME_STATE = state;
+    scoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
 }
 
 function startGame() {
