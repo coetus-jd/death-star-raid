@@ -107,6 +107,7 @@ export default {
             tile.y += tile.velocityInY;
 
             if ((tile.y - tile.height) > GAME_SETTINGS.BASE_HEIGHT) {
+                utility.clearRectUtil(tile.x, tile.y, tile.width, tile.height);
                 this.allScenarioObjects.splice(index, 1);
                 return;
             }

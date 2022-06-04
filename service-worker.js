@@ -57,13 +57,13 @@ function parseKey(key) {
  * @returns {Promise}
  */
 function purgeExpiredRecords(caches) {
-    console.log("Purging...");
+    // console.log("Purging...");
     return caches.keys().then(function(keys) {
         return Promise.all(
             keys.map(function(key) {
                 var record = parseKey(key);
                 if (record.ns === NS && record.ver !== VERSION) {
-                    console.log("deleting", key);
+                    // console.log("deleting", key);
                     return caches.delete(key);
                 }
             })
@@ -85,7 +85,7 @@ function proxyRequest(caches, request) {
         // check cache
         return cache.match(request).then(function(cachedResponse) {
             if (cachedResponse) {
-                console.info("Take it from cache", request.url);
+                // console.info("Take it from cache", request.url);
                 return cachedResponse;
             }
             // { mode: "no-cors" } gives opaque response
@@ -96,11 +96,11 @@ function proxyRequest(caches, request) {
                     if (networkResponse.type !== "opaque" && networkResponse.ok === false) {
                         throw new Error("Resource not available");
                     }
-                    console.info("Fetch it through Network", request.url, networkResponse.type);
+                    // console.info("Fetch it through Network", request.url, networkResponse.type);
                     cache.put(request, networkResponse.clone());
                     return networkResponse;
                 }).catch(function() {
-                    console.error("Failed to fetch", request.url);
+                    // console.error("Failed to fetch", request.url);
                     // Placeholder image for the fallback
                     return fetch("./placeholder.jpg", { mode: "no-cors" });
                 });
@@ -120,14 +120,14 @@ self.addEventListener("activate", function(event) {
 self.addEventListener("fetch", function(event) {
     var request = event.request;
 
-    console.log("Detected request", request.url);
+    // console.log("Detected request", request.url);
 
     if (request.method !== "GET" ||
         !request.url.match(/\.(jpe?g|png|gif|svg)$/)) {
         return;
     }
 
-    console.log("Accepted request", request.url);
+    // console.log("Accepted request", request.url);
 
     event.respondWith(
         proxyRequest(caches, request)

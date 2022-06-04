@@ -135,7 +135,7 @@ export default {
         this.enemies.push(enemy1, enemy2);
     },
     update: function() {
-        console.debug(`Enemies quantity: ${this.enemies.length}`);
+        // console.debug(`Enemies quantity: ${this.enemies.length}`);
 
         this.enemies.forEach((enemy, index) => {
             if (enemy.y > 0) this.maxVelocity = -1;
@@ -145,7 +145,7 @@ export default {
 
             enemy.y += enemy.velocityInY;
 
-            console.log(`Enemy ${index} position in Y: ${enemy.y} | X: ${enemy.x}`)
+            // console.log(`Enemy ${index} position in Y: ${enemy.y} | X: ${enemy.x}`)
 
             if ((enemy.y - enemy.height) > GAME_SETTINGS.BASE_HEIGHT) {
                 utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
@@ -155,7 +155,7 @@ export default {
             }
 
             if (utility.hasCollided(player, enemy)) {
-                console.debug(`Enemy ${index} collide with player`);
+                // console.debug(`Enemy ${index} collide with player`);
                 utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
                 this.enemies.splice(index, 1);
                 player.life--;
@@ -169,7 +169,7 @@ export default {
             bullet.bullets.forEach((bulletTile, bulletIndex) => {
                 if (!utility.hasCollided(bulletTile, enemy)) return;
 
-                console.debug(`Bullet ${bulletIndex} collide with enemy`);
+                // console.debug(`Bullet ${bulletIndex} collide with enemy`);
 
                 utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
                 utility.clearRectUtil(bulletTile.x, bulletTile.y, bulletTile.width, bulletTile.height);

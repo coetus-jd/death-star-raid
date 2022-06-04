@@ -70,7 +70,7 @@ export default {
         this.creationTime = 20 + Math.floor(31 * Math.random())
     },
     update: function() {
-        console.debug(`Bullets quantity ${this.bullets.length}`);
+        // console.debug(`Bullets quantity ${this.bullets.length}`);
 
         this.creationTime--;
 
