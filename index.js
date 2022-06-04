@@ -16,6 +16,8 @@ let canvasBackgroundContext = null;
 
 function awake() {
     GAME_SETTINGS.BEST_RECORD = localStorage.getItem("record");
+
+    configureButtons();
     configureCanvas();
     getScore();
 
@@ -24,18 +26,21 @@ function awake() {
     bullet.init(canvasContext);
     player.init(canvasContext);
 
-    // drawSky();
     scenario.createBasicElements();
 
-    start();
+    // start();
 }
 
 function start() {
+    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED) {
+        return;
+    }
+
     canvasContext.restore();
     canvasBackgroundContext.restore();
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
-        lostGame();
+        lostGame(GAME_STATE.PLAY);
         return;
     }
 
@@ -93,7 +98,7 @@ function configureCanvas() {
     canvasContext = canvas.getContext("2d");
 
     document.body.appendChild(canvas);
-    document.addEventListener("mousedown", handleGameState);
+    // document.addEventListener("mousedown", handleGameState);
     document.addEventListener("keydown", (event) => {
         if (event.key === " " || event.code === 'Space') {
             bullet.create();
@@ -135,19 +140,35 @@ function drawElements() {
     player.draw();
 }
 
-function lostGame() {
+function lostGame(state) {
     player.reset();
     enemy.reset();
     bullet.reset();
-    GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAY;
+    GAME_SETTINGS.CURRENT_GAME_STATE = state;
 }
 
-function drawSky() {
-    drawRectangle(
-        0,
-        0,
-        GAME_SETTINGS.BASE_WIDTH,
-        GAME_SETTINGS.BASE_HEIGHT,
-        "#3D4651"
-    );
+function startGame() {
+    start();
+    GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
+}
+
+function pauseGame() {
+    GAME_SETTINGS.CURRENT_GAME_STATE =
+        GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED ?
+        GAME_STATE.PLAYING :
+        GAME_STATE.PAUSED;
+
+    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING)
+        start();
+}
+
+function configureButtons() {
+    const startButton = document.getElementById("start");
+    startButton.addEventListener("click", startGame);
+
+    const pauseButton = document.getElementById("pause");
+    pauseButton.addEventListener("click", pauseGame);
+
+    // const restartButton = document.getElementById("restart");
+    // restartButton.addEventListener("click", lostGame(GAME_STATE.PLAYING));
 }

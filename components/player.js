@@ -77,6 +77,13 @@ export default {
             GAME_SETTINGS.RECORD = this.score;
         }
 
+        if (utility)
+            utility.clearRectUtil(
+                this.x,
+                this.y,
+                this.width,
+                this.height,
+            );
         GAME_SETTINGS.RECORD = 0;
     },
     movePlayer(direction = 0) {
