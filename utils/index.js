@@ -1,5 +1,3 @@
-import '../types.js';
-
 export class Utility {
     /**
      * @param {CanvasRenderingContext2D} newContext 
