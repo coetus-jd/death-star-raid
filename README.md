@@ -4,7 +4,7 @@
 </h1>
 
 <p align="right">
-A River Raid reimplementation
+A River Raid re-implementation
   <br><br>
   <!-- License -->
   <a>
