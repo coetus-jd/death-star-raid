@@ -13,8 +13,11 @@ A River Raid reimplementation
 </p>
 <br>
 
+> Play on: https://coetus-jd.github.io/river-raid/
+
 ## :eyes: Overview
-Put some images of your project here.
+<img src="./docs/home.png" width="1000px" height="auto"/> <br/><br/>
+<img src="./docs/playing.png" width="1000px" height="auto"/>
 
 ## :open_book: About 
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
