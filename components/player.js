@@ -60,14 +60,6 @@ export default {
             this.height
         );
     },
-    update: function() {
-        this.velocity += this.gravity;
-        this.y += this.velocity;
-
-        if (this.y > (floor.y - this.height)) {
-            this.y = floor.y - this.height;
-        }
-    },
     reset: function() {
         this.velocity = 0;
         this.life = 5;

@@ -18,6 +18,9 @@ let bestScoreText = null;
 /** @type {HTMLElement} */
 let currentScoreText = null;
 
+/**
+ * Configure the canvas, scenario and canvas contexts
+ */
 function awake() {
     getScore();
     configureTexts();
@@ -35,10 +38,12 @@ function awake() {
     // start();
 }
 
-function start() {
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED) {
-        return;
-    }
+/**
+ * Logic that will run multiple times
+ * @returns {void}
+ */
+function run() {
+    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED) return;
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
         lostGame(GAME_STATE.PLAY);
@@ -66,15 +71,12 @@ function start() {
         bullet.draw();
     }
 
-    // drawElements();
-
     player.draw();
-    player.update();
 
     // canvasContext.save();
     // canvasBackgroundContext.save();
 
-    window.requestAnimationFrame(start);
+    window.requestAnimationFrame(run);
 }
 
 /**
@@ -104,7 +106,6 @@ function configureCanvas() {
     canvasContext = canvas.getContext("2d");
 
     document.body.appendChild(canvas);
-    // document.addEventListener("mousedown", handleGameState);
     document.addEventListener("keydown", (event) => {
         if (event.key === " " || event.code === 'Space') {
             bullet.create();
@@ -126,62 +127,55 @@ function getScore() {
 }
 
 /**
- * Handle the possibles games states
+ * Reset the game
+ * @param {Number} gameState
  */
-function handleGameState() {
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAY) {
-        GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
-    }
-
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {}
-
-    // if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) lostGame();
-}
-
-/**
- * Draw all the necessary elements for the game
- * 
- * New shapes are drawn behind the existing canvas content
- * because of the globalCompositeOperation property
- */
-function drawElements() {
-    player.draw();
-}
-
-function lostGame(state) {
+function lostGame(gameState) {
     player.reset();
     enemy.reset();
     bullet.reset();
-    GAME_SETTINGS.CURRENT_GAME_STATE = state;
+    GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
     bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
 }
 
+/**
+ * Init the game
+ */
 function startGame() {
-    start();
+    run();
     GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
 }
 
-function pauseGame() {
+/**
+ * Switch the GAME_STATE to PAUSED or PLAYING
+ */
+function switchPauseGame() {
     GAME_SETTINGS.CURRENT_GAME_STATE =
         GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED ?
         GAME_STATE.PLAYING :
         GAME_STATE.PAUSED;
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING)
-        start();
+        run();
 }
 
+/**
+ * Configure the HTML buttons that will execute functions in the game
+ */
 function configureButtons() {
     const startButton = document.getElementById("start");
     startButton.addEventListener("click", startGame);
 
     const pauseButton = document.getElementById("pause");
-    pauseButton.addEventListener("click", pauseGame);
+    pauseButton.addEventListener("click", switchPauseGame);
 
     // const restartButton = document.getElementById("restart");
     // restartButton.addEventListener("click", lostGame(GAME_STATE.PLAYING));
 }
 
+/**
+ * Configure the HTML elements that will be used to show game's information
+ */
 function configureTexts() {
     bestScoreText = document.getElementById("best-score");
     currentScoreText = document.getElementById("current-score");
