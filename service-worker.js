@@ -42,7 +42,7 @@ function buildKey(url) {
  * @returns {RecordKey}
  */
 function parseKey(key) {
-    var parts = key.split(SEPARATOR);
+    const parts = key.split(SEPARATOR);
     return {
         ns: parts[0],
         key: parts[1],
@@ -61,7 +61,7 @@ function purgeExpiredRecords(caches) {
     return caches.keys().then(function(keys) {
         return Promise.all(
             keys.map(function(key) {
-                var record = parseKey(key);
+                const record = parseKey(key);
                 if (record.ns === NS && record.ver !== VERSION) {
                     // console.log("deleting", key);
                     return caches.delete(key);
@@ -79,7 +79,7 @@ function purgeExpiredRecords(caches) {
  * @returns {Promise}
  */
 function proxyRequest(caches, request) {
-    var key = buildKey(request.url);
+    const key = buildKey(request.url);
     // set namespace
     return caches.open(key).then(function(cache) {
         // check cache
@@ -93,16 +93,17 @@ function proxyRequest(caches, request) {
             // so we cannot get info about response status
             return fetch(request.clone())
                 .then(function(networkResponse) {
-                    if (networkResponse.type !== "opaque" && networkResponse.ok === false) {
+                    if (networkResponse.type !== "opaque" && !networkResponse.ok) {
                         throw new Error("Resource not available");
                     }
                     // console.info("Fetch it through Network", request.url, networkResponse.type);
                     cache.put(request, networkResponse.clone());
                     return networkResponse;
-                }).catch(function() {
-                    // console.error("Failed to fetch", request.url);
+                }).catch(function(error) {
+                    console.error("Failed to fetch", request.url);
+                    console.error(error);
                     // Placeholder image for the fallback
-                    return fetch("./placeholder.jpg", { mode: "no-cors" });
+                    // return fetch("./placeholder.jpg", { mode: "no-cors" });
                 });
         });
     });
@@ -132,5 +133,4 @@ self.addEventListener("fetch", function(event) {
     event.respondWith(
         proxyRequest(caches, request)
     );
-
 });
