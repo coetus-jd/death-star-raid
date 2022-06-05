@@ -1,38 +1,25 @@
-/**
- * @typedef Player
- * @property {Number} x Position in the X axis where the player will be created
- * @property {Number} y Position in the Y axis where the player will be created
- * @property {Number} height Height of the player
- * @property {Number} width Width of the player
- * @property {string} image Asset of the player
- * @property {Number} gravity Gravity 
- * @property {Number} velocity Velocity of the movement of the player
- * @property {Number} life
- * @property {function} draw
- * @property {function} update
- * @property {function} reset
- */
-
-import floor from "./floor.js";
-
 import GAME_SETTINGS from "../constants/gameSettings.js";
 import GAME_STATES from "../constants/gameStates.js";
+
+import floor from "./floor.js";
 import { Utility } from "../utils/index.js";
 
-const baseHeight = 150;
-const baseWidth = 150;
 /** @type Utility */
 let utility = null;
+const baseHeight = 150;
+const baseWidth = 150;
 
-/** @type Player */
 export default {
+    /** Position in the X axis where the player will be created */
     x: GAME_SETTINGS.BASE_WIDTH / 2 - (baseWidth / 2),
+    /** Position in the Y axis where the player will be created */
     y: floor.y - baseHeight,
     movementVelocity: 6,
     height: baseHeight,
     width: baseWidth,
     image: 'assets/TieFighter/0003 - Neutro.png',
     gravity: 1.6,
+    /** Velocity of the movement of the player */
     velocity: 0,
     life: 5,
     /**
@@ -79,6 +66,10 @@ export default {
             );
         GAME_SETTINGS.RECORD = 0;
     },
+    /**
+     * @param {Number} direction
+     * @returns 
+     */
     movePlayer(direction = 0) {
         if (!direction) return;
         if (GAME_SETTINGS.CURRENT_GAME_STATE !== GAME_STATES.PLAYING) return;
@@ -100,6 +91,7 @@ export default {
 
         this.x += newXPosition;
     },
+    /** @type {import('../types.js').Collider} */
     getBoxCollider() {
         return {
             x: this.x + 30,

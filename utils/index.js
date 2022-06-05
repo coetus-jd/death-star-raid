@@ -1,19 +1,33 @@
+import '../types.js';
+
 export class Utility {
     /**
      * @param {CanvasRenderingContext2D} newContext 
      */
     constructor(newCanvasContext) {
+        /** @type {CanvasRenderingContext2D} */
         this.canvasContext = newCanvasContext;
+        /**
+         * Object to be used to store values in the @function isTheSameValue
+         */
         this.previousObject = {};
     }
 
+    /**
+     * Verify if two objects have collided
+     * @param {import('../types').Tile} object1 
+     * @param {import('../types').Tile} object2 
+     * @returns 
+     */
     hasCollided(object1, object2) {
         if (!object1 || !object2) {
             console.error('One of the objects in collision is not set');
             return false;
         }
 
+        /** @type {import('../types').Collider} */
         const object1BoxCollier = object1.getBoxCollider();
+        /** @type {import('../types').Collider} */
         const object2BoxCollier = object2.getBoxCollider();
 
         // this.drawLine(
@@ -53,7 +67,7 @@ export class Utility {
      * @param {number} width 
      * @param {number} height 
      * @param {string} color Hex
-     * @returns 
+     * @returns {void}
      */
     drawRectangle(x, y, width, height, color = "#000") {
         if (!this.canvasContext) {
@@ -72,7 +86,7 @@ export class Utility {
      * @param {String} color 
      * @param {String} fontSize 
      * @param {String} fontFamily 
-     * @returns 
+     * @returns {void}
      */
     drawText(text, x, y, color = "#fff", fontSize = "50px", fontFamily = "Arial") {
         if (!this.canvasContext) {
@@ -92,7 +106,7 @@ export class Utility {
      * @param {number} height 
      * @param {string} color1 Hex
      * @param {string} color2 Hex
-     * @returns 
+     * @returns {void}
      */
     drawRectangleWithGradient(x, y, width, height, color1 = "#000", color2 = "#444") {
         if (!this.canvasContext) {
@@ -105,35 +119,13 @@ export class Utility {
     }
 
     /**
-     * @param {Array} elements 
-     * @param {Number} numberOfElements 
-     * @param {Boolean} validateIfIsTheSame 
-     * @param {String} contextKey
-     */
-    getRandomElement(
-        elements,
-        numberOfElements,
-        validateIfIsTheSame = false,
-        contextKey = ''
-    ) {
-        const randomIndex = Math.floor(numberOfElements * Math.random());
-        const random = elements[randomIndex];
-
-        if (!validateIfIsTheSame) return random;
-
-        if (this.isTheSameValue(contextKey, randomIndex)) {
-            return this.getRandomElement(elements, numberOfElements, true, contextKey);
-        }
-
-        return random;
-    }
-
-    /**
      * @param {string} imagePath 
      * @param {number} x 
      * @param {number} y 
      * @param {number} width
-     * @param {number} height 
+     * @param {number} height
+     * @param {number} valueToExcludeYOnClear
+     * @returns {void}
      */
     drawImage(
         imagePath,
@@ -145,10 +137,6 @@ export class Utility {
     ) {
         let image = new Image();
         image.src = imagePath;
-
-        // Draw first to "guarantee" this position on canvas
-        // then draw again when the image is fully loaded
-        // this.canvasContext.drawImage(image, x, y, width, height);
 
         image.onload = () => {
             if (!this.canvasContext) {
@@ -193,13 +181,40 @@ export class Utility {
     }
 
     /**
+     * Abstraction to the `clearRect` function from CanvasRenderingContext2D
      * @param {number} x 
      * @param {number} y 
      * @param {number} width
-     * @param {number} height 
+     * @param {number} height
+     * @returns {void}
      */
     clearRectUtil(x, y, width, height) {
         this.canvasContext.clearRect(Math.round(x), Math.round(y), width, height)
+    }
+
+    /**
+     * @param {Array} elements 
+     * @param {Number} numberOfElements 
+     * @param {Boolean} validateIfIsTheSame 
+     * @param {String} contextKey
+     * @returns {Object}
+     */
+    getRandomElement(
+        elements,
+        numberOfElements,
+        validateIfIsTheSame = false,
+        contextKey = ''
+    ) {
+        const randomIndex = Math.floor(numberOfElements * Math.random());
+        const random = elements[randomIndex];
+
+        if (!validateIfIsTheSame) return random;
+
+        if (this.isTheSameValue(contextKey, randomIndex)) {
+            return this.getRandomElement(elements, numberOfElements, true, contextKey);
+        }
+
+        return random;
     }
 
     /**

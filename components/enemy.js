@@ -1,30 +1,21 @@
-/**
- * @typedef Enemy
- * @property {Tile[]} enemies
- * @property {Position[]} possiblesPositions
- * @property {Function} clear
- * @property {Function} draw
- * @property {Function} create
- * @property {Function} update
- */
-
 import GAME_SETTINGS from "../constants/gameSettings.js";
+import GAME_STATES from "../constants/gameStates.js";
+
+
 import { Utility } from '../utils/index.js';
 
 import bullet from "./bullet.js";
 import player from "./player.js";
-import types from '../types.js';
-import GAME_STATES from "../constants/gameStates.js";
 
-const baseWidth = 150;
-const baseHeight = 150;
 /** @type Utility */
 let utility = null;
+const baseWidth = 150;
+const baseHeight = 150;
 
-/** @type Enemy */
 export default {
     gravity: GAME_SETTINGS.GRAVITY,
     maxVelocity: 4, //GAME_SETTINGS.MAX_VELOCITY,
+    /** @type {import('../types.js').Tile[]} */
     enemies: [],
     possiblesPositions: [{
             x: GAME_SETTINGS.LIMIT_IN_X.MIN,
@@ -72,7 +63,7 @@ export default {
         // Reset the velocity
         this.maxVelocity = 3;
 
-        /** @type Position */
+        /** @type {import('../types.js').Position} */
         const randomPosition1 = utility.getRandomElement(
             this.possiblesPositions,
             this.possiblesPositions.length,
@@ -80,9 +71,7 @@ export default {
             'enemyPosition'
         );
 
-        // debugger;
-
-        /** @type Position */
+        /** @type {import('../types.js').Position} */
         const randomPosition2 = utility.getRandomElement(
             this.possiblesPositions,
             this.possiblesPositions.length,
@@ -91,7 +80,7 @@ export default {
         );
 
 
-        /** @type Tile */
+        /** @type {import('../types.js').Tile} */
         const enemy1 = {
             x: randomPosition1.x,
             y: randomPosition1.y,
@@ -102,6 +91,9 @@ export default {
                 'assets/Enemies/X-Wing',
                 6
             ),
+            /**
+             * @returns {import('../types.js').Collider}
+             */
             getBoxCollider() {
                 return {
                     x: this.x + 30,
@@ -112,6 +104,7 @@ export default {
             }
         };
 
+        /** @type {import('../types.js').Tile} */
         const enemy2 = {
             x: randomPosition2.x,
             y: randomPosition2.y,
@@ -122,6 +115,9 @@ export default {
                 'assets/Enemies/Y-Wing',
                 4
             ),
+            /**
+             * @returns {import('../types.js').Collider}
+             */
             getBoxCollider() {
                 return {
                     x: this.x + 40,
@@ -179,7 +175,6 @@ export default {
 
                 GAME_SETTINGS.RECORD++;
             })
-
         });
     },
 };

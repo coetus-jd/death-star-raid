@@ -9,6 +9,7 @@
  * @property {string} color
  * @property {boolean} firstTile
  * @property {boolean} isInMiddle
+ * @property {Function} getBoxCollider
  */
 
 /**
@@ -17,4 +18,12 @@
  * @property {Number} y
  */
 
-export default {};
+/**
+ * @typedef Collider
+ * @property {Number} x 
+ * @property {Number} y 
+ * @property {Number} width 
+ * @property {Number} height
+ */
+
+export {};

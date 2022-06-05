@@ -1,17 +1,5 @@
-/**
- * @typedef Scenario
- * @property {Number} gravity
- * @property {Tile[]} allScenarioObjects
- * @property {Tile[]} initialTilesPositions
- * @property {Function} clear
- * @property {Function} create
- * @property {Function} update
- * @property {Function} draw
- */
-
 import GAME_SETTINGS from "../constants/gameSettings.js";
 import { Utility } from "../utils/index.js";
-import types from '../types.js';
 
 const baseWidth = 150;
 const baseHeight = 150;
@@ -23,6 +11,7 @@ let utility = null;
 export default {
     gravity: GAME_SETTINGS.GRAVITY,
     maxVelocity: GAME_SETTINGS.MAX_VELOCITY,
+    /** @type {import('../types.js').Tile[]} */
     allScenarioObjects: [],
     /**
      * @param {CanvasRenderingContext2D} newContext 
@@ -116,10 +105,9 @@ export default {
 };
 
 /**
- * @returns Tile[]
+ * @returns {import('../types.js').Tile[]}
  */
 function generateLeftInitialTilesPositions() {
-    /** @type Tile[] */
     const array = [];
 
     for (let index = 0; index < baseRows; index++) {
@@ -150,10 +138,9 @@ function generateLeftInitialTilesPositions() {
 }
 
 /**
- * @returns Tile[]
+ * @returns {import('../types.js').Tile[]}
  */
 function generateRightInitialTilesPositions() {
-    /** Tile[] */
     const array = [];
 
     for (let index = 0; index < baseRows; index++) {
@@ -184,10 +171,9 @@ function generateRightInitialTilesPositions() {
 }
 
 /**
- * @returns Tile[]
+ * @returns {import('../types.js').Tile[]}
  */
 function generateMiddleInitialTilesPositions() {
-    /** Tile[] */
     const array = [];
     const baseX = baseWidth * 2;
 
@@ -228,7 +214,9 @@ function generateMiddleInitialTilesPositions() {
     return array;
 }
 
-/** @type Tile[] */
+/**
+ * @returns {import('../types.js').Tile[]}
+ */
 const tilesCreationPositions = [{
         x: 0,
         y: -baseHeight,

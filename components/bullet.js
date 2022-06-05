@@ -1,26 +1,14 @@
-/**
- * @typedef Bullet
- * @property {Tile[]} bullets
- * @property {Function} clear
- * @property {Function} draw
- * @property {Function} create
- * @property {Function} update
- */
-
-import GAME_SETTINGS from "../constants/gameSettings.js";
 import { Utility } from "../utils/index.js";
 import player from "./player.js";
-import types from "../types.js";
 
 /** @type Utility */
 let utility = null;
 const baseWidth = 13;
 const baseHeight = 130;
 
-/** @type Bullet */
 export default {
-    // gravity: -0.3,
     maxVelocity: -10,
+    /** @type {Tile[]} */
     bullets: [],
     creationTime: 0,
     /**
