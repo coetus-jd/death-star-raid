@@ -1,3 +1,5 @@
+import { Log } from './log.js';
+
 export class Utility {
     /**
      * @param {CanvasRenderingContext2D} newContext 
@@ -19,7 +21,7 @@ export class Utility {
      */
     hasCollided(object1, object2) {
         if (!object1 || !object2) {
-            console.error('One of the objects in collision is not set');
+            Log.error('One of the objects in collision is not set');
             return false;
         }
 
@@ -69,7 +71,7 @@ export class Utility {
      */
     drawRectangle(x, y, width, height, color = "#000") {
         if (!this.canvasContext) {
-            console.error('Context not defined');
+            Log.error('Context not defined');
             return;
         }
 
@@ -88,7 +90,7 @@ export class Utility {
      */
     drawText(text, x, y, color = "#fff", fontSize = "50px", fontFamily = "Arial") {
         if (!this.canvasContext) {
-            console.error('Context not defined');
+            Log.error('Context not defined');
             return;
         }
 
@@ -108,7 +110,7 @@ export class Utility {
      */
     drawRectangleWithGradient(x, y, width, height, color1 = "#000", color2 = "#444") {
         if (!this.canvasContext) {
-            console.error('Context not defined');
+            Log.error('Context not defined');
             return;
         }
 
@@ -138,7 +140,7 @@ export class Utility {
 
         image.onload = () => {
             if (!this.canvasContext) {
-                console.error('Context not defined');
+                Log.error('Context not defined');
                 return;
             }
 

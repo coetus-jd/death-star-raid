@@ -16,4 +16,12 @@ export default {
     },
     RECORD: 0,
     BEST_RECORD: 0,
+    DEBUG: {
+        DEBUG_ENABLED: true,
+    },
+    LOGS: {
+        DEBUG_ENABLED: true,
+        WARN_ENABLED: true,
+        ERROR_ENABLED: true,
+    },
 };

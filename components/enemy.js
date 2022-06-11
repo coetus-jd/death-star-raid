@@ -1,63 +1,117 @@
 import GAME_SETTINGS from "../constants/gameSettings.js";
-import GAME_STATES from "../constants/gameStates.js";
+import ENEMY_STATES from "../constants/enemyState.js";
+import ENEMIES_TYPES from "../constants/enemiesTypes.js";
 
+import gameController from "../controllers/gameController.js";
+import scoreController from "../controllers/scoreController.js";
 
 import { Utility } from '../utils/index.js';
+import { Log } from "../utils/log.js";
 
 import bullet from "./bullet.js";
 import player from "./player.js";
 
-/** @type Utility */
-let utility = null;
 const baseWidth = 150;
 const baseHeight = 150;
+const baseLife = 2;
+
+/** @type Utility */
+let utility = null;
+
+const enemyXWingIdleAnimations = [
+    'assets/Enemies/X-Wing/0000.png',
+    'assets/Enemies/X-Wing/0001.png',
+    'assets/Enemies/X-Wing/0002.png',
+    'assets/Enemies/X-Wing/0003.png',
+    'assets/Enemies/X-Wing/0004.png',
+    'assets/Enemies/X-Wing/0005.png',
+];
+
+const enemyYWingIdleAnimations = [
+    'assets/Enemies/Y-Wing/0000.png',
+    'assets/Enemies/Y-Wing/0001.png',
+    'assets/Enemies/Y-Wing/0002.png',
+    'assets/Enemies/Y-Wing/0003.png',
+];
+
+const explosionAnimations = [
+    'assets/Damage/Explosão/0000.png',
+    'assets/Damage/Explosão/0001.png',
+    'assets/Damage/Explosão/0002.png',
+    'assets/Damage/Explosão/0003.png',
+    'assets/Damage/Explosão/0004.png',
+    'assets/Damage/Explosão/0005.png',
+];
 
 export default {
     gravity: GAME_SETTINGS.GRAVITY,
-    maxVelocity: 4, //GAME_SETTINGS.MAX_VELOCITY,
+    maxVelocity: GAME_SETTINGS.MAX_VELOCITY - 1,
     /** @type {import('../types.js').Tile[]} */
     enemies: [],
+    animationFrame: 0,
+    timeToChangeAnimationFrame: 0,
     possiblesPositions: [{
-            x: GAME_SETTINGS.LIMIT_IN_X.MIN,
-            y: -baseHeight - 50
-        },
-        {
-            x: GAME_SETTINGS.LIMIT_IN_X.MIN + baseWidth,
-            y: -baseHeight - 25
-        },
-        {
-            x: GAME_SETTINGS.LIMIT_IN_X.MIN + baseWidth * 2,
-            y: -baseHeight - 10
-        }
+        x: GAME_SETTINGS.LIMIT_IN_X.MIN,
+        y: -baseHeight - 50
+    },
+    {
+        x: GAME_SETTINGS.LIMIT_IN_X.MIN + baseWidth,
+        y: -baseHeight - 25
+    },
+    {
+        x: GAME_SETTINGS.LIMIT_IN_X.MIN + baseWidth * 2,
+        y: -baseHeight - 10
+    }
     ],
     /**
      * @param {CanvasRenderingContext2D} newContext 
      */
-    init: function(newContext) {
+    init: function (newContext) {
         utility = new Utility(newContext);
     },
-    reset: function() {
+    reset: function () {
         this.enemies.forEach(enemy => {
             utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height)
         });
         this.enemies = [];
     },
-    draw: function() {
+    draw: function () {
         const length = this.enemies.length;
 
         for (let index = 0; index < length; index++) {
-            const tile = this.enemies[index];
+            // if (this.timeToChangeAnimationFrame <= 0) {
+            //     this.timeToChangeAnimationFrame = 10 + Math.floor(31 * Math.random())
+            //     continue;
+            // }
 
-            utility.drawImage(
-                tile.imageSource,
-                tile.x,
-                tile.y,
-                tile.width,
-                tile.height
-            );
+            // this.timeToChangeAnimationFrame--;
+
+            // if (this.timeToChangeAnimationFrame > 0) continue;
+
+            const enemy = this.enemies[index];
+
+            if (enemy.state === ENEMY_STATES.DEAD) {
+                animateEnemyExplosion.call(this, enemy, index);
+                continue;
+            }
+
+            if (enemy.state === ENEMY_STATES.DAMAGE) {
+                // logic here
+                continue;
+            };
+
+            if (enemy.type === ENEMIES_TYPES.X_WING) {
+                Log.debug(`Current enemy (X-Wing) animation frame: ${enemy.currentAnimationFrame}`);
+                animateXWingEnemy(enemy);
+
+                continue;
+            }
+
+            Log.debug(`Current enemy (Y-Wing) animation frame: ${enemy.currentAnimationFrame}`);
+            animateYWingEnemy(enemy);
         }
     },
-    create: function() {
+    create: function () {
         if (this.enemies.length !== 0) return;
 
         // Reset the velocity
@@ -87,6 +141,10 @@ export default {
             width: baseWidth,
             height: baseHeight,
             velocityInY: 0,
+            life: baseLife,
+            type: ENEMIES_TYPES.X_WING,
+            state: ENEMY_STATES.MOVING_FORWARD,
+            currentAnimationFrame: 0,
             imageSource: utility.getRandomImage(
                 'assets/Enemies/X-Wing',
                 6
@@ -111,6 +169,10 @@ export default {
             width: baseWidth,
             height: baseHeight,
             velocityInY: 0,
+            state: ENEMY_STATES.MOVING_FORWARD,
+            life: baseLife,
+            type: ENEMIES_TYPES.Y_WING,
+            currentAnimationFrame: 0,
             imageSource: utility.getRandomImage(
                 'assets/Enemies/Y-Wing',
                 4
@@ -130,9 +192,7 @@ export default {
 
         this.enemies.push(enemy1, enemy2);
     },
-    update: function() {
-        // console.debug(`Enemies quantity: ${this.enemies.length}`);
-
+    update: function () {
         this.enemies.forEach((enemy, index) => {
             if (enemy.y > 0) this.maxVelocity = -1;
 
@@ -141,40 +201,112 @@ export default {
 
             enemy.y += enemy.velocityInY;
 
-            // console.log(`Enemy ${index} position in Y: ${enemy.y} | X: ${enemy.x}`)
-
             if ((enemy.y - enemy.height) > GAME_SETTINGS.BASE_HEIGHT) {
-                utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
-                this.enemies.splice(index, 1);
-                GAME_SETTINGS.RECORD++;
+                scoreController.addPoint();
+                removeEnemy.call(this, enemy, index);
+
                 return;
             }
 
             if (utility.hasCollided(player, enemy)) {
-                // console.debug(`Enemy ${index} collide with player`);
-                utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
-                this.enemies.splice(index, 1);
-                player.life--;
+                Log.debug(`Enemy ${index} collide with player`);
 
-                if (player.life === 0) {
-                    GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATES.LOST;
-                }
+                removeEnemy.call(this, enemy, index);
+
+                player.takeDamage();
+                gameController.checkIfPlayerHasLost();
+
                 return;
             }
 
             bullet.bullets.forEach((bulletTile, bulletIndex) => {
                 if (!utility.hasCollided(bulletTile, enemy)) return;
 
-                // console.debug(`Bullet ${bulletIndex} collide with enemy`);
+                Log.debug(`Bullet ${bulletIndex} collide with enemy`);
 
-                utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
-                utility.clearRectUtil(bulletTile.x, bulletTile.y, bulletTile.width, bulletTile.height);
+                enemy.state = ENEMY_STATES.DAMAGE;
+                enemy.life--;
 
-                this.enemies.splice(index, 1);
-                bullet.bullets.splice(bulletIndex, 1);
+                if (enemy.life <= 0) {
+                    enemy.state = ENEMY_STATES.DEAD;
+                    enemy.currentAnimationFrame = 0;
+                    utility.clearRectUtil(
+                        enemy.x,
+                        enemy.y,
+                        enemy.width,
+                        enemy.height
+                    )
+                    // enemyExplosion(enemy, index);
+                    // removeEnemy.call(this, enemy, index);
+                }
 
-                GAME_SETTINGS.RECORD++;
+                removeBullet(bulletTile, bulletIndex);
+
+                scoreController.addPoint();
             })
         });
     },
 };
+
+function removeBullet(bulletTile, bulletIndex) {
+    utility.clearRectUtil(bulletTile.x, bulletTile.y, bulletTile.width, bulletTile.height);
+    bullet.bullets.splice(bulletIndex, 1);
+}
+
+function removeEnemy(enemy, index) {
+    utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
+    this.enemies.splice(index, 1);
+}
+
+function animateYWingEnemy(enemy) {
+    if (enemy.currentAnimationFrame > (enemyYWingIdleAnimations.length - 1))
+        enemy.currentAnimationFrame = 0;
+
+    utility.drawImage(
+        enemyYWingIdleAnimations[enemy.currentAnimationFrame],
+        enemy.x,
+        enemy.y,
+        enemy.width,
+        enemy.height
+    );
+
+    enemy.currentAnimationFrame++;
+}
+
+function animateEnemyExplosion(enemy, index) {
+    if (enemy.currentAnimationFrame > (explosionAnimations.length - 1)) {
+        removeEnemy.call(this, enemy, index);
+        utility.clearRectUtil(
+            enemy.x,
+            enemy.y,
+            enemy.width,
+            enemy.height
+        );
+        return;
+    }
+
+    utility.drawImage(
+        explosionAnimations[enemy.currentAnimationFrame],
+        enemy.x,
+        enemy.y,
+        enemy.width,
+        enemy.height
+    );
+
+    enemy.currentAnimationFrame++;
+}
+
+function animateXWingEnemy(enemy) {
+    if (enemy.currentAnimationFrame > (enemyXWingIdleAnimations.length - 1))
+        enemy.currentAnimationFrame = 0;
+
+    utility.drawImage(
+        enemyXWingIdleAnimations[enemy.currentAnimationFrame],
+        enemy.x,
+        enemy.y,
+        enemy.width,
+        enemy.height
+    );
+
+    enemy.currentAnimationFrame++;
+}

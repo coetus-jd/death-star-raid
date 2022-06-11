@@ -10,7 +10,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Coetus">
-    <meta name="keywords" content="JavaScript, Games, CSS, HTML, Canvas, Canvas API, River Raid, River Raid Game, Start Wars, Game Development">
+    <meta name="keywords"
+        content="JavaScript, Games, CSS, HTML, Canvas, Canvas API, River Raid, River Raid Game, Start Wars, Game Development">
     <meta name="description" content="🛩️ A River Raid re-implementation." />
     <meta property="og:title" content="River raid re-implementation">
     <meta property="og:type" content="website" />
@@ -23,11 +24,12 @@
 <body>
     <section id="record">
         <h2>Score</h2>
-        <details>
-            <summary>Today</summary>
-            <p>Current score: <span id="current-score"></span></p>
-            <p>Best score: <span id="best-score"></span></p>
-        </details>
+        <p>Current score: <b id="current-score"></b></p>
+        <p>Best score: <b id="best-score"></b></p>
+        <!-- <details>
+            <summary>Today</summary> 
+            
+        </details>-->
     </section>
     <section id="actions">
         <button id="start" class="btn-start">Start</button>
@@ -42,10 +44,10 @@
                 .register("./service-worker.js", {
                     scope: './'
                 })
-                .then(function() {
+                .then(function () {
                     console.log("Service Worker Registered");
                 })
-                .catch(function(err) {
+                .catch(function (err) {
                     console.log("Service Worker Failed to Register", err);
                 });
         }

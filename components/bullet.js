@@ -1,4 +1,5 @@
 import { Utility } from "../utils/index.js";
+import { Log } from "../utils/log.js";
 import player from "./player.js";
 
 /** @type Utility */
@@ -7,8 +8,8 @@ const baseWidth = 13;
 const baseHeight = 130;
 
 export default {
-    maxVelocity: -10,
-    /** @type {Tile[]} */
+    maxVelocity: -5,
+    /** @type {import('../types.js').Tile[]} */
     bullets: [],
     creationTime: 0,
     /**
@@ -36,7 +37,7 @@ export default {
     create: function() {
         if (this.creationTime > 0) return;
 
-        /** @type Tile */
+        /** @type {import('../types.js').Tile} */
         const tile = {
             x: player.x + (player.width / 2.5),
             y: player.y - 70,
@@ -58,7 +59,7 @@ export default {
         this.creationTime = 20 + Math.floor(31 * Math.random())
     },
     update: function() {
-        // console.debug(`Bullets quantity ${this.bullets.length}`);
+        Log.debug(`Bullets quantity ${this.bullets.length}`);
 
         this.creationTime--;
 
@@ -69,7 +70,12 @@ export default {
             bullet.y += bullet.velocityInY;
 
             if ((bullet.y + bullet.height) < 0) {
-                utility.clearRectUtil(bullet.x, bullet.y, bullet.width, bullet.height);
+                utility.clearRectUtil(
+                    bullet.x,
+                    bullet.y,
+                    bullet.width,
+                    bullet.height
+                );
                 this.bullets.splice(index, 1);
                 return;
             }

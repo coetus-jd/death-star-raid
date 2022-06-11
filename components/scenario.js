@@ -1,13 +1,24 @@
 import GAME_SETTINGS from "../constants/gameSettings.js";
 import { Utility } from "../utils/index.js";
+import { Log } from "../utils/log.js";
 
-const baseWidth = 150;
-const baseHeight = 150;
-const baseRows = 6;
+const baseWidth = 300;
+const baseHeight = 900;
+const baseWidthMiddle = 450;
+const baseRows = 1;
+
+const baseMoatImages = {
+    path: "assets/BlockedTiles/Fosso",
+    quantity: 6
+};
+const baseSidesImages = {
+    path: "assets/BlockedTiles/Laterais",
+    quantity: 10
+};
+
 /** @type Utility */
 let utility = null;
 
-/** @type Scenario */
 export default {
     gravity: GAME_SETTINGS.GRAVITY,
     maxVelocity: GAME_SETTINGS.MAX_VELOCITY,
@@ -16,13 +27,13 @@ export default {
     /**
      * @param {CanvasRenderingContext2D} newContext 
      */
-    init: function(newContext) {
+    init: function (newContext) {
         utility = new Utility(newContext);
     },
-    clear: function() {
+    clear: function () {
         this.allScenarioObjects = [];
     },
-    draw: function() {
+    draw: function () {
         const length = this.allScenarioObjects.length;
 
         for (let index = 0; index < length; index++) {
@@ -39,7 +50,7 @@ export default {
     /**
      * Create initial elements in scenario
      */
-    createBasicElements() {
+    createBasicElements: function () {
         const allScenarioBasicTiles = [
             ...generateRightInitialTilesPositions(),
             ...generateLeftInitialTilesPositions(),
@@ -54,7 +65,7 @@ export default {
 
         this.allScenarioObjects.push(...allScenarioBasicTiles);
     },
-    create: function() {
+    create: function () {
         /** @type Tile */
         const firstTile = this.allScenarioObjects.find(x => x.firstTile);
 
@@ -70,23 +81,23 @@ export default {
         for (let index = 0; index < length; index++) {
             const tilePosition = tilesCreationPositions[index];
 
-            const imagesPath = tilePosition.isInMiddle ?
-                'assets/DeathStarTiles/2 - Fosso' :
-                'assets/DeathStarTiles/1 - Laterais';
+            const imagesSettings = tilePosition.isInMiddle ?
+                baseMoatImages:
+                baseSidesImages;
 
             tilePosition.imageSource = utility.getRandomImage(
-                imagesPath,
-                20
+                imagesSettings.path,
+                imagesSettings.quantity
             );
             tilePosition.velocityInY = this.maxVelocity;
-            this.allScenarioObjects.push({...tilePosition });
+            this.allScenarioObjects.push({ ...tilePosition });
         }
 
         const lastIndex = this.allScenarioObjects.length - 1;
         this.allScenarioObjects[lastIndex].firstTile = true;
     },
-    update: function() {
-        console.debug(`Tiles quantity: ${this.allScenarioObjects.length}`);
+    update: function () {
+        Log.debug(`Tiles quantity: ${this.allScenarioObjects.length}`);
 
         this.allScenarioObjects.forEach((tile, index) => {
             if (!tile.velocityInY) tile.velocityInY = this.maxVelocity;
@@ -118,19 +129,9 @@ function generateLeftInitialTilesPositions() {
             height: baseHeight,
             velocityInY: 0,
             imageSource: utility.getRandomImage(
-                'assets/DeathStarTiles/1 - Laterais',
-                20
+                baseSidesImages.path,
+                baseSidesImages.quantity
             ),
-        }, {
-            x: baseWidth,
-            y: baseHeight * index,
-            width: baseWidth,
-            height: baseHeight,
-            velocityInY: 0,
-            imageSource: utility.getRandomImage(
-                'assets/DeathStarTiles/1 - Laterais',
-                20
-            )
         });
     }
 
@@ -151,18 +152,8 @@ function generateRightInitialTilesPositions() {
             height: baseHeight,
             velocityInY: 0,
             imageSource: utility.getRandomImage(
-                'assets/DeathStarTiles/1 - Laterais',
-                20
-            )
-        }, {
-            x: GAME_SETTINGS.BASE_WIDTH - (baseWidth * 2),
-            y: baseHeight * index,
-            width: baseWidth,
-            height: baseHeight,
-            velocityInY: 0,
-            imageSource: utility.getRandomImage(
-                'assets/DeathStarTiles/1 - Laterais',
-                20
+                baseSidesImages.path,
+                baseSidesImages.quantity
             )
         })
     }
@@ -175,38 +166,18 @@ function generateRightInitialTilesPositions() {
  */
 function generateMiddleInitialTilesPositions() {
     const array = [];
-    const baseX = baseWidth * 2;
+    const baseX = baseWidth;
 
     for (let index = 0; index < baseRows; index++) {
         array.push({
             x: baseX,
             y: baseHeight * index,
-            width: baseWidth,
+            width: baseWidthMiddle,
             height: baseHeight,
             velocityInY: 0,
             imageSource: utility.getRandomImage(
-                'assets/DeathStarTiles/2 - Fosso',
-                20
-            )
-        }, {
-            x: baseX + baseWidth,
-            y: baseHeight * index,
-            width: baseWidth,
-            height: baseHeight,
-            velocityInY: 0,
-            imageSource: utility.getRandomImage(
-                'assets/DeathStarTiles/2 - Fosso',
-                20
-            )
-        }, {
-            x: baseX + (baseWidth * 2),
-            y: baseHeight * index,
-            width: baseWidth,
-            height: baseHeight,
-            velocityInY: 0,
-            imageSource: utility.getRandomImage(
-                'assets/DeathStarTiles/2 - Fosso',
-                20
+                baseMoatImages.path,
+                baseMoatImages.quantity
             )
         });
     }
@@ -218,55 +189,25 @@ function generateMiddleInitialTilesPositions() {
  * @returns {import('../types.js').Tile[]}
  */
 const tilesCreationPositions = [{
-        x: 0,
-        y: -baseHeight,
-        width: baseWidth,
-        height: baseHeight,
-        velocityInY: 0,
-    },
-    {
-        x: baseWidth,
-        y: -baseHeight,
-        width: baseWidth,
-        height: baseHeight,
-        velocityInY: 0,
-    },
-    {
-        x: baseWidth * 2,
-        y: -baseHeight,
-        width: baseWidth,
-        height: baseHeight,
-        velocityInY: 0,
-        isInMiddle: true,
-    },
-    {
-        x: baseWidth * 3,
-        y: -baseHeight,
-        width: baseWidth,
-        height: baseHeight,
-        velocityInY: 0,
-        isInMiddle: true,
-    },
-    {
-        x: baseWidth * 4,
-        y: -baseHeight,
-        width: baseWidth,
-        height: baseHeight,
-        velocityInY: 0,
-        isInMiddle: true,
-    },
-    {
-        x: baseWidth * 5,
-        y: -baseHeight,
-        width: baseWidth,
-        height: baseHeight,
-        velocityInY: 0,
-    },
-    {
-        x: baseWidth * 6,
-        y: -baseHeight,
-        width: baseWidth,
-        height: baseHeight,
-        velocityInY: 0,
-    },
+    x: 0,
+    y: -baseHeight,
+    width: baseWidth,
+    height: baseHeight,
+    velocityInY: 0,
+},
+{
+    x: baseWidth,
+    y: -baseHeight,
+    width: baseWidthMiddle,
+    height: baseHeight,
+    velocityInY: 0,
+    isInMiddle: true,
+},
+{
+    x: baseWidth + baseWidthMiddle,
+    y: -baseHeight,
+    width: baseWidth,
+    height: baseHeight,
+    velocityInY: 0,
+},
 ]

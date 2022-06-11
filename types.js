@@ -9,6 +9,7 @@
  * @property {string} color
  * @property {boolean} firstTile
  * @property {boolean} isInMiddle
+ * @property {number} state
  * @property {Function} getBoxCollider
  */
 

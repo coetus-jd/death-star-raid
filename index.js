@@ -5,6 +5,7 @@ import player from "./components/player.js";
 import scenario from "./components/scenario.js";
 import bullet from "./components/bullet.js";
 import enemy from "./components/enemy.js";
+import { Log } from "./utils/log.js";
 
 /** Starts the game only when the DOM is fully loaded */
 document.addEventListener("DOMContentLoaded", awake);
@@ -17,6 +18,10 @@ let canvasBackgroundContext = null;
 let bestScoreText = null;
 /** @type {HTMLElement} */
 let currentScoreText = null;
+/** @type {HTMLElement} */
+let startButton = null;
+/** @type {HTMLElement} */
+let pauseButton = null;
 
 /**
  * Configure the canvas, scenario and canvas contexts
@@ -50,18 +55,19 @@ function run() {
         return;
     }
 
-    // canvasContext.restore();
-    // canvasBackgroundContext.restore();
+    canvasContext.restore();
+    canvasBackgroundContext.restore();
 
     if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
-        console.debug(`Record: ${GAME_SETTINGS.RECORD}`);
-        console.debug(`Life: ${player.life}`);
+        Log.debug(`Record: ${GAME_SETTINGS.RECORD}`);
+        Log.debug(`Life: ${player.life}`);
 
         currentScoreText.innerHTML = GAME_SETTINGS.RECORD;
+        bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
 
         scenario.create();
-        scenario.draw();
         scenario.update();
+        scenario.draw();
 
         enemy.create();
         enemy.update();
@@ -73,8 +79,8 @@ function run() {
 
     player.draw();
 
-    // canvasContext.save();
-    // canvasBackgroundContext.save();
+    canvasContext.save();
+    canvasBackgroundContext.save();
 
     window.requestAnimationFrame(run);
 }
@@ -151,22 +157,25 @@ function startGame() {
  */
 function switchPauseGame() {
     GAME_SETTINGS.CURRENT_GAME_STATE =
-        GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED ?
-        GAME_STATE.PLAYING :
-        GAME_STATE.PAUSED;
+        GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED
+        ? GAME_STATE.PLAYING
+        : GAME_STATE.PAUSED;
 
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING)
-        run();
+    pauseButton.textContent = GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING
+        ? 'Pause'
+        : 'Unpause';
+
+    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) run();
 }
 
 /**
  * Configure the HTML buttons that will execute functions in the game
  */
 function configureButtons() {
-    const startButton = document.getElementById("start");
+    startButton = document.getElementById("start");
     startButton.addEventListener("click", startGame);
 
-    const pauseButton = document.getElementById("pause");
+    pauseButton = document.getElementById("pause");
     pauseButton.addEventListener("click", switchPauseGame);
 
     // const restartButton = document.getElementById("restart");
