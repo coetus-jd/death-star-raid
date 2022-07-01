@@ -6,6 +6,7 @@ import scenario from "./components/scenario.js";
 import bullet from "./components/bullet.js";
 import enemy from "./components/enemy.js";
 import { Log } from "./utils/log.js";
+import screens from "./components/screens.js";
 
 /** Starts the game only when the DOM is fully loaded */
 document.addEventListener("DOMContentLoaded", awake);
