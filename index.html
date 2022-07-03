@@ -23,28 +23,16 @@
 
 <body>
     <section id="content-start-game">
-        <div id="top">
-            <div class="mid-top">
-                <img src="assets/TieFighter/0001 - Esquerda.png"/>
-                    <h1>DEATH STAR RAID</h1>
-                <img src="assets/TieFighter/0005 - Direita.png"/>
-            </div>
-        </div>
         <div id="middle">
-            <div id="animStart"><img src="assets/Damage/Fire.png"/></div>
-                <button id="start-game"  value="NoStart">Press Space to Start</button>
+            <button id="start-game"  value="NoStart"></button>
+            <button id="about"  value="NoClick">
+                ABOUT
+            </button>
         </div>
-        <div class="bot">
-            <div id="mid-bot">
-                ~~~~COETUS~~~~
-            </div>
-                <button id="about" onmouseover="displayAbout()" onmouseout="displayAbout()" value="NoClick">
-                    About
-                </button>
-        </div>
+        <div id="animStart"><img src="assets/Damage/Fire.png"/></div>
     </section>
     
-    <!-- <section id="content-game-credit">
+    <section id="content-game-credit">
         <div id="credits-top">
             <div class="mid-top">
                 <h3>Credits</h3>
@@ -55,9 +43,9 @@
             <li class="name">Bruno</li>
             <li class="name">Fabricio</li>
             <li class="name">Leonardo</li> 
-        <div id="middle-bot"> -->
+        <div id="middle-bot">
             <!-- Necessary image -->
-        <!-- </div>
+        </div>
         <div class="bot">
             <div id="credits-bot">
                 COETUS 2022
@@ -68,9 +56,9 @@
     <section id="content-game">
         <button id="debugmode" onclick="DebugMode()"><h3>Debug Mode</h3></button>
         <div class="btn-instruction">
-            <button id="btn-left">&#8592A</button>
+            <button id="btn-left">A</button>
             <button id="btn-space">SPACE</button>
-            <button id="btn-right">D&#8594</button>
+            <button id="btn-right">D</button>
         </div>
     </section>
     
@@ -84,17 +72,17 @@
     <section id="record">
         <h2>Score</h2>
         <p>Current score: <b id="current-score"></b></p>
-        <p>Best score: <b id="best-score"></b></p> -->
+        <p>Best score: <b id="best-score"></b></p>
         <!-- <details>
             <summary>Today</summary> 
             
         </details>-->
-    <!-- </section>
+    </section>
     <section id="actions">
         <button id="start" class="btn-start">Start</button>
-        <button id="pause" class="btn-pause">Pause</button> -->
+        <button id="pause" class="btn-pause">Pause</button>
         <!-- <button id="restart" class="btn-restart">Restart</button> -->
-    <!-- </section>
+    <</section>
 
     <script type="module" src="index.js"></script>
     <script>
@@ -110,7 +98,6 @@
                     console.log("Service Worker Failed to Register", err);
                 });
         }
-    </script> -->
+    </script>
 </body>
-
 </html>

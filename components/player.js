@@ -49,7 +49,7 @@ export default {
             }
         });
 
-        document.addEventListener("keyup", (event) => {
+        document.addEventListener("keydown", (event) => {
             if (
                 event.key === "d" ||
                 event.key === "D" ||

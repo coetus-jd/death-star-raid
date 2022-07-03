@@ -6,7 +6,6 @@ import scenario from "./components/scenario.js";
 import bullet from "./components/bullet.js";
 import enemy from "./components/enemy.js";
 import { Log } from "./utils/log.js";
-import screens from "./components/screens.js";
 
 /** Starts the game only when the DOM is fully loaded */
 document.addEventListener("DOMContentLoaded", awake);
@@ -24,10 +23,127 @@ let startButton = null;
 /** @type {HTMLElement} */
 let pauseButton = null;
 
+// Inicial Screen
+const start = document.getElementById("content-start-game");
+const bStart = document.getElementById("start-game");
+const animStart = document.getElementById("animStart");
+const game = document.getElementById("content-game");
+var delay = 1000;
+
+function awake(){
+
+    sizeScreen();
+
+}
+
+function sizeScreen()
+{
+    start.style.height = GAME_SETTINGS.BASE_HEIGHT + "px";
+    start.style.width = GAME_SETTINGS.BASE_WIDTH + "px";
+}
+
+
+document.addEventListener("keypress",(event) => {
+    if (event.key === " " || event.code === 'Space') {
+        displayStart();
+        if(bStart.value == 'Start')
+        {
+            startGame();
+        }
+    }
+});
+
+function displayStart(){
+    if(bStart.value == 'NoStart'){
+        animStart.style.display = "flex";
+
+        setTimeout(function() {
+            game.style.display = "block";
+            bStart.value = 'Start';
+            start.style.display = "none";
+            startPlay();
+          }, delay);
+
+        
+    }
+    else{
+        // bStart.style.color = "black";
+        // bStart.style.opacity = "1";
+        // bStart.style.transform = "scale(1)";
+        // bStart.style.backgroundColor ="darkGray";
+        // start.style.display = "default";
+        // bStart.value = 'NoStart';
+    }
+}
+
+// Game Credits
+
+const about = document.getElementById("content-game-credit");
+const bAbout = document.getElementById("about");
+
+bAbout.addEventListener("mouseenter", displayAbout);
+bAbout.addEventListener("mouseleave", displayAbout);
+
+
+function displayAbout(){
+    if(bAbout.value == 'NoClick'){
+        about.style.display = "block";
+        bAbout.value = 'Click';
+    }
+    else{
+        about.style.display = "none";
+        bAbout.value = 'NoClick';
+    }
+}
+
+
+// Game content
+
+const left = document.getElementById("btn-left");
+const space = document.getElementById("btn-space");
+const right = document.getElementById("btn-right");
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
+        left.style.opacity = "0.9";
+    }
+    if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
+        right.style.opacity = "0.9";
+    }
+    if (event.key === " " || event.code === 'Space') {
+        space.style.opacity = "0.9";
+    }
+});
+
+document.addEventListener("keyup", (event) => {
+    if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
+        left.style.opacity = "0.5";
+    }
+    if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
+        right.style.opacity = "0.5";
+    }
+    if (event.key === " " || event.code === 'Space') {
+        space.style.opacity = "0.5";
+    }
+    // console.log(event);
+});
+
+//Test Score Screen
+
+// Precisa ser arrumado, pois quando apertar o debug, vai para o score (Como se o play morreu)
+
+const endScreen = document.getElementById("content-score")
+
+function DebugMode() {
+    endScreen.style.display = "flex";
+    game.style.display = "none";
+}
+
+
 /**
  * Configure the canvas, scenario and canvas contexts
  */
-function awake() {
+function startPlay() {
     getScore();
     configureTexts();
 
@@ -149,8 +265,11 @@ function lostGame(gameState) {
  * Init the game
  */
 function startGame() {
-    run();
-    GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
+    if(GAME_SETTINGS.CURRENT_GAME_STATE != GAME_STATE.PLAYING)
+    {
+        run();
+        GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
+    }
 }
 
 /**
