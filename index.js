@@ -28,6 +28,8 @@ const start = document.getElementById("content-start-game");
 const bStart = document.getElementById("start-game");
 const animStart = document.getElementById("animStart");
 const game = document.getElementById("content-game");
+const endScreen = document.getElementById("content-score")
+const highScore = document.getElementById("high-score")
 var delay = 1000;
 
 function awake(){
@@ -40,6 +42,10 @@ function sizeScreen()
 {
     start.style.height = GAME_SETTINGS.BASE_HEIGHT + "px";
     start.style.width = GAME_SETTINGS.BASE_WIDTH + "px";
+    game.style.height = GAME_SETTINGS.BASE_HEIGHT + "px";
+    game.style.width = GAME_SETTINGS.BASE_WIDTH + "px"; 
+    endScreen.style.height = GAME_SETTINGS.BASE_HEIGHT + "px";
+    endScreen.style.width = GAME_SETTINGS.BASE_WIDTH + "px";
 }
 
 
@@ -78,23 +84,23 @@ function displayStart(){
 
 // Game Credits
 
-const about = document.getElementById("content-game-credit");
-const bAbout = document.getElementById("about");
+// const about = document.getElementById("content-game-credit");
+// const bAbout = document.getElementById("about");
 
-bAbout.addEventListener("mouseenter", displayAbout);
-bAbout.addEventListener("mouseleave", displayAbout);
+// bAbout.addEventListener("mouseenter", displayAbout);
+// bAbout.addEventListener("mouseleave", displayAbout);
 
 
-function displayAbout(){
-    if(bAbout.value == 'NoClick'){
-        about.style.display = "block";
-        bAbout.value = 'Click';
-    }
-    else{
-        about.style.display = "none";
-        bAbout.value = 'NoClick';
-    }
-}
+// function displayAbout(){
+//     if(bAbout.value == 'NoClick'){
+//         about.style.display = "block";
+//         bAbout.value = 'Click';
+//     }
+//     else{
+//         about.style.display = "none";
+//         bAbout.value = 'NoClick';
+//     }
+// }
 
 
 // Game content
@@ -128,15 +134,23 @@ document.addEventListener("keyup", (event) => {
     // console.log(event);
 });
 
-//Test Score Screen
+//Score Screen
 
-// Precisa ser arrumado, pois quando apertar o debug, vai para o score (Como se o play morreu)
+highScore.addEventListener("click", displayScore);
 
-const endScreen = document.getElementById("content-score")
+
+
+function displayScore(){
+    endScreen.style.display = "block";
+    game.style.display = "none";
+    start.style.display = "none";
+
+}
+
+
 
 function DebugMode() {
-    endScreen.style.display = "flex";
-    game.style.display = "none";
+
 }
 
 
