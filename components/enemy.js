@@ -10,6 +10,7 @@ import { Log } from "../utils/log.js";
 
 import bullet from "./bullet.js";
 import player from "./player.js";
+import animation from "../utils/animation.js";
 
 const baseWidth = 150;
 const baseHeight = 150;
@@ -69,6 +70,7 @@ export default {
    */
   init: function (newContext) {
     utility = new Utility(newContext);
+    animation.init(newContext);
   },
   reset: function () {
     this.enemies.forEach((enemy) => {
@@ -85,8 +87,7 @@ export default {
       if (!enemy) continue;
 
       if (enemy.state === ENEMY_STATES.DEAD) {
-        utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
-        // animateEnemyExplosion.call(this, enemy, index);
+        animateEnemyExplosion.call(this, enemy, index);
         continue;
       }
 
@@ -197,6 +198,8 @@ export default {
 
       enemy.y += enemy.velocityInY;
 
+      if (enemy.state == ENEMY_STATES.DEAD) return;
+
       if (enemy.y - enemy.height > GAME_SETTINGS.BASE_HEIGHT) {
         scoreController.addPoint();
         removeEnemy.call(this, enemy, index);
@@ -227,8 +230,6 @@ export default {
           enemy.state = ENEMY_STATES.DEAD;
           enemy.currentAnimationFrame = 0;
           utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
-          // enemyExplosion(enemy, index);
-          // removeEnemy.call(this, enemy, index);
         }
 
         removeBullet(bulletTile, bulletIndex);
@@ -270,23 +271,33 @@ function animateYWingEnemy(enemy) {
 }
 
 function animateEnemyExplosion(enemy, index) {
-  if (enemy.currentAnimationFrame > explosionAnimations.length - 1) {
-    // debugger;
+  animation.animate("enemyExplosion", 6, enemy, explosionAnimations, () => {
     removeEnemy.call(this, enemy, index);
-    utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
-    return;
-  }
-
-  utility.drawImage(
-    explosionAnimations[enemy.currentAnimationFrame],
-    enemy.x,
-    enemy.y,
-    enemy.width,
-    enemy.height
-  );
-
-  enemy.currentAnimationFrame++;
+  });
 }
+
+// function animateEnemyExplosion(enemy, index) {
+//   timeToChangeSprites--;
+
+//   if (timeToChangeSprites > 0) return;
+
+//   if (enemy.currentAnimationFrame > explosionAnimations.length - 1) {
+//     removeEnemy.call(this, enemy, index);
+//     utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
+//     return;
+//   }
+
+//   utility.drawImage(
+//     explosionAnimations[enemy.currentAnimationFrame],
+//     enemy.x,
+//     enemy.y,
+//     enemy.width,
+//     enemy.height
+//   );
+
+//   enemy.currentAnimationFrame++;
+//   timeToChangeSprites = 6;
+// }
 
 function animateXWingEnemy(enemy) {
   if (enemy.currentAnimationFrame > enemyXWingIdleAnimations.length - 1)
