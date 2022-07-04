@@ -92,6 +92,8 @@ export default {
 
       if (enemy.state === ENEMY_STATES.DAMAGE) {
         // logic here
+        // after playing the animation of damage, we can reset it
+        enemy.state = ENEMY_STATES.MOVING_FORWARD;
         continue;
       }
 

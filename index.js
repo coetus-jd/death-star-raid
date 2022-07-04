@@ -34,54 +34,46 @@ const btnReturn = document.getElementById("return");
 let btnGit = document.getElementsByClassName("btn-github");
 var delay = 1000;
 
-function awake(){
-
-    sizeScreen();
-
+function awake() {
+  sizeScreen();
 }
 
-function sizeScreen()
-{
-    start.style.height = GAME_SETTINGS.BASE_HEIGHT + "px";
-    start.style.width = GAME_SETTINGS.BASE_WIDTH + "px";
-    game.style.height = GAME_SETTINGS.BASE_HEIGHT + "px";
-    game.style.width = GAME_SETTINGS.BASE_WIDTH + "px"; 
-    endScreen.style.height = GAME_SETTINGS.BASE_HEIGHT + "px";
-    endScreen.style.width = GAME_SETTINGS.BASE_WIDTH + "px";
+function sizeScreen() {
+  start.style.height = GAME_SETTINGS.BASE_HEIGHT + "px";
+  start.style.width = GAME_SETTINGS.BASE_WIDTH + "px";
+  game.style.height = GAME_SETTINGS.BASE_HEIGHT + "px";
+  game.style.width = GAME_SETTINGS.BASE_WIDTH + "px";
+  endScreen.style.height = GAME_SETTINGS.BASE_HEIGHT + "px";
+  endScreen.style.width = GAME_SETTINGS.BASE_WIDTH + "px";
 }
 
-
-document.addEventListener("keypress",(event) => {
-    if (event.key === " " || event.code === 'Space') {
-        displayStart();
-        if(bStart.value == 'Start')
-        {
-            startGame();
-        }
+document.addEventListener("keypress", (event) => {
+  if (event.key === " " || event.code === "Space") {
+    displayStart();
+    if (bStart.value == "Start") {
+      startGame();
     }
+  }
 });
 
-function displayStart(){
-    if(bStart.value == 'NoStart'){
-        animStart.style.display = "flex";
+function displayStart() {
+  if (bStart.value == "NoStart") {
+    animStart.style.display = "flex";
 
-        setTimeout(function() {
-            game.style.display = "block";
-            bStart.value = 'Start';
-            start.style.display = "none";
-            startPlay();
-          }, delay);
-
-        
-    }
-    else{
-        // bStart.style.color = "black";
-        // bStart.style.opacity = "1";
-        // bStart.style.transform = "scale(1)";
-        // bStart.style.backgroundColor ="darkGray";
-        // start.style.display = "default";
-        // bStart.value = 'NoStart';
-    }
+    setTimeout(function () {
+      game.style.display = "block";
+      bStart.value = "Start";
+      start.style.display = "none";
+      startPlay();
+    }, delay);
+  } else {
+    // bStart.style.color = "black";
+    // bStart.style.opacity = "1";
+    // bStart.style.transform = "scale(1)";
+    // bStart.style.backgroundColor ="darkGray";
+    // start.style.display = "default";
+    // bStart.value = 'NoStart';
+  }
 }
 
 // Game Credits
@@ -91,7 +83,6 @@ function displayStart(){
 
 // bAbout.addEventListener("mouseenter", displayAbout);
 // bAbout.addEventListener("mouseleave", displayAbout);
-
 
 // function displayAbout(){
 //     if(bAbout.value == 'NoClick'){
@@ -104,7 +95,6 @@ function displayStart(){
 //     }
 // }
 
-
 // Game content
 
 const left = document.getElementById("btn-left");
@@ -112,34 +102,34 @@ const space = document.getElementById("btn-space");
 const right = document.getElementById("btn-right");
 
 document.addEventListener("keydown", (event) => {
-    if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
-        left.style.opacity = "0.9";
-        left.style.backgroundColor = "#45c0ef";
-    }
-    if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
-        right.style.opacity = "0.9";
-        right.style.backgroundColor = "#45c0ef";
-    }
-    if (event.key === " " || event.code === 'Space') {
-        space.style.opacity = "0.9";
-        space.style.backgroundColor = "#45c0ef";
-    }
+  if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
+    left.style.opacity = "0.9";
+    left.style.backgroundColor = "#45c0ef";
+  }
+  if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
+    right.style.opacity = "0.9";
+    right.style.backgroundColor = "#45c0ef";
+  }
+  if (event.key === " " || event.code === "Space") {
+    space.style.opacity = "0.9";
+    space.style.backgroundColor = "#45c0ef";
+  }
 });
 
 document.addEventListener("keyup", (event) => {
-    if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
-        left.style.opacity = "0.5";
-        left.style.backgroundColor = "#2b4397";
-    }
-    if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
-        right.style.opacity = "0.5";
-        right.style.backgroundColor = "#2b4397";
-    }
-    if (event.key === " " || event.code === 'Space') {
-        space.style.opacity = "0.5";
-        space.style.backgroundColor = "#2b4397";
-    }
-    // console.log(event);
+  if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
+    left.style.opacity = "0.5";
+    left.style.backgroundColor = "#2b4397";
+  }
+  if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
+    right.style.opacity = "0.5";
+    right.style.backgroundColor = "#2b4397";
+  }
+  if (event.key === " " || event.code === "Space") {
+    space.style.opacity = "0.5";
+    space.style.backgroundColor = "#2b4397";
+  }
+  // console.log(event);
 });
 
 //Score Screen
@@ -148,47 +138,42 @@ highScore.addEventListener("click", displayScore);
 btnReturn.addEventListener("click", displayInicialScreen);
 btnGit.addEventListener("click", openGitHub);
 
-function displayScore(){
-    endScreen.style.display = "block";
-    game.style.display = "none";
-    start.style.display = "none";
-
+function displayScore() {
+  endScreen.style.display = "block";
+  game.style.display = "none";
+  start.style.display = "none";
 }
 
-function displayInicialScreen(){
-    endScreen.style.display = "none";
-    game.style.display = "none";
-    start.style.display = "flex";
+function displayInicialScreen() {
+  endScreen.style.display = "none";
+  game.style.display = "none";
+  start.style.display = "flex";
 }
 
-function openGitHub(){
-    window.open("https://github.com/coetus-jd","_blank");
+function openGitHub() {
+  window.open("https://github.com/coetus-jd", "_blank");
 }
 
-
-function DebugMode() {
-
-}
-
+function DebugMode() {}
 
 /**
  * Configure the canvas, scenario and canvas contexts
  */
 function startPlay() {
-    getScore();
-    configureTexts();
+  getScore();
+  configureTexts();
 
-    configureButtons();
-    configureCanvas();
+  configureButtons();
+  configureCanvas();
 
-    scenario.init(canvasBackgroundContext);
-    enemy.init(canvasContext);
-    bullet.init(canvasContext);
-    player.init(canvasContext);
+  scenario.init(canvasBackgroundContext);
+  enemy.init(canvasContext);
+  bullet.init(canvasContext);
+  player.init(canvasContext);
 
-    scenario.createBasicElements();
+  scenario.createBasicElements();
 
-    // start();
+  // start();
 }
 
 /**
@@ -196,88 +181,88 @@ function startPlay() {
  * @returns {void}
  */
 function run() {
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED) return;
+  if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED) return;
 
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
-        lostGame(GAME_STATE.PLAY);
-        return;
-    }
+  if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
+    lostGame(GAME_STATE.PLAY);
+    return;
+  }
 
-    canvasContext.restore();
-    canvasBackgroundContext.restore();
+  canvasContext.save();
+  canvasBackgroundContext.save();
 
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
-        Log.debug(`Record: ${GAME_SETTINGS.RECORD}`);
-        Log.debug(`Life: ${player.life}`);
+  if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) {
+    Log.debug(`Record: ${GAME_SETTINGS.RECORD}`);
+    Log.debug(`Life: ${player.life}`);
 
-        currentScoreText.innerHTML = GAME_SETTINGS.RECORD;
-        bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
+    currentScoreText.innerHTML = GAME_SETTINGS.RECORD;
+    bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
 
-        scenario.create();
-        scenario.update();
-        scenario.draw();
+    scenario.create();
+    scenario.update();
+    scenario.draw();
 
-        enemy.create();
-        enemy.update();
-        enemy.draw();
+    enemy.create();
+    enemy.update();
+    enemy.draw();
 
-        bullet.update();
-        bullet.draw();
-    }
+    bullet.update();
+    bullet.draw();
+  }
 
-    player.draw();
+  player.draw();
 
-    canvasContext.save();
-    canvasBackgroundContext.save();
+  canvasContext.restore();
+  canvasBackgroundContext.restore();
 
-    window.requestAnimationFrame(run);
+  window.requestAnimationFrame(run);
 }
 
 /**
  * Set canvas attributes and append it to the body of the document
  */
 function configureCanvas() {
-    const canvasBackground = document.createElement("canvas");
-    canvasBackground.id = 'backgroundCanvas';
-    canvasBackground.width = GAME_SETTINGS.BASE_WIDTH;
-    canvasBackground.height = GAME_SETTINGS.BASE_HEIGHT;
-    // canvas.style.border = "1px solid #000";
+  const canvasBackground = document.createElement("canvas");
+  canvasBackground.id = "backgroundCanvas";
+  canvasBackground.width = GAME_SETTINGS.BASE_WIDTH;
+  canvasBackground.height = GAME_SETTINGS.BASE_HEIGHT;
+  // canvas.style.border = "1px solid #000";
 
-    canvasBackgroundContext = canvasBackground.getContext("2d", { alpha: false });
-    // New shapes are drawn behind the existing canvas content
-    // OBS: default is "source-over"
-    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
-    // canvasContext.globalCompositeOperation = "destination-over";
+  canvasBackgroundContext = canvasBackground.getContext("2d", { alpha: false });
+  // New shapes are drawn behind the existing canvas content
+  // OBS: default is "source-over"
+  // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
+  // canvasContext.globalCompositeOperation = "destination-over";
 
-    document.body.appendChild(canvasBackground);
+  document.body.appendChild(canvasBackground);
 
-    const canvas = document.createElement("canvas");
-    canvas.id = 'canvas';
-    canvas.width = GAME_SETTINGS.BASE_WIDTH;
-    canvas.height = GAME_SETTINGS.BASE_HEIGHT;
-    // canvas.style.border = "1px solid #000";
+  const canvas = document.createElement("canvas");
+  canvas.id = "canvas";
+  canvas.width = GAME_SETTINGS.BASE_WIDTH;
+  canvas.height = GAME_SETTINGS.BASE_HEIGHT;
+  // canvas.style.border = "1px solid #000";
 
-    canvasContext = canvas.getContext("2d");
+  canvasContext = canvas.getContext("2d");
 
-    document.body.appendChild(canvas);
-    document.addEventListener("keydown", (event) => {
-        if (event.key === " " || event.code === 'Space') {
-            bullet.create();
-        }
-    });
+  document.body.appendChild(canvas);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === " " || event.code === "Space") {
+      bullet.create();
+    }
+  });
 }
 
 /**
  * Verify if the user has a saved score, if yes, set it to the current record variable
  */
 function getScore() {
-    GAME_SETTINGS.RECORD = 0;
+  GAME_SETTINGS.RECORD = 0;
 
-    let savedRecord = localStorage.getItem("record");
+  let savedRecord = localStorage.getItem("record");
 
-    if (!savedRecord) savedRecord = 0;
+  if (!savedRecord) savedRecord = 0;
 
-    GAME_SETTINGS.BEST_RECORD = savedRecord;
+  GAME_SETTINGS.BEST_RECORD = savedRecord;
 }
 
 /**
@@ -285,60 +270,60 @@ function getScore() {
  * @param {Number} gameState
  */
 function lostGame(gameState) {
-    player.reset();
-    enemy.reset();
-    bullet.reset();
-    GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
-    bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
+  player.reset();
+  enemy.reset();
+  bullet.reset();
+  GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
+  bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
 }
 
 /**
  * Init the game
  */
 function startGame() {
-    if(GAME_SETTINGS.CURRENT_GAME_STATE != GAME_STATE.PLAYING)
-    {
-        run();
-        GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
-    }
+  if (GAME_SETTINGS.CURRENT_GAME_STATE != GAME_STATE.PLAYING) {
+    run();
+    GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
+  }
 }
 
 /**
  * Switch the GAME_STATE to PAUSED or PLAYING
  */
 function switchPauseGame() {
-    GAME_SETTINGS.CURRENT_GAME_STATE =
-        GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED
-        ? GAME_STATE.PLAYING
-        : GAME_STATE.PAUSED;
+  GAME_SETTINGS.CURRENT_GAME_STATE =
+    GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED
+      ? GAME_STATE.PLAYING
+      : GAME_STATE.PAUSED;
 
-    pauseButton.textContent = GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING
-        ? 'Pause'
-        : 'Unpause';
+  pauseButton.textContent =
+    GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING
+      ? "Pause"
+      : "Unpause";
 
-    if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) run();
+  if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) run();
 }
 
 /**
  * Configure the HTML buttons that will execute functions in the game
  */
 function configureButtons() {
-    startButton = document.getElementById("start");
-    startButton.addEventListener("click", startGame);
+  startButton = document.getElementById("start");
+  startButton.addEventListener("click", startGame);
 
-    pauseButton = document.getElementById("pause");
-    pauseButton.addEventListener("click", switchPauseGame);
+  pauseButton = document.getElementById("pause");
+  pauseButton.addEventListener("click", switchPauseGame);
 
-    // const restartButton = document.getElementById("restart");
-    // restartButton.addEventListener("click", lostGame(GAME_STATE.PLAYING));
+  // const restartButton = document.getElementById("restart");
+  // restartButton.addEventListener("click", lostGame(GAME_STATE.PLAYING));
 }
 
 /**
  * Configure the HTML elements that will be used to show game's information
  */
 function configureTexts() {
-    bestScoreText = document.getElementById("best-score");
-    currentScoreText = document.getElementById("current-score");
-    bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD || 'No best score yet';
-    currentScoreText.innerHTML = GAME_SETTINGS.RECORD || '000000';
+  bestScoreText = document.getElementById("best-score");
+  currentScoreText = document.getElementById("current-score");
+  bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD || "No best score yet";
+  currentScoreText.innerHTML = GAME_SETTINGS.RECORD || "000000";
 }
