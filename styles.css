@@ -48,9 +48,7 @@ canvas {
     border-radius:5px;
     background-color:rgb(204, 204, 204);
     cursor: default;
-    background-image: url("assets/Screens/InicialScren.jpg");
-}
-#content-start-game img{
+    background-image: url("assets/UX/TelaInicial/TelaInicial.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -61,7 +59,7 @@ canvas {
     justify-content: center;
     /*border: 3px solid #000;*/
     border-radius:5px;
-} 
+}
 
 .mid-top h1{
     background-color:darkgray;
@@ -71,26 +69,81 @@ canvas {
 }
 
 #middle{
-    margin-top: 30%;
+    margin-top: 65%;
+    margin-bottom: 1%;
     display: flex;
-    flex-direction: row;
     width: 100%;
-    height: 55%;
+    height: 20%;
     margin-left: auto;
     margin-right: auto;
 }
 
+#git-hub{
+    margin-top: 5%;
+    height: 60%;
+    width: 10%;
+    margin-left: 5%;
+    background-image: url("assets/UX/TelaInicial/GithubEsc.png");
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-color: inherit;
+}
+#git-hub:hover{
+    background-image: url("assets/UX/TelaInicial/GithubClaro.png");
+    transform: scale(1.2);
+}
+
+#start-game{
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    align-items: center;
+    justify-content: center;
+    height: 40%;
+    width: 58%;
+    box-shadow: 3px 3px 10px 5px #ab2131;
+    background-color:inherit;
+    border-radius:5px;
+    cursor: default;
+    animation-name: pressSpace;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes pressSpace{
+    0% {opacity: 100%;}
+    50% {opacity: 0%;}
+    100% {opacity: 100%;}
+}
+
+#high-score{
+    margin-top: 5%;
+    height: 60%;
+    width: 10%;
+    margin-right: 5%;
+    background-image: url("assets/UX/TelaInicial/HighScoreEsc.png");
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-color: inherit;
+}
+#high-score:hover{
+    background-image: url("assets/UX/TelaInicial/HighScoreClaro.png");
+    transform: scale(1.2);
+}
+
 #animStart{
     display: none;
-    margin-top: -9%;
-    height: 20%;
+    margin-top: -28%;
+    height: 30%;
+    width: 20%;
     z-index: +1;
     animation-name: start;
     animation-duration:0.5s;
     animation-fill-mode: forwards;
 }
 #animStart img{
-    transform: rotate(270deg)
+    transform: rotate(270deg);
+
 }
 
 @keyframes start {
@@ -103,28 +156,6 @@ canvas {
 }
 
 
-#start-game{
-    display: flex;
-    margin-right: auto;
-    margin-left: 22%;
-    margin-top: 43%;
-    border: 3px solid #000;
-    font-size: 250%;
-    align-items: center;
-    justify-content: center;
-    height: 15%;
-    width: 58%;
-    box-shadow: 3px 3px 10px 5px #ab2131;
-    background-color:inherit;
-    border-radius:5px;
-    cursor: default;
-}
-
-.title{
-    text-align: center;
-    font-size: 150%;
-}
-
 .bot{
     margin-top: 8%;
     display: flex;
@@ -135,7 +166,7 @@ canvas {
     font-size: 200%;
     text-align: center;
     align-items: center;
-    
+
 }
 
 /* Credits screen */
@@ -261,7 +292,7 @@ canvas {
     font-size:100%;
     opacity: 0.8;
     cursor: pointer;
-    
+
 }
 
 #debugmode:hover{
@@ -357,7 +388,7 @@ button {
     border-radius: 8px;
     border: none;
     margin-bottom: 20px;
-    box-shadow: 0 10px 10px rgba(100, 100, 100, 0.5);
+
     font-family: 'Nunito', sans-serif;
     color: white;
 }

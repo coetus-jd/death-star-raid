@@ -1,0 +1,7 @@
+-Botão do troféu vai para tela de placares e o do gatinho leva para o link do nosso GitHub.
+
+-Botões ganham um contorno branco ao passar o cursor do mouse. 
+
+-As fontes devidas de casa tela estão nas devidas pastas e o código da cores está no outro txt.
+
+Qualquer dúvida é só checar o mockup da pasta correspondente ou me mandar mensagem.
