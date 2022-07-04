@@ -6,10 +6,15 @@ import { Log } from "../utils/log.js";
 
 export default {
     checkIfPlayerHasLost() {
+        var delay = 500;
+
         if (player.life > 0) return;
 
-        GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATES.LOST;
-        player.state = PLAYER_STATE.DEAD;
-        Log.warn('Player has lost');
+        setTimeout(function() {
+            GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATES.LOST;
+            player.state = PLAYER_STATE.DEAD;
+            Log.warn('Player has lost');
+          }, delay);
+
     }
 }

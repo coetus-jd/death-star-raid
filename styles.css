@@ -259,6 +259,11 @@ canvas {
 
 /* InGame Content */
 
+@font-face {
+    font-family: Aurebesh;
+    src: url(assets/UX/TelaDeJogo/Aurebesh\ Bold.otf);
+}
+
 #content-game{
     display: none;
     position: absolute;
@@ -272,6 +277,39 @@ canvas {
     border-radius:5px;
     z-index: +1;
     cursor: default;
+}
+
+#top-screen{
+    display: flex;
+    width: 100%;
+    height: 10%;
+}
+
+#life{
+    background-image: url("assets/UX/TelaDeJogo/BarraDeVida/Full.png");
+    background-repeat: no-repeat;
+    background-size:auto;
+    margin-right: auto;
+    margin-left: 1%;
+    margin-top: 1%;
+    width: 20%;
+}
+
+#current-score{
+    background-image: url("assets/UX/TelaDeJogo/HudScore.png");
+    background-repeat: no-repeat;
+    background-size:auto;
+    margin-left: auto;
+    margin-right: 1%;
+    margin-top: 1%;
+    width: 27%;
+    font-family: Aurebesh;
+    color: #45c0ef;
+    text-align: right;
+    font-size: 350%;
+    align-items: center;
+    justify-content: center;
+    
 }
 
 #debugmode{
@@ -300,17 +338,17 @@ canvas {
 
 .btn-instruction{
     display: flex;
-    margin-top:60%;
+    margin-top:54%;
     margin-bottom: 5%;
     margin-left: auto;
     margin-right: auto;
     width:95%;
     height:10%;
-
+    cursor: default;
 }
 #btn-left{
     display: flex;
-    background-color:#aa1f32;
+    background-color:#2b4397;
     margin-left: 0%;
     margin-right: auto;
     opacity: 0.5;
@@ -322,10 +360,11 @@ canvas {
     height:80%;
     width:8%;
     font-size:200%;
+    cursor: default;
 }
 #btn-space{
     display: flex;
-    background-color:#aa1f32;
+    background-color:#2b4397;
     margin-top: 13%;
     opacity: 0.5;
     text-align: center;
@@ -336,12 +375,13 @@ canvas {
     height:50%;
     width:40%;
     font-size:200%;
+    cursor: default;
 }
 #btn-right{
     display: flex;
     margin-left: auto;
     margin-right: 0%;
-    background-color:#aa1f32;
+    background-color:#2b4397;
     opacity: 0.5;
     text-align: center;
     align-items: center;
@@ -351,6 +391,7 @@ canvas {
     height:80%;
     width:8%;
     font-size:200%;
+    cursor: default;
 }
 
 #record {
@@ -402,6 +443,7 @@ button {
 .btn-restart {
     background-color: var(--green);
 }
+
 
 /* Score Screen */
 

@@ -31,7 +31,7 @@ export default {
     gravity: 1.6,
     /** Velocity of the movement of the player */
     velocity: 0,
-    life: 5,
+    life: 3,
     state: PLAYER_STATES.IDLE,
     /**
      * @param {CanvasRenderingContext2D} newContext 
@@ -100,7 +100,7 @@ export default {
     },
     reset: function () {
         this.velocity = 0;
-        this.life = 5;
+        this.life = 3;
         this.x = GAME_SETTINGS.BASE_WIDTH / 2 - (baseWidth / 2);
 
         // if (GAME_SETTINGS.RECORD > GAME_SETTINGS.BEST_RECORD) {
@@ -162,7 +162,21 @@ export default {
         }
     },
     takeDamage(damage = 1) {
+        const lifeBar = document.getElementById("life");
         this.life -= damage;
+
+        if (player.life == 2)
+        {
+            lifeBar.style.backgroundImage = "url('assets/UX/TelaDeJogo/BarraDeVida/2lifes.png')";
+        }
+        else if (player.life == 1)
+        {
+            lifeBar.style.backgroundImage = "url('assets/UX/TelaDeJogo/BarraDeVida/1life.png')";
+        }
+        else
+        {
+            lifeBar.style.backgroundImage = "url('assets/UX/TelaDeJogo/BarraDeVida/Dead.png')";
+        }
         this.state = PLAYER_STATES.DAMAGE;
     },
     animatePlayerToRight: function () {

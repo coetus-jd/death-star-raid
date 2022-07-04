@@ -28,8 +28,10 @@ const start = document.getElementById("content-start-game");
 const bStart = document.getElementById("start-game");
 const animStart = document.getElementById("animStart");
 const game = document.getElementById("content-game");
-const endScreen = document.getElementById("content-score")
-const highScore = document.getElementById("high-score")
+const endScreen = document.getElementById("content-score");
+const highScore = document.getElementById("high-score");
+const btnReturn = document.getElementById("return");
+let btnGit = document.getElementsByClassName("btn-github");
 var delay = 1000;
 
 function awake(){
@@ -112,24 +114,30 @@ const right = document.getElementById("btn-right");
 document.addEventListener("keydown", (event) => {
     if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
         left.style.opacity = "0.9";
+        left.style.backgroundColor = "#45c0ef";
     }
     if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
         right.style.opacity = "0.9";
+        right.style.backgroundColor = "#45c0ef";
     }
     if (event.key === " " || event.code === 'Space') {
         space.style.opacity = "0.9";
+        space.style.backgroundColor = "#45c0ef";
     }
 });
 
 document.addEventListener("keyup", (event) => {
     if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
         left.style.opacity = "0.5";
+        left.style.backgroundColor = "#2b4397";
     }
     if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
         right.style.opacity = "0.5";
+        right.style.backgroundColor = "#2b4397";
     }
     if (event.key === " " || event.code === 'Space') {
         space.style.opacity = "0.5";
+        space.style.backgroundColor = "#2b4397";
     }
     // console.log(event);
 });
@@ -137,8 +145,8 @@ document.addEventListener("keyup", (event) => {
 //Score Screen
 
 highScore.addEventListener("click", displayScore);
-
-
+btnReturn.addEventListener("click", displayInicialScreen);
+btnGit.addEventListener("click", openGitHub);
 
 function displayScore(){
     endScreen.style.display = "block";
@@ -147,6 +155,15 @@ function displayScore(){
 
 }
 
+function displayInicialScreen(){
+    endScreen.style.display = "none";
+    game.style.display = "none";
+    start.style.display = "flex";
+}
+
+function openGitHub(){
+    window.open("https://github.com/coetus-jd","_blank");
+}
 
 
 function DebugMode() {
@@ -323,5 +340,5 @@ function configureTexts() {
     bestScoreText = document.getElementById("best-score");
     currentScoreText = document.getElementById("current-score");
     bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD || 'No best score yet';
-    currentScoreText.innerHTML = GAME_SETTINGS.RECORD || 'No score yet';
+    currentScoreText.innerHTML = GAME_SETTINGS.RECORD || '000000';
 }

@@ -25,7 +25,7 @@
     <section id="content-start-game">
 
         <div id="middle">
-            <button id="git-hub"  value="NoClick"></button>
+            <button class="btn-github" id="git-hub"></button>
             <button id="start-game"  value="NoStart"><img src="assets/UX/TelaInicial/PressSpace.png" /></button>
             <button id="high-score"  value="NoClick"></button>
             <!-- <button id="about"  value="NoClick">
@@ -57,6 +57,10 @@
     </section> -->
 
     <section id="content-game">
+        <div id="top-screen">
+            <div id="life"></div>
+            <div id="current-score"></div>
+        </div>
         <button id="debugmode" onclick="DebugMode()"><h3>Debug Mode</h3></button>
         <div class="btn-instruction">
             <button id="btn-left">A</button>
@@ -96,15 +100,14 @@
             </table>
         </div>
         <div id="bottom-score">
-            <button id="git-hub-score" value="NoClick"></button>
+            <button class="btn-github" id="git-hub-score"></button>
             <button id="return" value="NoClick"></button>
         </div>
     </section>
 
 
     <section id="record">
-        <h2>Score</h2>
-        <p>Current score: <b id="current-score"></b></p>
+
         <p>Best score: <b id="best-score"></b></p>
         <!-- <details>
             <summary>Today</summary> 
