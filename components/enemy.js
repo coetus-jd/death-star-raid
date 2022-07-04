@@ -86,7 +86,7 @@ export default {
 
       if (enemy.state === ENEMY_STATES.DEAD) {
         utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
-        animateEnemyExplosion.call(this, enemy, index);
+        // animateEnemyExplosion.call(this, enemy, index);
         continue;
       }
 
@@ -115,7 +115,7 @@ export default {
   create: function () {
     if (this.enemies.length !== 0) return;
 
-    // Reset the velocity
+    // Reset the velocity to the enemy "run"
     this.maxVelocity = 3;
 
     /** @type {import('../types.js').Position} */
@@ -269,6 +269,7 @@ function animateYWingEnemy(enemy) {
 
 function animateEnemyExplosion(enemy, index) {
   if (enemy.currentAnimationFrame > explosionAnimations.length - 1) {
+    // debugger;
     removeEnemy.call(this, enemy, index);
     utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
     return;
