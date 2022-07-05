@@ -201,7 +201,7 @@ function run() {
     Log.debug(`Life: ${player.life}`);
 
     currentScoreText.innerHTML = GAME_SETTINGS.RECORD;
-    firstScore.innerHTML = GAME_SETTINGS.BEST_RECORD;
+
 
     scenario.create();
     scenario.update();
@@ -275,8 +275,8 @@ function getScore() {
  */
 function lostGame(gameState) { 
   bStart.value = "Credits";
-  GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
   scoreController.verifyCurrentScore();
+  GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
   setTimeout(function () {
     player.reset();
     enemy.reset();
@@ -286,6 +286,7 @@ function lostGame(gameState) {
     displayScore();
   }, delay);
 
+
 }
 
 /**
@@ -293,8 +294,8 @@ function lostGame(gameState) {
  */
 function startGame() {
   if (GAME_SETTINGS.CURRENT_GAME_STATE != GAME_STATE.PLAYING) {
-    run();
     GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
+    run();
   }
 }
 
