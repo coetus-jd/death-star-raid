@@ -46,6 +46,8 @@ var delay = 1000;
 
 function awake() {
   sizeScreen();
+  showScore();
+  
 }
 
 function sizeScreen() {
@@ -334,15 +336,15 @@ function configureTexts() {
 
 function showScore() {
   firstScore = document.getElementById("first-score");
-  firstScore.innerHTML = GAME_SETTINGS.FIRST_RECORD || "000000";
+  firstScore.innerHTML = Number(localStorage.first) || "000000";
   secondScore = document.getElementById("second-score");
-  secondScore.innerHTML = GAME_SETTINGS.SECOND_RECORD || "000000";
+  secondScore.innerHTML = Number(localStorage.second) || "000000";
   thirdScore = document.getElementById("third-score");
-  thirdScore.innerHTML = GAME_SETTINGS.THIRD_RECORD || "000000";
+  thirdScore.innerHTML = Number(localStorage.third) || "000000";
   forthScore = document.getElementById("forth-score");
-  forthScore.innerHTML = GAME_SETTINGS.FORTH_RECORD || "000000";
+  forthScore.innerHTML = Number(localStorage.forth) || "000000";
   fifthScore = document.getElementById("fifth-score");
-  fifthScore.innerHTML = GAME_SETTINGS.FIFTH_RECORD || "000000";
+  fifthScore.innerHTML = Number(localStorage.fifth) || "000000";
 }
 
 

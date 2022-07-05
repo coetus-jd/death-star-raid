@@ -8,42 +8,84 @@ export default {
         this.verifyCurrentScore();
     },
     verifyCurrentScore: function() {
-        if (GAME_SETTINGS.RECORD <= GAME_SETTINGS.FIFTH_RECORD) return;
+        if (GAME_SETTINGS.RECORD <= localStorage.fifth) return;
 
-        else if(GAME_SETTINGS.RECORD > GAME_SETTINGS.FIRST_RECORD)
+        else if(GAME_SETTINGS.RECORD > localStorage.first)
         {
-            GAME_SETTINGS.FIFTH_RECORD = GAME_SETTINGS.FORTH_RECORD;
-            GAME_SETTINGS.FORTH_RECORD = GAME_SETTINGS.THIRD_RECORD;
-            GAME_SETTINGS.THIRD_RECORD = GAME_SETTINGS.SECOND_RECORD;
-            GAME_SETTINGS.SECOND_RECORD = GAME_SETTINGS.FIRST_RECORD;
-            GAME_SETTINGS.FIRST_RECORD = GAME_SETTINGS.RECORD;
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FIFTH_RECORD,
+                localStorage.forth
+            )
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FORTH_RECORD,
+                localStorage.third
+            )
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.THIRD_RECORD,
+                localStorage.second
+            )
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.SECOND_RECORD,
+                localStorage.first
+            )
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FIRST_RECORD,
+                GAME_SETTINGS.RECORD
+            )
+
         }
-        else if(GAME_SETTINGS.RECORD > GAME_SETTINGS.SECOND_RECORD)
+        else if(GAME_SETTINGS.RECORD > localStorage.second)
         {
-            GAME_SETTINGS.FIFTH_RECORD = GAME_SETTINGS.FORTH_RECORD;
-            GAME_SETTINGS.FORTH_RECORD = GAME_SETTINGS.THIRD_RECORD;
-            GAME_SETTINGS.THIRD_RECORD = GAME_SETTINGS.SECOND_RECORD;
-            GAME_SETTINGS.SECOND_RECORD = GAME_SETTINGS.RECORD;
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FIFTH_RECORD,
+                localStorage.forth
+            )
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FORTH_RECORD,
+                localStorage.third
+            )
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.THIRD_RECORD,
+                localStorage.second
+            )
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.SECOND_RECORD,
+                GAME_SETTINGS.RECORD
+            )
         }
-        else if(GAME_SETTINGS.RECORD > GAME_SETTINGS.THIRD_RECORD)
+        else if(GAME_SETTINGS.RECORD > localStorage.third)
         {
-            GAME_SETTINGS.FIFTH_RECORD = GAME_SETTINGS.FORTH_RECORD;
-            GAME_SETTINGS.FORTH_RECORD = GAME_SETTINGS.THIRD_RECORD;
-            GAME_SETTINGS.THIRD_RECORD =  GAME_SETTINGS.RECORD;
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FIFTH_RECORD,
+                localStorage.forth
+            )
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FORTH_RECORD,
+                LlocalStorage.third
+            )
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.THIRD_RECORD,
+                GAME_SETTINGS.RECORD
+            )
         }
-        else if(GAME_SETTINGS.RECORD > GAME_SETTINGS.FORTH_RECORD)
+        else if(GAME_SETTINGS.RECORD > localStorage.forth)
         {
-            GAME_SETTINGS.FIFTH_RECORD = GAME_SETTINGS.FORTH_RECORD;
-            GAME_SETTINGS.FORTH_RECORD = GAME_SETTINGS.RECORD;
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FIFTH_RECORD,
+                localStorage.forth
+            )
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FORTH_RECORD,
+                GAME_SETTINGS.RECORD
+            )
         }
-        else if(GAME_SETTINGS.RECORD > GAME_SETTINGS.FIFTH_RECORD)
+        else if(GAME_SETTINGS.RECORD > localStorage.fifth)
         {
-            GAME_SETTINGS.FIFTH_RECORD = GAME_SETTINGS.RECORD;
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FIFTH_RECORD,
+                GAME_SETTINGS.RECORD
+            )
         }
         
-        localStorage.setItem(
-            LOCAL_STORAGE_KEYS.RECORD,
-            GAME_SETTINGS.RECORD
-        );
     }
 };

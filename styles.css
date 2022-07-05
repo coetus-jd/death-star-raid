@@ -494,11 +494,17 @@ button {
     height: 100%;
     font-family: AnakinmonoRegular;
     font-size: 400%;
-    text-align: center;
+    text-align: right;
+    margin-right: 8%;
     align-items: center;
     justify-content: center;
     color: #df2130;
 
+}
+
+.num{
+    text-align: left;
+    padding-left: 4%;
 }
 
 #bottom-score{
