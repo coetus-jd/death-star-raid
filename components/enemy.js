@@ -19,31 +19,6 @@ const baseLife = 2;
 /** @type Utility */
 let utility = null;
 
-const enemyXWingIdleAnimations = [
-  "assets/Enemies/X-Wing/0000.png",
-  "assets/Enemies/X-Wing/0001.png",
-  "assets/Enemies/X-Wing/0002.png",
-  "assets/Enemies/X-Wing/0003.png",
-  "assets/Enemies/X-Wing/0004.png",
-  "assets/Enemies/X-Wing/0005.png",
-];
-
-const enemyYWingIdleAnimations = [
-  "assets/Enemies/Y-Wing/0000.png",
-  "assets/Enemies/Y-Wing/0001.png",
-  "assets/Enemies/Y-Wing/0002.png",
-  "assets/Enemies/Y-Wing/0003.png",
-];
-
-const explosionAnimations = [
-  "assets/Damage/Explosão/0000.png",
-  "assets/Damage/Explosão/0001.png",
-  "assets/Damage/Explosão/0002.png",
-  "assets/Damage/Explosão/0003.png",
-  "assets/Damage/Explosão/0004.png",
-  "assets/Damage/Explosão/0005.png",
-];
-
 export default {
   gravity: GAME_SETTINGS.GRAVITY,
   maxVelocity: GAME_SETTINGS.MAX_VELOCITY - 1,
@@ -91,10 +66,12 @@ export default {
         continue;
       }
 
-      if (enemy.state === ENEMY_STATES.DAMAGE) {
-        // logic here
-        // after playing the animation of damage, we can reset it
-        enemy.state = ENEMY_STATES.MOVING_FORWARD;
+      if (
+        enemy.state === ENEMY_STATES.DAMAGE &&
+        enemy.type === ENEMIES_TYPES.X_WING
+      ) {
+        // animateXWingEnemyDamage(enemy);
+        enemy.type = ENEMY_STATES.MOVING_FORWARD;
         continue;
       }
 
@@ -225,10 +202,10 @@ export default {
 
         enemy.state = ENEMY_STATES.DAMAGE;
         enemy.life--;
+        enemy.currentAnimationFrame = 0;
 
         if (enemy.life <= 0) {
           enemy.state = ENEMY_STATES.DEAD;
-          enemy.currentAnimationFrame = 0;
           utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
         }
 
@@ -255,6 +232,13 @@ function removeEnemy(enemy, index) {
   this.enemies.splice(index, 1);
 }
 
+const enemyYWingIdleAnimations = [
+  "assets/Enemies/Y-Wing/0000.png",
+  "assets/Enemies/Y-Wing/0001.png",
+  "assets/Enemies/Y-Wing/0002.png",
+  "assets/Enemies/Y-Wing/0003.png",
+];
+
 function animateYWingEnemy(enemy) {
   if (enemy.currentAnimationFrame > enemyYWingIdleAnimations.length - 1)
     enemy.currentAnimationFrame = 0;
@@ -270,11 +254,29 @@ function animateYWingEnemy(enemy) {
   enemy.currentAnimationFrame++;
 }
 
+const explosionAnimations = [
+  "assets/Damage/Explosão/0000.png",
+  "assets/Damage/Explosão/0001.png",
+  "assets/Damage/Explosão/0002.png",
+  "assets/Damage/Explosão/0003.png",
+  "assets/Damage/Explosão/0004.png",
+  "assets/Damage/Explosão/0005.png",
+];
+
 function animateEnemyExplosion(enemy, index) {
   animation.animate("enemyExplosion", 6, enemy, explosionAnimations, () => {
     removeEnemy.call(this, enemy, index);
   });
 }
+
+const enemyXWingIdleAnimations = [
+  "assets/Enemies/X-Wing/0000.png",
+  "assets/Enemies/X-Wing/0001.png",
+  "assets/Enemies/X-Wing/0002.png",
+  "assets/Enemies/X-Wing/0003.png",
+  "assets/Enemies/X-Wing/0004.png",
+  "assets/Enemies/X-Wing/0005.png",
+];
 
 function animateXWingEnemy(enemy) {
   if (enemy.currentAnimationFrame > enemyXWingIdleAnimations.length - 1)
@@ -290,3 +292,28 @@ function animateXWingEnemy(enemy) {
 
   enemy.currentAnimationFrame++;
 }
+
+// const enemyXWingDamageAnimations = [
+//   "assets/Damage/X-Wing/0001.png",
+//   "assets/Enemies/X-Wing/0000.png",
+//   "assets/Damage/X-Wing/0001.png",
+//   "assets/Enemies/X-Wing/0000.png",
+//   "assets/Damage/X-Wing/0001.png",
+//   "assets/Enemies/X-Wing/0000.png",
+//   "assets/Damage/X-Wing/0001.png",
+//   "assets/Enemies/X-Wing/0000.png",
+//   "assets/Damage/X-Wing/0001.png",
+//   "assets/Enemies/X-Wing/0000.png",
+// ];
+
+// function animateXWingEnemyDamage(enemy) {
+//   animation.animate(
+//     "xWingEnemyDamage",
+//     10,
+//     enemy,
+//     enemyXWingDamageAnimations,
+//     () => {
+//       enemy.state = ENEMY_STATES.MOVING_FORWARD;
+//     }
+//   );
+// }
