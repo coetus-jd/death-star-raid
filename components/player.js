@@ -30,6 +30,19 @@ const explosionAnimations = [
   "assets/Damage/Explosão/0005.png",
 ];
 
+const damageAnimations = [
+  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
+  "assets/TieFighter/0003 - Neutro.png",
+  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
+  "assets/TieFighter/0003 - Neutro.png",
+  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
+  "assets/TieFighter/0003 - Neutro.png",
+  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
+  "assets/TieFighter/0003 - Neutro.png",
+  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
+  "assets/TieFighter/0003 - Neutro.png",
+];
+
 export default {
   /** Position in the X axis where the player will be created */
   x: GAME_SETTINGS.BASE_WIDTH / 2 - baseWidth / 2,
@@ -80,6 +93,11 @@ export default {
   draw: function () {
     if (this.state === PLAYER_STATES.DEAD) {
       this.animatePlayerExplosion();
+      return;
+    }
+
+    if (this.state === PLAYER_STATES.DAMAGE) {
+      this.animatePlayerDamage();
       return;
     }
 
@@ -189,13 +207,16 @@ export default {
 
     rightAnimations.forEach(function (animation) {
       utility.drawImage(animation, self.x, self.y, self.width, self.height);
-
-      setTimeout(() => {}, 1000);
     });
   },
   animatePlayerExplosion: function () {
     animation.animate("playerExplosion", 6, this, explosionAnimations, () => {
-      gameController.lostGame()
+      gameController.lostGame();
+    });
+  },
+  animatePlayerDamage: function() {
+    animation.animate("playerDamage", 10, this, damageAnimations, () => {
+      this.state = PLAYER_STATES.IDLE;
     });
   },
 };

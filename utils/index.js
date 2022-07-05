@@ -147,7 +147,8 @@ export class Utility {
     y,
     width = 150,
     height = 150,
-    valueToExcludeYOnClear = 0
+    valueToExcludeYOnClear = 0,
+    opacity = 1
   ) {
     let image = new Image();
     image.src = imagePath;
@@ -164,6 +165,8 @@ export class Utility {
         width,
         height
       );
+
+      this.canvasContext.globalAlpha = opacity;
       this.canvasContext.drawImage(
         image,
         Math.round(x),
@@ -171,6 +174,7 @@ export class Utility {
         width,
         height
       );
+      this.canvasContext.globalAlpha = 1;
     };
     image.onerror = function (error) {
       console.log(error);
