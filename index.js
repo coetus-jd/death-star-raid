@@ -47,7 +47,7 @@ var delay = 1000;
 function awake() {
   sizeScreen();
   showScore();
-  
+
 }
 
 function sizeScreen() {
@@ -336,15 +336,15 @@ function configureTexts() {
 
 function showScore() {
   firstScore = document.getElementById("first-score");
-  firstScore.innerHTML = Number(localStorage.first) || "000000";
+  firstScore.innerHTML = ("000000" + Number(localStorage.first)).slice(-6) || "000000";
   secondScore = document.getElementById("second-score");
-  secondScore.innerHTML = Number(localStorage.second) || "000000";
+  secondScore.innerHTML = ("000000" + Number(localStorage.second)).slice(-6) || "000000";
   thirdScore = document.getElementById("third-score");
-  thirdScore.innerHTML = Number(localStorage.third) || "000000";
+  thirdScore.innerHTML = ("000000" + Number(localStorage.third)).slice(-6) || "000000";
   forthScore = document.getElementById("forth-score");
-  forthScore.innerHTML = Number(localStorage.forth) || "000000";
+  forthScore.innerHTML = ("000000" + Number(localStorage.forth)).slice(-6) || "000000";
   fifthScore = document.getElementById("fifth-score");
-  fifthScore.innerHTML = Number(localStorage.fifth) || "000000";
+  fifthScore.innerHTML = ("000000" + Number(localStorage.fifth)).slice(-6) || "000000";
 }
 
 

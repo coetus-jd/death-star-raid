@@ -6,12 +6,46 @@ export default {
         GAME_SETTINGS.RECORD += numberOfPoints;
 
         this.verifyCurrentScore();
+
     },
     verifyCurrentScore: function() {
-        if (GAME_SETTINGS.RECORD <= localStorage.fifth) return;
 
-        else if(GAME_SETTINGS.RECORD > localStorage.first)
+        if(localStorage.first == null){
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FIRST_RECORD,
+                0
+            )
+        }
+        if(localStorage.second == null){
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.SECOND_RECORD,
+                0
+            )
+        }
+        if(localStorage.third == null){
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.THIRD_RECORD,
+                0
+            )
+        }
+        if(localStorage.forth == null){
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FORTH_RECORD,
+                0
+            )
+        }
+        if(localStorage.fifth == null){
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FIFTH_RECORD,
+                0
+            )
+        }
+
+        if (GAME_SETTINGS.RECORD <= Number(localStorage.fifth)) return;
+
+        else if(GAME_SETTINGS.RECORD > Number(localStorage.first))
         {
+
             localStorage.setItem(
                 LOCAL_STORAGE_KEYS.FIFTH_RECORD,
                 localStorage.forth
@@ -34,7 +68,7 @@ export default {
             )
 
         }
-        else if(GAME_SETTINGS.RECORD > localStorage.second)
+        else if(GAME_SETTINGS.RECORD > Number(localStorage.second))
         {
             localStorage.setItem(
                 LOCAL_STORAGE_KEYS.FIFTH_RECORD,
@@ -53,7 +87,7 @@ export default {
                 GAME_SETTINGS.RECORD
             )
         }
-        else if(GAME_SETTINGS.RECORD > localStorage.third)
+        else if(GAME_SETTINGS.RECORD > Number(localStorage.third))
         {
             localStorage.setItem(
                 LOCAL_STORAGE_KEYS.FIFTH_RECORD,
@@ -68,7 +102,7 @@ export default {
                 GAME_SETTINGS.RECORD
             )
         }
-        else if(GAME_SETTINGS.RECORD > localStorage.forth)
+        else if(GAME_SETTINGS.RECORD > Number(localStorage.forth))
         {
             localStorage.setItem(
                 LOCAL_STORAGE_KEYS.FIFTH_RECORD,
@@ -79,7 +113,7 @@ export default {
                 GAME_SETTINGS.RECORD
             )
         }
-        else if(GAME_SETTINGS.RECORD > localStorage.fifth)
+        else if(GAME_SETTINGS.RECORD > Number(localStorage.fifth))
         {
             localStorage.setItem(
                 LOCAL_STORAGE_KEYS.FIFTH_RECORD,
