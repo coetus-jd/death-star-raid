@@ -4,6 +4,8 @@ import PLAYER_STATES from "../constants/playerState.js";
 
 import floor from "./floor.js";
 import { Utility } from "../utils/index.js";
+import animation from "../utils/animation.js";
+import gameController from "../controllers/gameController.js";
 
 /** @type Utility */
 let utility = null;
@@ -19,6 +21,15 @@ const leftAnimations = [
   "assets/TieFighter/0001 - Esquerda.png",
 ];
 
+const explosionAnimations = [
+  "assets/Damage/Explosão/0000.png",
+  "assets/Damage/Explosão/0001.png",
+  "assets/Damage/Explosão/0002.png",
+  "assets/Damage/Explosão/0003.png",
+  "assets/Damage/Explosão/0004.png",
+  "assets/Damage/Explosão/0005.png",
+];
+
 export default {
   /** Position in the X axis where the player will be created */
   x: GAME_SETTINGS.BASE_WIDTH / 2 - baseWidth / 2,
@@ -32,24 +43,28 @@ export default {
   /** Velocity of the movement of the player */
   velocity: 0,
   life: 3,
+  currentAnimationFrame: 0,
   state: PLAYER_STATES.IDLE,
   /**
    * @param {CanvasRenderingContext2D} newContext
    */
   init: function (newContext) {
     utility = new Utility(newContext);
+    animation.init(newContext);
 
     document.addEventListener("keypress", (event) => {
       if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
         this.movePlayer(1);
+        return;
       }
 
       if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
         this.movePlayer(-1);
+        return;
       }
     });
 
-    document.addEventListener("keydown", (event) => {
+    document.addEventListener("keyup", (event) => {
       if (
         event.key === "d" ||
         event.key === "D" ||
@@ -63,6 +78,11 @@ export default {
     });
   },
   draw: function () {
+    if (this.state === PLAYER_STATES.DEAD) {
+      this.animatePlayerExplosion();
+      return;
+    }
+
     if (this.state === PLAYER_STATES.IDLE) {
       utility.drawImage(this.image, this.x, this.y, this.width, this.height);
       return;
@@ -161,6 +181,7 @@ export default {
       lifeBar.style.backgroundImage =
         "url('assets/UX/TelaDeJogo/BarraDeVida/Dead.png')";
     }
+
     this.state = PLAYER_STATES.DAMAGE;
   },
   animatePlayerToRight: function () {
@@ -170,6 +191,11 @@ export default {
       utility.drawImage(animation, self.x, self.y, self.width, self.height);
 
       setTimeout(() => {}, 1000);
+    });
+  },
+  animatePlayerExplosion: function () {
+    animation.animate("playerExplosion", 6, this, explosionAnimations, () => {
+      gameController.lostGame()
     });
   },
 };
