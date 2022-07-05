@@ -7,6 +7,7 @@ export default {
 
     },
     verifyCurrentScore: function() {
+        if (GAME_SETTINGS.RECORD <= Number(localStorage.fifth)) return;
 
         if(localStorage.first == null){
             localStorage.setItem(
@@ -38,8 +39,6 @@ export default {
                 0
             )
         }
-
-        if (GAME_SETTINGS.RECORD <= Number(localStorage.fifth)) return;
 
         else if(GAME_SETTINGS.RECORD > Number(localStorage.first))
         {
