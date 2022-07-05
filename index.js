@@ -103,31 +103,26 @@ const right = document.getElementById("btn-right");
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
-    left.style.opacity = "0.9";
-    left.style.backgroundColor = "#45c0ef";
+    left.style.opacity = "1";
+
   }
   if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
-    right.style.opacity = "0.9";
-    right.style.backgroundColor = "#45c0ef";
+    right.style.opacity = "1";
   }
   if (event.key === " " || event.code === "Space") {
-    space.style.opacity = "0.9";
-    space.style.backgroundColor = "#45c0ef";
+    space.style.opacity = "1";
   }
 });
 
 document.addEventListener("keyup", (event) => {
   if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
-    left.style.opacity = "0.5";
-    left.style.backgroundColor = "#2b4397";
+    left.style.opacity = "0";
   }
   if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
-    right.style.opacity = "0.5";
-    right.style.backgroundColor = "#2b4397";
+    right.style.opacity = "0";
   }
   if (event.key === " " || event.code === "Space") {
-    space.style.opacity = "0.5";
-    space.style.backgroundColor = "#2b4397";
+    space.style.opacity = "0";
   }
   // console.log(event);
 });
@@ -147,7 +142,7 @@ function displayScore() {
 function displayInicialScreen() {
   endScreen.style.display = "none";
   game.style.display = "none";
-  start.style.display = "flex";
+  start.style.display = "block";
 }
 
 function openGitHub() {
