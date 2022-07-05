@@ -19,7 +19,6 @@
 
 html {
     font-family: 'Nunito', sans-serif;
-    margin-top: 5%;
     background-color: #e8e7eb;
 }
 
@@ -31,7 +30,8 @@ canvas {
     right: 0%;
     width: 1050;
     height: 900;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Inicial Screen */
@@ -42,7 +42,8 @@ canvas {
     bottom: 0px;
     left: 0px;
     right: 0px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     border: 1px solid #000;
     box-shadow: 0px 0px 10px black;
     border-radius:5px;
@@ -106,7 +107,7 @@ canvas {
     border-radius:5px;
     cursor: default;
     animation-name: pressSpace;
-    animation-duration: 5s;
+    animation-duration: 1s;
     animation-iteration-count: infinite;
 }
 
@@ -131,28 +132,32 @@ canvas {
     transform: scale(1.2);
 }
 
+#bottom{
+    display: flex;
+    width: 100%;
+    height: 10%;
+    margin-top: -19%;
+    margin-bottom: auto;    
+}
+
 #animStart{
     display: none;
-    margin-top: -28%;
-    height: 30%;
-    width: 20%;
+    margin-top: 3%;
+    width: 30%;
+    height: 20%;
     z-index: +1;
     animation-name: start;
     animation-duration:0.5s;
     animation-fill-mode: forwards;
 }
-#animStart img{
-    transform: rotate(270deg);
 
-}
 
 @keyframes start {
-    from {
-        transform: translateX(250px);
-    }
-    to{
-        transform: translateX(800px);
-    }
+    0% {transform: translateX(0px);}
+    90% {transform: translateX(900px);}
+    100% {opacity: 0;}
+
+
 }
 
 
@@ -271,7 +276,8 @@ canvas {
     bottom: 0px;
     left: 0px;
     right: 0px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     border: 1px solid #000;
     box-shadow: 0px 0px 10px black;
     border-radius:5px;
@@ -338,60 +344,59 @@ canvas {
 
 .btn-instruction{
     display: flex;
-    margin-top:54%;
+    margin-top:71%;
     margin-bottom: 5%;
     margin-left: auto;
     margin-right: auto;
-    width:95%;
+    width:100%;
     height:10%;
     cursor: default;
+    background-image: url("assets/UX/Command/ComandPixel.png");
+    background-repeat: no-repeat;
 }
+
 #btn-left{
     display: flex;
-    background-color:#2b4397;
     margin-left: 0%;
     margin-right: auto;
-    opacity: 0.5;
     text-align: center;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 0px 10px black;
-    border-radius:20px;
-    height:80%;
-    width:8%;
-    font-size:200%;
+    height:100%;
+    width:103px;
     cursor: default;
+    opacity: 0;
+    background-image: url("assets/UX/Command/ComandLeft.png");
+    background-repeat: no-repeat;
+    background-color: inherit;
 }
 #btn-space{
     display: flex;
-    background-color:#2b4397;
-    margin-top: 13%;
-    opacity: 0.5;
     text-align: center;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 0px 10px black;
-    border-radius:10px;
-    height:50%;
-    width:40%;
-    font-size:200%;
+    height:100%;
+    width:843px;
     cursor: default;
+    opacity: 0;
+    background-image: url("assets/UX/Command/ComandFire.png");
+    background-repeat: no-repeat;
+    background-color: inherit;
 }
 #btn-right{
     display: flex;
     margin-left: auto;
     margin-right: 0%;
-    background-color:#2b4397;
-    opacity: 0.5;
     text-align: center;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 0px 10px black;
-    border-radius:20px;
-    height:80%;
-    width:8%;
-    font-size:200%;
+    height:100%;
+    width:103px;
     cursor: default;
+    opacity: 0;
+    background-image: url("assets/UX/Command/ComandRight.png");
+    background-repeat: no-repeat;
+    background-color: inherit;
 }
 
 #record {
@@ -460,7 +465,8 @@ button {
     bottom: 0px;
     left: 0px;
     right: 0px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     border: 1px solid #000;
     box-shadow: 0px 0px 10px black; 
     border-radius:5px;
