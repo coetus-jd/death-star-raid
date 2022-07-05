@@ -47,6 +47,7 @@ var delay = 1000;
 function awake() {
   sizeScreen();
   showScore();
+  scoreController.verifyLocalScore();
 
 }
 

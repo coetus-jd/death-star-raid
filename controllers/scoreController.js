@@ -9,37 +9,6 @@ export default {
     verifyCurrentScore: function() {
         if (GAME_SETTINGS.RECORD <= Number(localStorage.fifth)) return;
 
-        if(localStorage.first == null){
-            localStorage.setItem(
-                LOCAL_STORAGE_KEYS.FIRST_RECORD,
-                0
-            )
-        }
-        if(localStorage.second == null){
-            localStorage.setItem(
-                LOCAL_STORAGE_KEYS.SECOND_RECORD,
-                0
-            )
-        }
-        if(localStorage.third == null){
-            localStorage.setItem(
-                LOCAL_STORAGE_KEYS.THIRD_RECORD,
-                0
-            )
-        }
-        if(localStorage.forth == null){
-            localStorage.setItem(
-                LOCAL_STORAGE_KEYS.FORTH_RECORD,
-                0
-            )
-        }
-        if(localStorage.fifth == null){
-            localStorage.setItem(
-                LOCAL_STORAGE_KEYS.FIFTH_RECORD,
-                0
-            )
-        }
-
         else if(GAME_SETTINGS.RECORD > Number(localStorage.first))
         {
 
@@ -118,5 +87,38 @@ export default {
             )
         }
         
+    },
+    verifyLocalScore: function () {
+        if(localStorage.first == null){
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FIRST_RECORD,
+                0
+            )
+        }
+        if(localStorage.second == null){
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.SECOND_RECORD,
+                0
+            )
+        }
+        if(localStorage.third == null){
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.THIRD_RECORD,
+                0
+            )
+        }
+        if(localStorage.forth == null){
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FORTH_RECORD,
+                0
+            )
+        }
+        if(localStorage.fifth == null){
+            localStorage.setItem(
+                LOCAL_STORAGE_KEYS.FIFTH_RECORD,
+                0
+            )
+        }
     }
+
 };
