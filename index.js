@@ -15,7 +15,15 @@ let canvasContext = null;
 /** @type {CanvasRenderingContext2D} */
 let canvasBackgroundContext = null;
 /** @type {HTMLElement} */
-let bestScoreText = null;
+let firstScore = null;
+/** @type {HTMLElement} */
+let secondScore = null;
+/** @type {HTMLElement} */
+let thirdScore = null;
+/** @type {HTMLElement} */
+let forthScore = null;
+/** @type {HTMLElement} */
+let fifthScore = null;
 /** @type {HTMLElement} */
 let currentScoreText = null;
 /** @type {HTMLElement} */
@@ -137,6 +145,7 @@ function displayScore() {
   endScreen.style.display = "block";
   game.style.display = "none";
   start.style.display = "none";
+  showScore();
 }
 
 function displayInicialScreen() {
@@ -191,7 +200,7 @@ function run() {
     Log.debug(`Life: ${player.life}`);
 
     currentScoreText.innerHTML = GAME_SETTINGS.RECORD;
-    bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
+    firstScore.innerHTML = GAME_SETTINGS.BEST_RECORD;
 
     scenario.create();
     scenario.update();
@@ -269,7 +278,7 @@ function lostGame(gameState) {
   enemy.reset();
   bullet.reset();
   GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
-  bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD;
+  firstScore.innerHTML = GAME_SETTINGS.BEST_RECORD;
 }
 
 /**
@@ -317,8 +326,23 @@ function configureButtons() {
  * Configure the HTML elements that will be used to show game's information
  */
 function configureTexts() {
-  bestScoreText = document.getElementById("best-score");
   currentScoreText = document.getElementById("current-score");
-  bestScoreText.innerHTML = GAME_SETTINGS.BEST_RECORD || "No best score yet";
   currentScoreText.innerHTML = GAME_SETTINGS.RECORD || "000000";
+}
+
+// Show score in score Screen
+
+function showScore(){
+    firstScore = document.getElementById("first-score");
+    firstScore.innerHTML = GAME_SETTINGS.FIRST_RECORD || "000000";
+    secondScore = document.getElementById("second-score");
+    secondScore.innerHTML = GAME_SETTINGS.SECOND_RECORD || "000000";
+    thirdScore = document.getElementById("third-score");
+    thirdScore.innerHTML = GAME_SETTINGS.THIRD_RECORD || "000000";
+    forthScore = document.getElementById("forth-score");
+    forthScore.innerHTML = GAME_SETTINGS.FORTH_RECORD || "000000";
+    fifthScore = document.getElementById("fifth-score");
+    fifthScore.innerHTML = GAME_SETTINGS.FIFTH_RECORD || "000000";
+
+
 }

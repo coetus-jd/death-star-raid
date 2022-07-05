@@ -15,7 +15,11 @@ export default {
         MAX: 950
     },
     RECORD: 0,
-    BEST_RECORD: 0,
+    FIRST_RECORD: 0,
+    SECOND_RECORD: 0,
+    THIRD_RECORD: 0,
+    FORTH_RECORD: 0,
+    FIFTH_RECORD: 0,
     DEBUG: {
         DEBUG_ENABLED: true,
     },
