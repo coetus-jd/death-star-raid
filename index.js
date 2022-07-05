@@ -42,6 +42,7 @@ const highScore = document.getElementById("high-score");
 const btnReturn = document.getElementById("return");
 const btnGitStart = document.getElementById("git-hub");
 const btnGitScore =  document.getElementById("git-hub-score")
+const btnReset = document.getElementById("reset");
 var delay = 1000;
 
 function awake() {
@@ -140,11 +141,17 @@ highScore.addEventListener("click", displayScore);
 btnReturn.addEventListener("click", displayInicialScreen);
 btnGitStart.addEventListener("click", openGitHub);
 btnGitScore.addEventListener("click", openGitHub);
+btnReset.addEventListener("click",resetLocalScore);
 
 function displayScore() {
   endScreen.style.display = "block";
   game.style.display = "none";
   start.style.display = "none";
+  showScore();
+}
+
+function resetLocalScore(){
+  scoreController.resetLocalScore();
   showScore();
 }
 
