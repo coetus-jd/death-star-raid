@@ -28,8 +28,6 @@ let fifthScore = null;
 /** @type {HTMLElement} */
 let currentScoreText = null;
 /** @type {HTMLElement} */
-let startButton = null;
-/** @type {HTMLElement} */
 let pauseButton = null;
 /** @type {HTMLElement} */
 let debugButton = null;
@@ -202,7 +200,6 @@ function run() {
 
     currentScoreText.innerHTML = GAME_SETTINGS.RECORD;
 
-
     scenario.create();
     scenario.update();
     scenario.draw();
@@ -274,7 +271,6 @@ function getScore() {
  * @param {Number} gameState
  */
 function lostGame(gameState) { 
-  bStart.value = "Credits";
   scoreController.verifyCurrentScore();
   GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
   setTimeout(function () {
@@ -293,10 +289,10 @@ function lostGame(gameState) {
  * Init the game
  */
 function startGame() {
-  if (GAME_SETTINGS.CURRENT_GAME_STATE != GAME_STATE.PLAYING) {
-    GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
-    run();
-  }
+  GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
+  bStart.value = "Credits";
+  run();
+
 }
 
 /**
@@ -320,9 +316,6 @@ function switchPauseGame() {
  * Configure the HTML buttons that will execute functions in the game
  */
 function configureButtons() {
-  startButton = document.getElementById("start");
-  startButton.addEventListener("click", startGame);
-
   pauseButton = document.getElementById("pause");
   pauseButton.addEventListener("click", switchPauseGame);
 
