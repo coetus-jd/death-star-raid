@@ -42,7 +42,8 @@ const game = document.getElementById("content-game");
 const endScreen = document.getElementById("content-score");
 const highScore = document.getElementById("high-score");
 const btnReturn = document.getElementById("return");
-let btnGit = document.getElementsByClassName("btn-github");
+const btnGitStart = document.getElementById("git-hub");
+const btnGitScore =  document.getElementById("git-hub-score")
 var delay = 1000;
 
 function awake() {
@@ -75,6 +76,7 @@ function displayStart() {
 
     setTimeout(function () {
       game.style.display = "block";
+      pause.style.animation = "none"
       bStart.value = "Start";
       start.style.display = "none";
       startPlay();
@@ -106,6 +108,7 @@ function displayStart() {
 const left = document.getElementById("btn-left");
 const space = document.getElementById("btn-space");
 const right = document.getElementById("btn-right");
+const pause = document.getElementById("pause");
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
@@ -136,7 +139,8 @@ document.addEventListener("keyup", (event) => {
 
 highScore.addEventListener("click", displayScore);
 btnReturn.addEventListener("click", displayInicialScreen);
-btnGit.addEventListener("click", openGitHub);
+btnGitStart.addEventListener("click", openGitHub);
+btnGitScore.addEventListener("click", openGitHub);
 
 function displayScore() {
   endScreen.style.display = "block";
@@ -305,8 +309,8 @@ function switchPauseGame() {
 
   pauseButton.textContent =
     GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING
-      ? "Pause"
-      : "Unpause";
+      ? pause.style.animation = "none"
+      : pause.style.animation = "";
 
   if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) run();
 }
