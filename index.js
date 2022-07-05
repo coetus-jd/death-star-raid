@@ -305,7 +305,6 @@ function switchPauseGame() {
       ? GAME_STATE.PLAYING
       : GAME_STATE.PAUSED;
 
-  pauseButton.textContent =
     GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING
       ? pause.style.animation = "none"
       : pause.style.animation = "";
