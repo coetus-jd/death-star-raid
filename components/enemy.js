@@ -276,29 +276,6 @@ function animateEnemyExplosion(enemy, index) {
   });
 }
 
-// function animateEnemyExplosion(enemy, index) {
-//   timeToChangeSprites--;
-
-//   if (timeToChangeSprites > 0) return;
-
-//   if (enemy.currentAnimationFrame > explosionAnimations.length - 1) {
-//     removeEnemy.call(this, enemy, index);
-//     utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
-//     return;
-//   }
-
-//   utility.drawImage(
-//     explosionAnimations[enemy.currentAnimationFrame],
-//     enemy.x,
-//     enemy.y,
-//     enemy.width,
-//     enemy.height
-//   );
-
-//   enemy.currentAnimationFrame++;
-//   timeToChangeSprites = 6;
-// }
-
 function animateXWingEnemy(enemy) {
   if (enemy.currentAnimationFrame > enemyXWingIdleAnimations.length - 1)
     enemy.currentAnimationFrame = 0;

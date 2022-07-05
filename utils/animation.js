@@ -14,12 +14,12 @@ export default {
     utility = new Utility(newContext);
   },
   /**
-   * 
-   * @param {string} key 
-   * @param {Number} timeToAwait 
-   * @param {import('../types').Tile} componentBeingAnimated 
-   * @param {string[]} animations 
-   * @param {Function} onAnimationEnds 
+   *
+   * @param {string} key
+   * @param {Number} timeToAwait
+   * @param {import('../types').Tile} componentBeingAnimated
+   * @param {string[]} animations
+   * @param {Function} onAnimationEnds
    * @returns {void}
    */
   animate: function (
@@ -27,7 +27,8 @@ export default {
     timeToAwait,
     componentBeingAnimated,
     animations,
-    onAnimationEnds = () => {}
+    onAnimationEnds = () => {},
+    valueToExcludeYOnClear = -20
   ) {
     if (!spritesTimes.hasOwnProperty(key)) {
       spritesTimes[key] = timeToAwait;
@@ -38,14 +39,15 @@ export default {
     if (spritesTimes[key] > 0) return;
 
     if (componentBeingAnimated.currentAnimationFrame > animations.length - 1) {
-      //   removeEnemy.call(this, componentBeingAnimated, index);
       onAnimationEnds();
+
       utility.clearRectUtil(
         componentBeingAnimated.x,
         componentBeingAnimated.y,
         componentBeingAnimated.width,
         componentBeingAnimated.height
       );
+
       delete spritesTimes[key];
       return;
     }
@@ -55,7 +57,44 @@ export default {
       componentBeingAnimated.x,
       componentBeingAnimated.y,
       componentBeingAnimated.width,
-      componentBeingAnimated.height
+      componentBeingAnimated.height, 
+      valueToExcludeYOnClear
+    );
+
+    componentBeingAnimated.currentAnimationFrame++;
+    spritesTimes[key] = timeToAwait;
+  },
+  animateContinuous: function (
+    key,
+    timeToAwait,
+    componentBeingAnimated,
+    animations,
+    stopAnimation = false
+  ) {
+    if (!spritesTimes.hasOwnProperty(key)) {
+      spritesTimes[key] = timeToAwait;
+    }
+
+    if (stopAnimation) {
+      delete spritesTimes[key]
+      return;
+    }
+
+    spritesTimes[key]--;
+
+    if (spritesTimes[key] > 0) return;
+
+    if (componentBeingAnimated.currentAnimationFrame > animations.length - 1) {
+      componentBeingAnimated.currentAnimationFrame = 0;
+    }
+
+    utility.drawImage(
+      animations[componentBeingAnimated.currentAnimationFrame],
+      componentBeingAnimated.x,
+      componentBeingAnimated.y,
+      componentBeingAnimated.width,
+      componentBeingAnimated.height,
+    //   -20
     );
 
     componentBeingAnimated.currentAnimationFrame++;
