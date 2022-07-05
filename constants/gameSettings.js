@@ -21,10 +21,10 @@ export default {
     FORTH_RECORD: 0,
     FIFTH_RECORD: 0,
     DEBUG: {
-        DEBUG_ENABLED: true,
+        DEBUG_ENABLED: false,
     },
     LOGS: {
-        DEBUG_ENABLED: true,
+        DEBUG_ENABLED: false,
         WARN_ENABLED: true,
         ERROR_ENABLED: true,
     },

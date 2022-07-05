@@ -30,6 +30,8 @@ let currentScoreText = null;
 let startButton = null;
 /** @type {HTMLElement} */
 let pauseButton = null;
+/** @type {HTMLElement} */
+let debugButton = null;
 
 // Inicial Screen
 const start = document.getElementById("content-start-game");
@@ -112,7 +114,6 @@ const right = document.getElementById("btn-right");
 document.addEventListener("keydown", (event) => {
   if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
     left.style.opacity = "1";
-
   }
   if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
     right.style.opacity = "1";
@@ -158,7 +159,6 @@ function openGitHub() {
   window.open("https://github.com/coetus-jd", "_blank");
 }
 
-function DebugMode() {}
 
 /**
  * Configure the canvas, scenario and canvas contexts
@@ -318,8 +318,8 @@ function configureButtons() {
   pauseButton = document.getElementById("pause");
   pauseButton.addEventListener("click", switchPauseGame);
 
-  // const restartButton = document.getElementById("restart");
-  // restartButton.addEventListener("click", lostGame(GAME_STATE.PLAYING));
+  debugButton = document.getElementById("debugmode");
+  debugButton.addEventListener("click", setDebugMode);
 }
 
 /**
@@ -332,17 +332,21 @@ function configureTexts() {
 
 // Show score in score Screen
 
-function showScore(){
-    firstScore = document.getElementById("first-score");
-    firstScore.innerHTML = GAME_SETTINGS.FIRST_RECORD || "000000";
-    secondScore = document.getElementById("second-score");
-    secondScore.innerHTML = GAME_SETTINGS.SECOND_RECORD || "000000";
-    thirdScore = document.getElementById("third-score");
-    thirdScore.innerHTML = GAME_SETTINGS.THIRD_RECORD || "000000";
-    forthScore = document.getElementById("forth-score");
-    forthScore.innerHTML = GAME_SETTINGS.FORTH_RECORD || "000000";
-    fifthScore = document.getElementById("fifth-score");
-    fifthScore.innerHTML = GAME_SETTINGS.FIFTH_RECORD || "000000";
+function showScore() {
+  firstScore = document.getElementById("first-score");
+  firstScore.innerHTML = GAME_SETTINGS.FIRST_RECORD || "000000";
+  secondScore = document.getElementById("second-score");
+  secondScore.innerHTML = GAME_SETTINGS.SECOND_RECORD || "000000";
+  thirdScore = document.getElementById("third-score");
+  thirdScore.innerHTML = GAME_SETTINGS.THIRD_RECORD || "000000";
+  forthScore = document.getElementById("forth-score");
+  forthScore.innerHTML = GAME_SETTINGS.FORTH_RECORD || "000000";
+  fifthScore = document.getElementById("fifth-score");
+  fifthScore.innerHTML = GAME_SETTINGS.FIFTH_RECORD || "000000";
+}
 
 
+function setDebugMode() {
+  GAME_SETTINGS.DEBUG.DEBUG_ENABLED = true;
+  GAME_SETTINGS.LOGS.DEBUG_ENABLED = true;
 }

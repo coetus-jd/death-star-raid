@@ -31,21 +31,21 @@ export class Utility {
     /** @type {import('../types').Collider} */
     const object2BoxCollier = object2.getBoxCollider();
 
-    // if (!GAME_SETTINGS.LOGS.DEBUG_ENABLED) {
-    //   this.drawLine(
-    //     object1BoxCollier.x,
-    //     object1BoxCollier.y,
-    //     object1BoxCollier.width,
-    //     object1BoxCollier.height
-    //   );
+    if (GAME_SETTINGS.DEBUG.DEBUG_ENABLED) {
+      this.drawLine(
+        object1BoxCollier.x,
+        object1BoxCollier.y,
+        object1BoxCollier.width,
+        object1BoxCollier.height
+      );
 
-    //   this.drawLine(
-    //     object2BoxCollier.x,
-    //     object2BoxCollier.y,
-    //     object2BoxCollier.width,
-    //     object2BoxCollier.height
-    //   );
-    // }
+      this.drawLine(
+        object2BoxCollier.x,
+        object2BoxCollier.y,
+        object2BoxCollier.width,
+        object2BoxCollier.height
+      );
+    }
 
     return (
       object1BoxCollier.x < object2BoxCollier.x + object2BoxCollier.width &&
@@ -56,6 +56,7 @@ export class Utility {
   }
 
   drawLine(x, y, width, height, color = "#F00", lineWidth = 1) {
+    this.canvasContext.beginPath();
     this.canvasContext.strokeStyle = color;
     this.canvasContext.lineWidth = lineWidth;
     this.canvasContext.strokeRect(x, y, width, height);
