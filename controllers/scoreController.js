@@ -5,8 +5,6 @@ export default {
     addPoint: function (numberOfPoints = 1) {
         GAME_SETTINGS.RECORD += numberOfPoints;
 
-        this.verifyCurrentScore();
-
     },
     verifyCurrentScore: function() {
 

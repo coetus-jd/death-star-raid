@@ -11,6 +11,7 @@ import gameController from "../controllers/gameController.js";
 let utility = null;
 const baseHeight = 150;
 const baseWidth = 150;
+const lifeBar = document.getElementById("life");
 const rightAnimations = [
   "assets/TieFighter/0004 - DireitaLeve.png",
   "assets/TieFighter/0005 - Direita.png",
@@ -187,7 +188,7 @@ export default {
     };
   },
   takeDamage(damage = 1) {
-    const lifeBar = document.getElementById("life");
+
     this.life -= damage;
 
     if (this.life == 2) {
