@@ -164,10 +164,8 @@ function openGitHub() {
 function startPlay() {
   getScore();
   configureTexts();
-
   configureButtons();
   configureCanvas();
-
   scenario.init(canvasBackgroundContext);
   enemy.init(canvasContext);
   bullet.init(canvasContext);
@@ -272,8 +270,11 @@ function getScore() {
  */
 function lostGame(gameState) { 
   bStart.value = "Credits";
-  GAME_SETTINGS.CURRENT_GAME_STATE = GAME_SETTINGS.PLAY;
+  GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
   setTimeout(function () {
+    player.reset();
+    enemy.reset();
+    bullet.reset();
     document.getElementById("backgroundCanvas").parentNode.removeChild(document.getElementById("backgroundCanvas"));
     document.getElementById("canvas").parentNode.removeChild(document.getElementById("canvas"));
     displayScore();

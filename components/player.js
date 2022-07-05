@@ -134,6 +134,7 @@ export default {
     this.velocity = 0;
     this.life = 3;
     this.x = GAME_SETTINGS.BASE_WIDTH / 2 - baseWidth / 2;
+    lifeBar.style.backgroundImage = "url('assets/UX/TelaDeJogo/BarraDeVida/Full.png')";
 
     // if (GAME_SETTINGS.RECORD > GAME_SETTINGS.BEST_RECORD) {
     //     localStorage.setItem("record", GAME_SETTINGS.RECORD);
