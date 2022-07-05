@@ -78,14 +78,7 @@ function displayStart() {
       start.style.display = "none";
       startPlay();
     }, delay);
-  } else {
-    // bStart.style.color = "black";
-    // bStart.style.opacity = "1";
-    // bStart.style.transform = "scale(1)";
-    // bStart.style.backgroundColor ="darkGray";
-    // start.style.display = "default";
-    // bStart.value = 'NoStart';
-  }
+  } 
 }
 
 // Game Credits
@@ -155,6 +148,9 @@ function displayInicialScreen() {
   endScreen.style.display = "none";
   game.style.display = "none";
   start.style.display = "block";
+  bStart.value = "NoStart";
+  animStart.style.display = "none";
+
 }
 
 function openGitHub() {
@@ -268,19 +264,21 @@ function getScore() {
 
   if (!savedRecord) savedRecord = 0;
 
-  GAME_SETTINGS.BEST_RECORD = savedRecord;
 }
 
 /**
  * Reset the game
  * @param {Number} gameState
  */
-function lostGame(gameState) {
-  player.reset();
-  enemy.reset();
-  bullet.reset();
-  GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
-  firstScore.innerHTML = GAME_SETTINGS.BEST_RECORD;
+function lostGame(gameState) { 
+  bStart.value = "Credits";
+  GAME_SETTINGS.CURRENT_GAME_STATE = GAME_SETTINGS.PLAY;
+  setTimeout(function () {
+    document.getElementById("backgroundCanvas").parentNode.removeChild(document.getElementById("backgroundCanvas"));
+    document.getElementById("canvas").parentNode.removeChild(document.getElementById("canvas"));
+    displayScore();
+  }, delay);
+
 }
 
 /**
