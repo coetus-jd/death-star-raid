@@ -30,20 +30,11 @@ export default {
     onAnimationEnds = () => {},
     valueToExcludeYOnClear = 0
   ) {
-    console.log(
-      "Animação atual: ",
-      componentBeingAnimated.currentAnimationFrame
-    );
     if (!spritesTimes.hasOwnProperty(key)) {
       spritesTimes[key] = timeToAwait;
     }
 
-    spritesTimes[key]--;
-
-    // console.log('Sprite time: ', spritesTimes);
-
     if (componentBeingAnimated.currentAnimationFrame > animations.length - 1) {
-      console.log("Terminou todas as animações");
       onAnimationEnds();
 
       componentBeingAnimated.currentAnimationFrame = 0;
@@ -58,6 +49,8 @@ export default {
       delete spritesTimes[key];
       return;
     }
+
+    spritesTimes[key]--;
 
     if (spritesTimes[key] > 0) {
       utility.drawImage(
