@@ -111,10 +111,10 @@ const right = document.getElementById("btn-right");
 const pause = document.getElementById("pause");
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
+  if (event.key === "a" || event.key === "A" || event.keyCode === 65 || event.key === "ArrowLeft" || event.keyCode === 37) {
     left.style.opacity = "1";
   }
-  if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
+  if (event.key === "d" || event.key === "D" || event.keyCode === 68 || event.key === "ArrowRight" || event.keyCode === 39) {
     right.style.opacity = "1";
   }
   if (event.key === " " || event.code === "Space") {
@@ -123,10 +123,10 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
-  if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
+  if (event.key === "a" || event.key === "A" || event.keyCode === 65 || event.key === "ArrowLeft" || event.keyCode === 37) {
     left.style.opacity = "0";
   }
-  if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
+  if (event.key === "d" || event.key === "D" || event.keyCode === 68 || event.key === "ArrowRight" || event.keyCode === 39) {
     right.style.opacity = "0";
   }
   if (event.key === " " || event.code === "Space") {
