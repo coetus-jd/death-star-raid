@@ -1,10 +1,10 @@
 <h1 align="right">
   <img src="https://github.com/coetus-jd/river-raid/blob/e023bec68df599dca86f3dd87cc9c6a17e3e5161/assets/TieFighter/0003%20-%20Neutro.png" width="150px" align="left" />
-  River Raid
+  Death Start Raid
 </h1>
 
 <p align="right">
-A River Raid re-implementation
+A Death Start Raid
   <br><br>
   <!-- License -->
   <a>
