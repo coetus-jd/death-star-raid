@@ -32,6 +32,13 @@ let pauseButton = null;
 /** @type {HTMLElement} */
 let debugButton = null;
 
+// Sound config
+const soundLaser = new Audio();
+
+function soundConfig(){
+  soundLaser.src = './assets/Sounds/Laser.mp3'
+}
+
 // Inicial Screen
 const start = document.getElementById("content-start-game");
 const bStart = document.getElementById("start-game");
@@ -48,6 +55,7 @@ var delay = 1000;
 function awake() {
   sizeScreen();
   showScore();
+  soundConfig();
   scoreController.verifyLocalScore();
 
 }
@@ -73,6 +81,7 @@ document.addEventListener("keypress", (event) => {
 function displayStart() {
   if (bStart.value == "NoStart") {
     animStart.style.display = "flex";
+    soundLaser.play();
 
     setTimeout(function () {
       game.style.display = "block";
