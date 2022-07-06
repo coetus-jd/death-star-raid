@@ -66,11 +66,10 @@ export default {
         continue;
       }
 
-      if (
-        enemy.state === ENEMY_STATES.DAMAGE &&
+      if (enemy.state === ENEMY_STATES.DAMAGE) {
         enemy.type === ENEMIES_TYPES.X_WING
-      ) {
-        animateXWingEnemyDamage.call(this, index);
+          ? animateXWingEnemyDamage.call(this, index)
+          : animateYWingEnemyDamage.call(this, index);
         continue;
       }
 
@@ -319,7 +318,33 @@ function animateXWingEnemyDamage(index) {
     enemyXWingDamageAnimations,
     () => {
       this.enemies[index].state = ENEMY_STATES.MOVING_FORWARD;
-    }, 
+    },
+    -20
+  );
+}
+
+const enemyYWingDamageAnimations = [
+  "assets/Damage/Y-Wing/0001.png",
+  "assets/Enemies/Y-Wing/0000.png",
+  "assets/Damage/Y-Wing/0001.png",
+  "assets/Enemies/Y-Wing/0000.png",
+  "assets/Damage/Y-Wing/0001.png",
+  "assets/Enemies/Y-Wing/0000.png",
+  "assets/Damage/Y-Wing/0001.png",
+  "assets/Enemies/Y-Wing/0000.png",
+  "assets/Damage/Y-Wing/0001.png",
+  "assets/Enemies/Y-Wing/0000.png",
+];
+
+function animateYWingEnemyDamage(index) {
+  animation.animate(
+    "yWingEnemyDamage",
+    8,
+    this.enemies[index],
+    enemyYWingDamageAnimations,
+    () => {
+      this.enemies[index].state = ENEMY_STATES.MOVING_FORWARD;
+    },
     -20
   );
 }
