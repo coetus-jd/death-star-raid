@@ -70,8 +70,7 @@ export default {
         enemy.state === ENEMY_STATES.DAMAGE &&
         enemy.type === ENEMIES_TYPES.X_WING
       ) {
-        // animateXWingEnemyDamage(enemy);
-        enemy.type = ENEMY_STATES.MOVING_FORWARD;
+        animateXWingEnemyDamage.call(this, index);
         continue;
       }
 
@@ -175,7 +174,7 @@ export default {
 
       enemy.y += enemy.velocityInY;
 
-      if (enemy.state == ENEMY_STATES.DEAD) return;
+      if (enemy.state === ENEMY_STATES.DEAD) return;
 
       if (enemy.y - enemy.height > GAME_SETTINGS.BASE_HEIGHT) {
         scoreController.addPoint();
@@ -210,7 +209,6 @@ export default {
         }
 
         removeBullet(bulletTile, bulletIndex);
-
         scoreController.addPoint();
       });
     });
@@ -230,6 +228,28 @@ function removeBullet(bulletTile, bulletIndex) {
 function removeEnemy(enemy, index) {
   utility.clearRectUtil(enemy.x, enemy.y, enemy.width, enemy.height);
   this.enemies.splice(index, 1);
+}
+
+const explosionAnimations = [
+  "assets/Damage/Explosão/0000.png",
+  "assets/Damage/Explosão/0001.png",
+  "assets/Damage/Explosão/0002.png",
+  "assets/Damage/Explosão/0003.png",
+  "assets/Damage/Explosão/0004.png",
+  "assets/Damage/Explosão/0005.png",
+];
+
+function animateEnemyExplosion(enemy, index) {
+  animation.animate(
+    "enemyExplosion",
+    6,
+    enemy,
+    explosionAnimations,
+    () => {
+      removeEnemy.call(this, enemy, index);
+    },
+    -20
+  );
 }
 
 const enemyYWingIdleAnimations = [
@@ -252,21 +272,6 @@ function animateYWingEnemy(enemy) {
   );
 
   enemy.currentAnimationFrame++;
-}
-
-const explosionAnimations = [
-  "assets/Damage/Explosão/0000.png",
-  "assets/Damage/Explosão/0001.png",
-  "assets/Damage/Explosão/0002.png",
-  "assets/Damage/Explosão/0003.png",
-  "assets/Damage/Explosão/0004.png",
-  "assets/Damage/Explosão/0005.png",
-];
-
-function animateEnemyExplosion(enemy, index) {
-  animation.animate("enemyExplosion", 6, enemy, explosionAnimations, () => {
-    removeEnemy.call(this, enemy, index);
-  });
 }
 
 const enemyXWingIdleAnimations = [
@@ -293,27 +298,28 @@ function animateXWingEnemy(enemy) {
   enemy.currentAnimationFrame++;
 }
 
-// const enemyXWingDamageAnimations = [
-//   "assets/Damage/X-Wing/0001.png",
-//   "assets/Enemies/X-Wing/0000.png",
-//   "assets/Damage/X-Wing/0001.png",
-//   "assets/Enemies/X-Wing/0000.png",
-//   "assets/Damage/X-Wing/0001.png",
-//   "assets/Enemies/X-Wing/0000.png",
-//   "assets/Damage/X-Wing/0001.png",
-//   "assets/Enemies/X-Wing/0000.png",
-//   "assets/Damage/X-Wing/0001.png",
-//   "assets/Enemies/X-Wing/0000.png",
-// ];
+const enemyXWingDamageAnimations = [
+  "assets/Damage/X-Wing/0001.png",
+  "assets/Enemies/X-Wing/0000.png",
+  "assets/Damage/X-Wing/0001.png",
+  "assets/Enemies/X-Wing/0000.png",
+  "assets/Damage/X-Wing/0001.png",
+  "assets/Enemies/X-Wing/0000.png",
+  "assets/Damage/X-Wing/0001.png",
+  "assets/Enemies/X-Wing/0000.png",
+  "assets/Damage/X-Wing/0001.png",
+  "assets/Enemies/X-Wing/0000.png",
+];
 
-// function animateXWingEnemyDamage(enemy) {
-//   animation.animate(
-//     "xWingEnemyDamage",
-//     10,
-//     enemy,
-//     enemyXWingDamageAnimations,
-//     () => {
-//       enemy.state = ENEMY_STATES.MOVING_FORWARD;
-//     }
-//   );
-// }
+function animateXWingEnemyDamage(index) {
+  animation.animate(
+    "xWingEnemyDamage",
+    8,
+    this.enemies[index],
+    enemyXWingDamageAnimations,
+    () => {
+      this.enemies[index].state = ENEMY_STATES.MOVING_FORWARD;
+    }, 
+    -20
+  );
+}

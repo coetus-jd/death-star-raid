@@ -28,18 +28,25 @@ export default {
     componentBeingAnimated,
     animations,
     onAnimationEnds = () => {},
-    valueToExcludeYOnClear = -20
+    valueToExcludeYOnClear = 0
   ) {
+    console.log(
+      "Animação atual: ",
+      componentBeingAnimated.currentAnimationFrame
+    );
     if (!spritesTimes.hasOwnProperty(key)) {
       spritesTimes[key] = timeToAwait;
     }
 
     spritesTimes[key]--;
 
-    if (spritesTimes[key] > 0) return;
+    // console.log('Sprite time: ', spritesTimes);
 
     if (componentBeingAnimated.currentAnimationFrame > animations.length - 1) {
+      console.log("Terminou todas as animações");
       onAnimationEnds();
+
+      componentBeingAnimated.currentAnimationFrame = 0;
 
       utility.clearRectUtil(
         componentBeingAnimated.x,
@@ -52,40 +59,16 @@ export default {
       return;
     }
 
-    utility.drawImage(
-      animations[componentBeingAnimated.currentAnimationFrame],
-      componentBeingAnimated.x,
-      componentBeingAnimated.y,
-      componentBeingAnimated.width,
-      componentBeingAnimated.height, 
-      valueToExcludeYOnClear
-    );
-
-    componentBeingAnimated.currentAnimationFrame++;
-    spritesTimes[key] = timeToAwait;
-  },
-  animateContinuous: function (
-    key,
-    timeToAwait,
-    componentBeingAnimated,
-    animations,
-    stopAnimation = false
-  ) {
-    if (!spritesTimes.hasOwnProperty(key)) {
-      spritesTimes[key] = timeToAwait;
-    }
-
-    if (stopAnimation) {
-      delete spritesTimes[key]
+    if (spritesTimes[key] > 0) {
+      utility.drawImage(
+        animations[componentBeingAnimated.currentAnimationFrame],
+        componentBeingAnimated.x,
+        componentBeingAnimated.y,
+        componentBeingAnimated.width,
+        componentBeingAnimated.height,
+        valueToExcludeYOnClear
+      );
       return;
-    }
-
-    spritesTimes[key]--;
-
-    if (spritesTimes[key] > 0) return;
-
-    if (componentBeingAnimated.currentAnimationFrame > animations.length - 1) {
-      componentBeingAnimated.currentAnimationFrame = 0;
     }
 
     utility.drawImage(
@@ -94,7 +77,7 @@ export default {
       componentBeingAnimated.y,
       componentBeingAnimated.width,
       componentBeingAnimated.height,
-    //   -20
+      valueToExcludeYOnClear
     );
 
     componentBeingAnimated.currentAnimationFrame++;
