@@ -1,1 +1,0 @@
-Enquanto o jogo roda, o símbolo azul com 2 palitos fica no canto superior esquerdo da tela alinhado com o placar, ao pausar o jogo, seja clicando nele apertando o botão de pause no teclado, ele troca para o símbolo vermelho, e ele fica alternando para o símbolo branco, como se fosse uma luz piscando no painel.

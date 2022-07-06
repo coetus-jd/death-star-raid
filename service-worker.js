@@ -1,5 +1,5 @@
 /**
- * Service worker interepts requests for images
+ * Service worker intercepts requests for images
  * It puts retrieved images in cache for 10 minutes 
  * If image not found responds with fallback
  * @link https://gist.github.com/dsheiko/8a5878678371f950d37f3ee074fe8031
