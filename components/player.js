@@ -66,13 +66,13 @@ export default {
     utility = new Utility(newContext);
     animation.init(newContext);
 
-    document.addEventListener("keypress", (event) => {
-      if (event.key === "d" || event.key === "D" || event.keyCode === 68) {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "d" || event.key === "D" || event.keyCode === 68 || event.key === "ArrowRight" || event.keyCode === 39) {
         this.movePlayer(1);
         return;
       }
 
-      if (event.key === "a" || event.key === "A" || event.keyCode === 65) {
+      if (event.key === "a" || event.key === "A" || event.keyCode === 65 || event.key === "ArrowLeft" || event.keyCode === 37) {
         this.movePlayer(-1);
         return;
       }
@@ -83,9 +83,13 @@ export default {
         event.key === "d" ||
         event.key === "D" ||
         event.keyCode === 68 ||
+        event.key === "ArrowRight" || 
+        event.keyCode === 39 ||
         event.key === "a" ||
         event.key === "A" ||
-        event.keyCode === 65
+        event.keyCode === 65 ||
+        event.key === "ArrowLeft" || 
+        event.keyCode === 37
       ) {
         this.movePlayer(0);
       }

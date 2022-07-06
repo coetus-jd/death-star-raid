@@ -119,6 +119,28 @@ export default {
                 0
             )
         }
+    },
+    resetLocalScore: function(){
+        localStorage.setItem(
+            LOCAL_STORAGE_KEYS.FIRST_RECORD,
+            0
+        )
+        localStorage.setItem(
+            LOCAL_STORAGE_KEYS.SECOND_RECORD,
+            0
+        )
+        localStorage.setItem(
+            LOCAL_STORAGE_KEYS.THIRD_RECORD,
+            0
+        )
+        localStorage.setItem(
+            LOCAL_STORAGE_KEYS.FORTH_RECORD,
+            0
+        )
+        localStorage.setItem(
+            LOCAL_STORAGE_KEYS.FIFTH_RECORD,
+            0
+        )
     }
 
 };

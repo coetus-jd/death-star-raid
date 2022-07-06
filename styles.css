@@ -379,27 +379,6 @@ canvas {
     background-color: inherit;
 }
 
-#record {
-    position: absolute;
-    left: var(--base-distance);
-    cursor: default;
-    font-size: 1.5em;
-}
-
-#actions {
-    position: absolute;
-    right: var(--base-distance);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-#actions :hover {
-    opacity: 0.7;
-    cursor: pointer;
-    transform: scale(1.2);
-}
 
 /* Game Buttons */
 
@@ -415,6 +394,7 @@ button {
     font-family: 'Nunito', sans-serif;
     color: white;
 }
+
 
 #debugmode{
     display: flex;
@@ -491,6 +471,23 @@ button {
     background-size: cover;
 }
 
+#reset{
+    background-color: #29c516;
+    font-family: AnakinmonoRegular;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 1%;
+    font-size: 130%;
+    width: 8%;
+    height: 4%;
+    margin-top: 2%;
+    margin-left: 82.5%;
+    margin-right: auto;
+    box-shadow: 0px 0px 2px black;
+    
+}
+
 #score-screen {
     display: flex;
     width: 78%;
@@ -525,7 +522,7 @@ button {
     display: flex;
     width: 20%;
     height: 10%;
-    margin-top: 15%;
+    margin-top: 8%;
     margin-left: auto;
     margin-right: 4%;
 }
