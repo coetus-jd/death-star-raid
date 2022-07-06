@@ -12,37 +12,6 @@ let utility = null;
 const baseHeight = 150;
 const baseWidth = 150;
 const lifeBar = document.getElementById("life");
-const rightAnimations = [
-  "assets/TieFighter/0004 - DireitaLeve.png",
-  "assets/TieFighter/0005 - Direita.png",
-];
-
-const leftAnimations = [
-  "assets/TieFighter/0002 - EsquerdaLeve.png",
-  "assets/TieFighter/0001 - Esquerda.png",
-];
-
-const explosionAnimations = [
-  "assets/Damage/Explosão/0000.png",
-  "assets/Damage/Explosão/0001.png",
-  "assets/Damage/Explosão/0002.png",
-  "assets/Damage/Explosão/0003.png",
-  "assets/Damage/Explosão/0004.png",
-  "assets/Damage/Explosão/0005.png",
-];
-
-const damageAnimations = [
-  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
-  "assets/TieFighter/0003 - Neutro.png",
-  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
-  "assets/TieFighter/0003 - Neutro.png",
-  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
-  "assets/TieFighter/0003 - Neutro.png",
-  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
-  "assets/TieFighter/0003 - Neutro.png",
-  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
-  "assets/TieFighter/0003 - Neutro.png",
-];
 
 export default {
   /** Position in the X axis where the player will be created */
@@ -67,12 +36,24 @@ export default {
     animation.init(newContext);
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "d" || event.key === "D" || event.keyCode === 68 || event.key === "ArrowRight" || event.keyCode === 39) {
+      if (
+        event.key === "d" ||
+        event.key === "D" ||
+        event.keyCode === 68 ||
+        event.key === "ArrowRight" ||
+        event.keyCode === 39
+      ) {
         this.movePlayer(1);
         return;
       }
 
-      if (event.key === "a" || event.key === "A" || event.keyCode === 65 || event.key === "ArrowLeft" || event.keyCode === 37) {
+      if (
+        event.key === "a" ||
+        event.key === "A" ||
+        event.keyCode === 65 ||
+        event.key === "ArrowLeft" ||
+        event.keyCode === 37
+      ) {
         this.movePlayer(-1);
         return;
       }
@@ -83,12 +64,12 @@ export default {
         event.key === "d" ||
         event.key === "D" ||
         event.keyCode === 68 ||
-        event.key === "ArrowRight" || 
+        event.key === "ArrowRight" ||
         event.keyCode === 39 ||
         event.key === "a" ||
         event.key === "A" ||
         event.keyCode === 65 ||
-        event.key === "ArrowLeft" || 
+        event.key === "ArrowLeft" ||
         event.keyCode === 37
       ) {
         this.movePlayer(0);
@@ -97,12 +78,12 @@ export default {
   },
   draw: function () {
     if (this.state === PLAYER_STATES.DEAD) {
-      this.animatePlayerExplosion();
+      animatePlayerExplosion.call(this);
       return;
     }
 
     if (this.state === PLAYER_STATES.DAMAGE) {
-      this.animatePlayerDamage();
+      animatePlayerDamage.call(this);
       return;
     }
 
@@ -111,7 +92,7 @@ export default {
       return;
     }
 
-    if (this.state === PLAYER_STATES.RIGHT) {
+    if (this.state === PLAYER_STATES.FINISHED_MOVING_RIGHT) {
       utility.drawImage(
         rightAnimations[1],
         this.x,
@@ -120,10 +101,14 @@ export default {
         this.height
       );
       return;
-      // this.animatePlayerToRight();
     }
 
-    if (this.state === PLAYER_STATES.LEFT) {
+    if (this.state === PLAYER_STATES.MOVING_RIGHT) {
+      animatePlayerRight.call(this);
+      return;
+    }
+
+    if (this.state === PLAYER_STATES.FINISHED_MOVING_LEFT) {
       utility.drawImage(
         leftAnimations[1],
         this.x,
@@ -132,14 +117,19 @@ export default {
         this.height
       );
       return;
-      // this.animatePlayerToRight();
+    }
+
+    if (this.state === PLAYER_STATES.MOVING_LEFT) {
+      animatePlayerLeft.call(this);
+      return;
     }
   },
   reset: function () {
     this.velocity = 0;
     this.life = 3;
     this.x = GAME_SETTINGS.BASE_WIDTH / 2 - baseWidth / 2;
-    lifeBar.style.backgroundImage = "url('assets/UX/TelaDeJogo/BarraDeVida/Full.png')";
+    lifeBar.style.backgroundImage =
+      "url('assets/UX/TelaDeJogo/BarraDeVida/Full.png')";
     this.state = PLAYER_STATES.IDLE;
     // if (GAME_SETTINGS.RECORD > GAME_SETTINGS.BEST_RECORD) {
     //     localStorage.setItem("record", GAME_SETTINGS.RECORD);
@@ -178,7 +168,17 @@ export default {
       return;
     }
 
-    this.state = direction === 1 ? PLAYER_STATES.RIGHT : PLAYER_STATES.LEFT;
+    if (
+      ![
+        PLAYER_STATES.FINISHED_MOVING_LEFT,
+        PLAYER_STATES.FINISHED_MOVING_RIGHT,
+      ].includes(this.state)
+    ) {
+      this.state =
+        direction === 1
+          ? PLAYER_STATES.MOVING_RIGHT
+          : PLAYER_STATES.MOVING_LEFT;
+    }
 
     this.x += newXPosition;
   },
@@ -192,7 +192,6 @@ export default {
     };
   },
   takeDamage(damage = 1) {
-
     this.life -= damage;
 
     if (this.life == 2) {
@@ -215,14 +214,60 @@ export default {
       utility.drawImage(animation, self.x, self.y, self.width, self.height);
     });
   },
-  animatePlayerExplosion: function () {
-    animation.animate("playerExplosion", 6, this, explosionAnimations, () => {
-      gameController.lostGame();
-    });
-  },
-  animatePlayerDamage: function() {
-    animation.animate("playerDamage", 10, this, damageAnimations, () => {
-      this.state = PLAYER_STATES.IDLE;
-    });
-  },
 };
+
+const explosionAnimations = [
+  "assets/Damage/Explosão/0000.png",
+  "assets/Damage/Explosão/0001.png",
+  "assets/Damage/Explosão/0002.png",
+  "assets/Damage/Explosão/0003.png",
+  "assets/Damage/Explosão/0004.png",
+  "assets/Damage/Explosão/0005.png",
+];
+
+function animatePlayerExplosion() {
+  animation.animate("playerExplosion", 6, this, explosionAnimations, () => {
+    gameController.lostGame();
+  });
+}
+
+const damageAnimations = [
+  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
+  "assets/TieFighter/0003 - Neutro.png",
+  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
+  "assets/TieFighter/0003 - Neutro.png",
+  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
+  "assets/TieFighter/0003 - Neutro.png",
+  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
+  "assets/TieFighter/0003 - Neutro.png",
+  "assets/Damage/Tie Fighter/Dano/0003 - NeutroDANO.png",
+  "assets/TieFighter/0003 - Neutro.png",
+];
+
+function animatePlayerDamage() {
+  animation.animate("playerDamage", 10, this, damageAnimations, () => {
+    this.state = PLAYER_STATES.IDLE;
+  });
+}
+
+const rightAnimations = [
+  "assets/TieFighter/0004 - DireitaLeve.png",
+  "assets/TieFighter/0005 - Direita.png",
+];
+
+function animatePlayerRight() {
+  animation.animate("playerRight", 20, this, rightAnimations, () => {
+    this.state = PLAYER_STATES.FINISHED_MOVING_RIGHT;
+  });
+}
+
+const leftAnimations = [
+  "assets/TieFighter/0002 - EsquerdaLeve.png",
+  "assets/TieFighter/0001 - Esquerda.png",
+];
+
+function animatePlayerLeft() {
+  animation.animate("playerLeft", 20, this, leftAnimations, () => {
+    this.state = PLAYER_STATES.FINISHED_MOVING_LEFT;
+  });
+}

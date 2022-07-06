@@ -28,64 +28,40 @@ export default {
     componentBeingAnimated,
     animations,
     onAnimationEnds = () => {},
-    valueToExcludeYOnClear = -20
+    valueToExcludeYOnClear = 0
   ) {
     if (!spritesTimes.hasOwnProperty(key)) {
       spritesTimes[key] = timeToAwait;
     }
 
-    spritesTimes[key]--;
-
-    if (spritesTimes[key] > 0) return;
-
     if (componentBeingAnimated.currentAnimationFrame > animations.length - 1) {
       onAnimationEnds();
 
-      utility.clearRectUtil(
-        componentBeingAnimated.x,
-        componentBeingAnimated.y,
-        componentBeingAnimated.width,
-        componentBeingAnimated.height
-      );
+      componentBeingAnimated.currentAnimationFrame = 0;
+
+      // utility.clearRectUtil(
+      //   componentBeingAnimated.x,
+      //   componentBeingAnimated.y,
+      //   componentBeingAnimated.width,
+      //   componentBeingAnimated.height
+      // );
 
       delete spritesTimes[key];
       return;
     }
 
-    utility.drawImage(
-      animations[componentBeingAnimated.currentAnimationFrame],
-      componentBeingAnimated.x,
-      componentBeingAnimated.y,
-      componentBeingAnimated.width,
-      componentBeingAnimated.height, 
-      valueToExcludeYOnClear
-    );
-
-    componentBeingAnimated.currentAnimationFrame++;
-    spritesTimes[key] = timeToAwait;
-  },
-  animateContinuous: function (
-    key,
-    timeToAwait,
-    componentBeingAnimated,
-    animations,
-    stopAnimation = false
-  ) {
-    if (!spritesTimes.hasOwnProperty(key)) {
-      spritesTimes[key] = timeToAwait;
-    }
-
-    if (stopAnimation) {
-      delete spritesTimes[key]
-      return;
-    }
-
     spritesTimes[key]--;
 
-    if (spritesTimes[key] > 0) return;
-
-    if (componentBeingAnimated.currentAnimationFrame > animations.length - 1) {
-      componentBeingAnimated.currentAnimationFrame = 0;
+    if (spritesTimes[key] > 0) {
+      utility.drawImage(
+        animations[componentBeingAnimated.currentAnimationFrame],
+        componentBeingAnimated.x,
+        componentBeingAnimated.y,
+        componentBeingAnimated.width,
+        componentBeingAnimated.height,
+        valueToExcludeYOnClear
+      );
+      return;
     }
 
     utility.drawImage(
@@ -94,7 +70,7 @@ export default {
       componentBeingAnimated.y,
       componentBeingAnimated.width,
       componentBeingAnimated.height,
-    //   -20
+      valueToExcludeYOnClear
     );
 
     componentBeingAnimated.currentAnimationFrame++;
