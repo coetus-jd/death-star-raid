@@ -259,18 +259,14 @@ const enemyYWingIdleAnimations = [
 ];
 
 function animateYWingEnemy(enemy) {
-  if (enemy.currentAnimationFrame > enemyYWingIdleAnimations.length - 1)
-    enemy.currentAnimationFrame = 0;
-
-  utility.drawImage(
-    enemyYWingIdleAnimations[enemy.currentAnimationFrame],
-    enemy.x,
-    enemy.y,
-    enemy.width,
-    enemy.height
+  animation.animate(
+    "yWingEnemyIdle",
+    10,
+    enemy,
+    enemyYWingIdleAnimations,
+    () => {},
+    -10
   );
-
-  enemy.currentAnimationFrame++;
 }
 
 const enemyXWingIdleAnimations = [
@@ -283,18 +279,14 @@ const enemyXWingIdleAnimations = [
 ];
 
 function animateXWingEnemy(enemy) {
-  if (enemy.currentAnimationFrame > enemyXWingIdleAnimations.length - 1)
-    enemy.currentAnimationFrame = 0;
-
-  utility.drawImage(
-    enemyXWingIdleAnimations[enemy.currentAnimationFrame],
-    enemy.x,
-    enemy.y,
-    enemy.width,
-    enemy.height
+  animation.animate(
+    "xWingEnemyIdle",
+    10,
+    enemy,
+    enemyXWingIdleAnimations,
+    () => {},
+    -10
   );
-
-  enemy.currentAnimationFrame++;
 }
 
 const enemyXWingDamageAnimations = [
