@@ -1,6 +1,10 @@
 import { Log } from "./log.js";
 import GAME_SETTINGS from "../constants/gameSettings.js";
 
+/**
+ * Class with some utilities to work on a canvas context
+ * @author Fabrício Pinto Ferreira
+ */
 export class Utility {
   /**
    * @param {CanvasRenderingContext2D} newContext
@@ -16,6 +20,7 @@ export class Utility {
 
   /**
    * Verify if two objects have collided
+   * 
    * @param {import('../types').Tile} object1
    * @param {import('../types').Tile} object2
    * @returns
@@ -30,6 +35,11 @@ export class Utility {
     const object1BoxCollier = object1.getBoxCollider();
     /** @type {import('../types').Collider} */
     const object2BoxCollier = object2.getBoxCollider();
+
+    if (!object1BoxCollier || !object2BoxCollier) {
+      Log.error("One of the objects in collision has not set their box collider");
+      return false;
+    }
 
     if (GAME_SETTINGS.DEBUG.DEBUG_ENABLED) {
       this.drawLine(
@@ -55,6 +65,15 @@ export class Utility {
     );
   }
 
+  /**
+   * Draw a line on canvas
+   * @param {number} x 
+   * @param {number} y 
+   * @param {number} width 
+   * @param {number} height 
+   * @param {string} color Color in Hex
+   * @param {number} lineWidth 
+   */
   drawLine(x, y, width, height, color = "#F00", lineWidth = 1) {
     this.canvasContext.beginPath();
     this.canvasContext.strokeStyle = color;
@@ -67,7 +86,7 @@ export class Utility {
    * @param {number} y
    * @param {number} width
    * @param {number} height
-   * @param {string} color Hex
+   * @param {string} color Color in Hex
    * @returns {void}
    */
   drawRectangle(x, y, width, height, color = "#000") {
@@ -112,8 +131,8 @@ export class Utility {
    * @param {number} y
    * @param {number} width
    * @param {number} height
-   * @param {string} color1 Hex
-   * @param {string} color2 Hex
+   * @param {string} color1 Color in Hex
+   * @param {string} color2 Color in Hex
    * @returns {void}
    */
   drawRectangleWithGradient(
@@ -134,12 +153,13 @@ export class Utility {
   }
 
   /**
-   * @param {string} imagePath
-   * @param {number} x
-   * @param {number} y
-   * @param {number} width
-   * @param {number} height
-   * @param {number} valueToExcludeYOnClear
+   * @param {string} imagePath Path to the image on `assets` folder
+   * @param {number} x Position on the X axis
+   * @param {number} y Position on the Y axis
+   * @param {number} width Image's width
+   * @param {number} height Image's height
+   * @param {number} valueToExcludeYOnClear Some sprites have remaining pixels on Y sometimes, so we clear more space on Y to guarantee
+   * @param {number} opacity Opacity of the image. Default is `1` (100%)
    * @returns {void}
    */
   drawImage(
@@ -183,6 +203,12 @@ export class Utility {
   }
 
   /**
+   * Get a random image from a given directory where the image's names are
+   * defined with the pattern: 
+   * 
+   * @example 
+   * XXXX.png -> 0000.png or 0001.png
+   * 
    * @param {string} basePath
    * @param {number} numberOfImages
    * @param {string} imageFileExtension
@@ -214,6 +240,10 @@ export class Utility {
   }
 
   /**
+   * Gets a random element on a list of elements.
+   * 
+   * If validateIfIsTheSame is `true` the function will be called recursively until
+   * a different value from the previous is generated
    * @param {Array} elements
    * @param {Number} numberOfElements
    * @param {Boolean} validateIfIsTheSame
@@ -244,6 +274,7 @@ export class Utility {
   }
 
   /**
+   * Verify if a new random value is the same in the `previousObject`
    * @param {string} contextKey
    * @param {Number} currentRandomIndex
    * @returns {Boolean}
@@ -262,8 +293,8 @@ export class Utility {
   }
 
   /**
-   * @param {string} color1
-   * @param {string} color2
+   * @param {string} color1 Color in hex
+   * @param {string} color2 Color in hex
    * @returns {CanvasGradient}
    */
   createGradient(color1, color2) {
