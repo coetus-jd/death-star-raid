@@ -39,12 +39,12 @@ export default {
 
       componentBeingAnimated.currentAnimationFrame = 0;
 
-      utility.clearRectUtil(
-        componentBeingAnimated.x,
-        componentBeingAnimated.y,
-        componentBeingAnimated.width,
-        componentBeingAnimated.height
-      );
+      // utility.clearRectUtil(
+      //   componentBeingAnimated.x,
+      //   componentBeingAnimated.y,
+      //   componentBeingAnimated.width,
+      //   componentBeingAnimated.height
+      // );
 
       delete spritesTimes[key];
       return;
