@@ -26,6 +26,16 @@ let forthScore = null;
 /** @type {HTMLElement} */
 let fifthScore = null;
 /** @type {HTMLElement} */
+let firstName = null;
+/** @type {HTMLElement} */
+let secondName = null;
+/** @type {HTMLElement} */
+let thirdName = null;
+/** @type {HTMLElement} */
+let forthName = null;
+/** @type {HTMLElement} */
+let fifthName = null;
+/** @type {HTMLElement} */
 let currentScoreText = null;
 /** @type {HTMLElement} */
 let pauseButton = null;
@@ -95,7 +105,6 @@ function displayStart() {
 
 // Game Credits
 
-// const about = document.getElementById("content-game-credit");
 // const bAbout = document.getElementById("about");
 
 // bAbout.addEventListener("mouseenter", displayAbout);
@@ -146,6 +155,8 @@ document.addEventListener("keyup", (event) => {
 
 //Score Screen
 
+const inputName = document.getElementById("credits-name");
+const creditScreen = document.getElementById("content-game-credit");
 highScore.addEventListener("click", displayScore);
 btnReturn.addEventListener("click", displayInicialScreen);
 btnGitStart.addEventListener("click", openGitHub);
@@ -157,6 +168,17 @@ function displayScore() {
   game.style.display = "none";
   start.style.display = "none";
   showScore();
+}
+
+function writeName(){
+    creditScreen.style.display ="block";
+    scoreController.addName(inputName);
+    document.addEventListener("keypress", (event) => {
+      if (event.key === "Enter" || event.code === "Enter") {
+        creditScreen.style.display ="none";
+        displayScore()
+      }
+    });
 }
 
 function resetLocalScore(){
@@ -291,12 +313,12 @@ function lostGame(gameState) {
   scoreController.verifyCurrentScore();
   GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
   setTimeout(function () {
+    writeName();
     player.reset();
     enemy.reset();
     bullet.reset();
     document.getElementById("backgroundCanvas").parentNode.removeChild(document.getElementById("backgroundCanvas"));
     document.getElementById("canvas").parentNode.removeChild(document.getElementById("canvas"));
-    displayScore();
   }, delay);
 
 
@@ -360,6 +382,17 @@ function showScore() {
   forthScore.innerHTML = ("000000" + Number(localStorage.forth)).slice(-6) || "000000";
   fifthScore = document.getElementById("fifth-score");
   fifthScore.innerHTML = ("000000" + Number(localStorage.fifth)).slice(-6) || "000000";
+
+  firstName = document.getElementById("first-name");
+  firstName.innerHTML = ("..." + localStorage.firstName).slice(-3) || "...";
+  secondName = document.getElementById("second-name");
+  secondName.innerHTML = ("..." + localStorage.secondName).slice(-3) || "...";
+  thirdName = document.getElementById("third-name");
+  thirdName.innerHTML = ("..." + localStorage.thirdName).slice(-3) || "...";
+  forthName = document.getElementById("forth-name");
+  forthName.innerHTML = ("..." + localStorage.forthName).slice(-3) || "...";
+  fifthName = document.getElementById("fifth-name");
+  fifthName.innerHTML = ("..." + localStorage.fifthName).slice(-3) || "...";
 }
 
 

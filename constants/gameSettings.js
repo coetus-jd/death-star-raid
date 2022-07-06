@@ -15,6 +15,7 @@ export default {
         MAX: 950
     },
     RECORD: 0,
+    RECORD_NAME: "",
     FIRST_RECORD: 0,
     SECOND_RECORD: 0,
     THIRD_RECORD: 0,
