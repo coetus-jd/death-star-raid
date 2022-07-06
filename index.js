@@ -7,6 +7,7 @@ import bullet from "./components/bullet.js";
 import enemy from "./components/enemy.js";
 import { Log } from "./utils/log.js";
 import scoreController from "./controllers/scoreController.js";
+import gameSettings from "./constants/gameSettings.js";
 
 /** Starts the game only when the DOM is fully loaded */
 document.addEventListener("DOMContentLoaded", awake);
@@ -46,7 +47,7 @@ let debugButton = null;
 const soundLaser = new Audio();
 
 function soundConfig(){
-  soundLaser.src = './assets/Sounds/Laser.mp3'
+  soundLaser.src = './assets/Sounds/TieFighterSound.mp3'
 }
 
 // Inicial Screen
@@ -84,6 +85,16 @@ document.addEventListener("keypress", (event) => {
     displayStart();
     if (bStart.value == "Start") {
       startGame();
+    }
+  }
+  if (event.key === "Enter" || event.code === "Enter") {
+    if(creditsOn == true)
+    {
+      scoreController.addName(inputName.value);
+      sendName.click();
+      lostGame(GAME_STATE.PLAY);
+      creditScreen.style.display ="none";
+      creditsOn = false;
     }
   }
 });
@@ -156,7 +167,10 @@ document.addEventListener("keyup", (event) => {
 //Score Screen
 
 const inputName = document.getElementById("credits-name");
+const sendName = document.getElementById("send");
 const creditScreen = document.getElementById("content-game-credit");
+var creditsOn = false;
+
 highScore.addEventListener("click", displayScore);
 btnReturn.addEventListener("click", displayInicialScreen);
 btnGitStart.addEventListener("click", openGitHub);
@@ -171,14 +185,8 @@ function displayScore() {
 }
 
 function writeName(){
-    creditScreen.style.display ="block";
-    scoreController.addName(inputName);
-    document.addEventListener("keypress", (event) => {
-      if (event.key === "Enter" || event.code === "Enter") {
-        creditScreen.style.display ="none";
-        displayScore()
-      }
-    });
+  creditScreen.style.display ="block";
+  creditsOn = true;
 }
 
 function resetLocalScore(){
@@ -226,7 +234,14 @@ function run() {
   if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PAUSED) return;
 
   if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
-    lostGame(GAME_STATE.PLAY);
+    scoreController.verifyNewScore();
+    if(GAME_SETTINGS.NEW_SCORE === true)
+    {
+      writeName();
+    }
+    else{
+      lostGame(GAME_STATE.PLAY);
+    }
     return;
   }
 
@@ -309,19 +324,16 @@ function getScore() {
  * Reset the game
  * @param {Number} gameState
  */
+
 function lostGame(gameState) { 
   scoreController.verifyCurrentScore();
   GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
-  setTimeout(function () {
-    writeName();
     player.reset();
     enemy.reset();
     bullet.reset();
     document.getElementById("backgroundCanvas").parentNode.removeChild(document.getElementById("backgroundCanvas"));
     document.getElementById("canvas").parentNode.removeChild(document.getElementById("canvas"));
-  }, delay);
-
-
+    displayScore();
 }
 
 /**

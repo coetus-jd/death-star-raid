@@ -15,12 +15,8 @@ export default {
         MAX: 950
     },
     RECORD: 0,
-    RECORD_NAME: "",
-    FIRST_RECORD: 0,
-    SECOND_RECORD: 0,
-    THIRD_RECORD: 0,
-    FORTH_RECORD: 0,
-    FIFTH_RECORD: 0,
+    RECORD_NAME: "...",
+
     DEBUG: {
         DEBUG_ENABLED: false,
     },
@@ -29,4 +25,5 @@ export default {
         WARN_ENABLED: true,
         ERROR_ENABLED: true,
     },
+    NEW_SCORE: false,
 };

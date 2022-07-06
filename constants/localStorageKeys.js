@@ -11,4 +11,5 @@ export default {
     THIRD_NAME: "thirdName",
     FORTH_NAME: "forthName",
     FIFTH_NAME: "fifthName",
+
 };

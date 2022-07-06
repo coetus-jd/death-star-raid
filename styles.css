@@ -199,6 +199,7 @@ canvas {
     color: white;
     border-radius:5px;
     font-family: AnakinmonoRegular;
+    z-index: +1;
 }
 
 #new-score{
@@ -288,7 +289,7 @@ canvas {
     align-items: center;
     justify-content: center;
 	text-align: left;
-    margin-left: 25%;
+    margin-left: 26%;
     margin-right: auto;
     margin-top: 3%;
     font-size: 500%;
@@ -301,6 +302,15 @@ canvas {
     border-radius:10px;
     border: black 5px solid;
     background-color: inherit;
+    text-transform: uppercase;
+}
+
+#send{
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
 }
 
 #middle-bot{
@@ -580,6 +590,7 @@ button {
     height: 100%;
     font-family: AnakinmonoRegular;
     font-size: 400%;
+    text-transform: uppercase;
     text-align: right;
     margin-right: 8%;
     align-items: center;
@@ -591,6 +602,7 @@ button {
 .num{
     text-align: left;
     padding-left: 4%;
+    text-transform: lowercase;
 }
 
 #bottom-score{

@@ -8,14 +8,21 @@ export default {
     addName: function(playerName){
         GAME_SETTINGS.RECORD_NAME = playerName;
     },
-    
+    verifyNewScore: function(){
+        if (GAME_SETTINGS.RECORD <= Number(localStorage.fifth)){
+            GAME_SETTINGS.NEW_SCORE = false;
+        }
+        else{
+            GAME_SETTINGS.NEW_SCORE = true;
+        }
+    },
     verifyCurrentScore: function() {
+        debugger;
         if (GAME_SETTINGS.RECORD <= Number(localStorage.fifth)) return;
 
         else if(GAME_SETTINGS.RECORD > Number(localStorage.first))
         {
             //Record
-
             localStorage.setItem(
                 LOCAL_STORAGE_KEYS.FIFTH_RECORD,
                 localStorage.forth
@@ -38,7 +45,6 @@ export default {
             )
 
             //Name record
-
             localStorage.setItem(
                 LOCAL_STORAGE_KEYS.FIFTH_NAME,
                 localStorage.forthName
@@ -59,7 +65,6 @@ export default {
                 LOCAL_STORAGE_KEYS.FIRST_NAME,
                 GAME_SETTINGS.RECORD_NAME
             )
-
 
         }
         else if(GAME_SETTINGS.RECORD > Number(localStorage.second))
@@ -101,6 +106,7 @@ export default {
                 LOCAL_STORAGE_KEYS.SECOND_NAME,
                 GAME_SETTINGS.RECORD_NAME
             )
+
         }
         else if(GAME_SETTINGS.RECORD > Number(localStorage.third))
         {
@@ -112,7 +118,7 @@ export default {
             )
             localStorage.setItem(
                 LOCAL_STORAGE_KEYS.FORTH_RECORD,
-                LlocalStorage.third
+                localStorage.third
             )
             localStorage.setItem(
                 LOCAL_STORAGE_KEYS.THIRD_RECORD,
@@ -127,12 +133,13 @@ export default {
             )
             localStorage.setItem(
                 LOCAL_STORAGE_KEYS.FORTH_NAME,
-                LlocalStorage.thirdName
+                localStorage.thirdName
             )
             localStorage.setItem(
                 LOCAL_STORAGE_KEYS.THIRD_NAME,
                 GAME_SETTINGS.RECORD_NAME
             )
+
         }
         else if(GAME_SETTINGS.RECORD > Number(localStorage.forth))
         {
@@ -157,6 +164,7 @@ export default {
                 LOCAL_STORAGE_KEYS.FORTH_NAME,
                 GAME_SETTINGS.RECORD_NAME
             )
+
         }
         else if(GAME_SETTINGS.RECORD > Number(localStorage.fifth))
         {
@@ -173,8 +181,8 @@ export default {
                 LOCAL_STORAGE_KEYS.FIFTH_NAME,
                 GAME_SETTINGS.RECORD_NAME
             )
+            
         }
-        
     },
     verifyLocalScore: function () {
         //Record
