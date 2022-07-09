@@ -10,7 +10,7 @@
  * @property {boolean} firstTile
  * @property {boolean} isInMiddle
  * @property {number} state
- * @property {Function} getBoxCollider
+ * @property {function(): Collider} getBoxCollider
  */
 
 /**
