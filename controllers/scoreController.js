@@ -155,41 +155,17 @@ export default {
     }
   },
   verifyLocalScore: function () {
-    //Record
+    resetValuesOnLocalStorage(LOCAL_STORAGE_KEYS.FIRST_RECORD, 0);
+    resetValuesOnLocalStorage(LOCAL_STORAGE_KEYS.SECOND_RECORD, 0);
+    resetValuesOnLocalStorage(LOCAL_STORAGE_KEYS.THIRD_RECORD, 0);
+    resetValuesOnLocalStorage(LOCAL_STORAGE_KEYS.FORTH_RECORD, 0);
+    resetValuesOnLocalStorage(LOCAL_STORAGE_KEYS.FIFTH_RECORD, 0);
 
-    if (localStorage.first == null) {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.FIRST_RECORD, 0);
-    }
-    if (localStorage.second == null) {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.SECOND_RECORD, 0);
-    }
-    if (localStorage.third == null) {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.THIRD_RECORD, 0);
-    }
-    if (localStorage.forth == null) {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.FORTH_RECORD, 0);
-    }
-    if (localStorage.fifth == null) {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.FIFTH_RECORD, 0);
-    }
-
-    //Name Record
-
-    if (localStorage.firstName == null) {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.FIRST_NAME, "...");
-    }
-    if (localStorage.secondName == null) {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.SECOND_NAME, "...");
-    }
-    if (localStorage.thirdName == null) {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.THIRD_NAME, "...");
-    }
-    if (localStorage.forthName == null) {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.FORTH_NAME, "...");
-    }
-    if (localStorage.fifthName == null) {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.FIFTH_NAME, "...");
-    }
+    resetValuesOnLocalStorage(LOCAL_STORAGE_KEYS.FIRST_NAME, "...");
+    resetValuesOnLocalStorage(LOCAL_STORAGE_KEYS.SECOND_NAME, "...");
+    resetValuesOnLocalStorage(LOCAL_STORAGE_KEYS.THIRD_NAME, "...");
+    resetValuesOnLocalStorage(LOCAL_STORAGE_KEYS.FORTH_NAME, "...");
+    resetValuesOnLocalStorage(LOCAL_STORAGE_KEYS.FIFTH_NAME, "...");
   },
   resetLocalScore: function () {
     localStorage.setItem(LOCAL_STORAGE_KEYS.FIRST_RECORD, 0);
@@ -205,3 +181,11 @@ export default {
     localStorage.setItem(LOCAL_STORAGE_KEYS.FIFTH_NAME, "...");
   },
 };
+
+function resetValuesOnLocalStorage(nameOfLocalStorageKey, defaultValue) {
+  const valeuOnLocalStorage = localStorage.getItem(nameOfLocalStorageKey);
+
+  if (!valeuOnLocalStorage) {
+    localStorage.setItem(nameOfLocalStorageKey, defaultValue);
+  }
+}
