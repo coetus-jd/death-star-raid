@@ -14,12 +14,13 @@ export default {
     utility = new Utility(newContext);
   },
   /**
-   *
-   * @param {string} key
-   * @param {Number} timeToAwait
+   * Animate a sequence of images on the canvas
+   * @param {string} key A key to control which animation is playing
+   * @param {Number} timeToAwait How much will be waited to execute the another animation frame
    * @param {import('../types').Tile} componentBeingAnimated
-   * @param {string[]} animations
-   * @param {Function} onAnimationEnds
+   * @param {string[]} animations Paths to the images that will compound the animation
+   * @param {Function} onAnimationEnds A function that will executed when the animations ends
+   * @param {number} valueToExcludeYOnClear Workaround to resolve the problem of clearRect on drawImage function
    * @returns {void}
    */
   animate: function (
@@ -38,13 +39,6 @@ export default {
       onAnimationEnds();
 
       componentBeingAnimated.currentAnimationFrame = 0;
-
-      // utility.clearRectUtil(
-      //   componentBeingAnimated.x,
-      //   componentBeingAnimated.y,
-      //   componentBeingAnimated.width,
-      //   componentBeingAnimated.height
-      // );
 
       delete spritesTimes[key];
       return;

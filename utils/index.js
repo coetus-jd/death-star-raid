@@ -23,7 +23,7 @@ export class Utility {
    * 
    * @param {import('../types').Tile} object1
    * @param {import('../types').Tile} object2
-   * @returns
+   * @returns {boolean}
    */
   hasCollided(object1, object2) {
     if (!object1 || !object2) {
