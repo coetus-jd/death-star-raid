@@ -2,7 +2,6 @@ import GAME_SETTINGS from "../constants/gameSettings.js";
 import GAME_STATES from "../constants/gameStates.js";
 import PLAYER_STATES from "../constants/playerState.js";
 
-import floor from "./floor.js";
 import { Utility } from "../utils/index.js";
 import animation from "../utils/animation.js";
 import gameController from "../controllers/gameController.js";
@@ -17,7 +16,7 @@ export default {
   /** Position in the X axis where the player will be created */
   x: GAME_SETTINGS.BASE_WIDTH / 2 - baseWidth / 2,
   /** Position in the Y axis where the player will be created */
-  y: floor.y - baseHeight,
+  y: GAME_SETTINGS.BASE_HEIGHT - baseHeight,
   movementVelocity: 6,
   height: baseHeight,
   width: baseWidth,
