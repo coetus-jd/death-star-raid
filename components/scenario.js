@@ -2,212 +2,226 @@ import GAME_SETTINGS from "../constants/gameSettings.js";
 import { Utility } from "../utils/index.js";
 import { Log } from "../utils/log.js";
 
-const baseWidth = 300;
-const baseHeight = 900;
-const baseWidthMiddle = 450;
+const baseTileWidth = 300;
+const baseTileHeight = 900;
+const baseMiddleTileWidth = 450;
 const baseRows = 1;
 
 const baseMoatImages = {
-    path: "assets/BlockedTiles/Fosso",
-    quantity: 6
+  path: "assets/BlockedTiles/Fosso",
+  quantity: 6,
 };
+
 const baseSidesImages = {
-    path: "assets/BlockedTiles/Laterais",
-    quantity: 10
+  path: "assets/BlockedTiles/Laterais",
+  quantity: 10,
 };
+
+/**
+ * Fixed positions to render the right, middle and left tiles
+ * @type {import('../types.js').Tile[]}
+ */
+ const tilesCreationPositions = [
+    {
+      x: 0,
+      y: -baseTileHeight,
+      width: baseTileWidth,
+      height: baseTileHeight,
+      velocityInY: 0,
+    },
+    {
+      x: baseTileWidth,
+      y: -baseTileHeight,
+      width: baseMiddleTileWidth,
+      height: baseTileHeight,
+      velocityInY: 0,
+      isInMiddle: true,
+    },
+    {
+      x: baseTileWidth + baseMiddleTileWidth,
+      y: -baseTileHeight,
+      width: baseTileWidth,
+      height: baseTileHeight,
+      velocityInY: 0,
+    },
+  ];
 
 /** @type Utility */
 let utility = null;
 
+/**
+ * Configuration and logic for the scenario component
+ */
 export default {
-    gravity: GAME_SETTINGS.GRAVITY,
-    maxVelocity: GAME_SETTINGS.MAX_VELOCITY,
-    /** @type {import('../types.js').Tile[]} */
-    allScenarioObjects: [],
-    /**
-     * @param {CanvasRenderingContext2D} newContext 
-     */
-    init: function (newContext) {
-        utility = new Utility(newContext);
-    },
-    clear: function () {
-        this.allScenarioObjects = [];
-    },
-    draw: function () {
-        const length = this.allScenarioObjects.length;
+  gravity: GAME_SETTINGS.GRAVITY,
+  maxVelocity: GAME_SETTINGS.MAX_VELOCITY,
+  /** @type {import('../types.js').Tile[]} */
+  allScenarioObjects: [],
+  /**
+   * @param {CanvasRenderingContext2D} newContext
+   */
+  init: function (newContext) {
+    utility = new Utility(newContext);
+  },
+  clear: function () {
+    this.allScenarioObjects = [];
+  },
+  draw: function () {
+    const length = this.allScenarioObjects.length;
 
-        for (let index = 0; index < length; index++) {
-            const tile = this.allScenarioObjects[index];
-            utility.drawImage(
-                tile.imageSource,
-                tile.x,
-                tile.y,
-                tile.width,
-                tile.height
-            );
-        }
-    },
-    /**
-     * Create initial elements in scenario
-     */
-    createBasicElements: function () {
-        const allScenarioBasicTiles = [
-            ...generateRightInitialTilesPositions(),
-            ...generateLeftInitialTilesPositions(),
-            ...generateMiddleInitialTilesPositions()
-        ];
+    for (let index = 0; index < length; index++) {
+      const tile = this.allScenarioObjects[index];
 
-        allScenarioBasicTiles[0].firstTile = true;
+      utility.drawImage(
+        tile.imageSource,
+        tile.x,
+        tile.y,
+        tile.width,
+        tile.height
+      );
+    }
+  },
+  /**
+   * Create initial elements in scenario
+   */
+  createBasicElements: function () {
+    const allScenarioBasicTiles = [
+      ...generateRightInitialTilesPositions(),
+      ...generateLeftInitialTilesPositions(),
+      ...generateMiddleInitialTilesPositions(),
+    ];
 
-        allScenarioBasicTiles.forEach(tile => {
-            utility.drawImage(tile.imageSource, tile.x, tile.y, tile.width, tile.height);
-        });
+    allScenarioBasicTiles[0].firstTile = true;
 
-        this.allScenarioObjects.push(...allScenarioBasicTiles);
-    },
-    create: function () {
-        /** @type Tile */
-        const firstTile = this.allScenarioObjects.find(x => x.firstTile);
+    allScenarioBasicTiles.forEach((tile) => {
+      utility.drawImage(
+        tile.imageSource,
+        tile.x,
+        tile.y,
+        tile.width,
+        tile.height
+      );
+    });
 
-        // Only create another tile if the previous was completed shown 
-        if (!firstTile || firstTile.y < 1) return;
+    this.allScenarioObjects.push(...allScenarioBasicTiles);
+  },
+  create: function () {
+    /** @type Tile */
+    const firstTile = this.allScenarioObjects.find((x) => x.firstTile);
 
-        const firstTileIndex = this.allScenarioObjects.indexOf(firstTile);
+    // Only create another tile if the previous was completed shown
+    if (!firstTile || firstTile.y < 1) return;
 
-        this.allScenarioObjects[firstTileIndex].firstTile = false;
+    const firstTileIndex = this.allScenarioObjects.indexOf(firstTile);
 
-        const length = tilesCreationPositions.length;
+    this.allScenarioObjects[firstTileIndex].firstTile = false;
 
-        for (let index = 0; index < length; index++) {
-            const tilePosition = tilesCreationPositions[index];
+    const length = tilesCreationPositions.length;
 
-            const imagesSettings = tilePosition.isInMiddle ?
-                baseMoatImages:
-                baseSidesImages;
+    for (let index = 0; index < length; index++) {
+      const tilePosition = tilesCreationPositions[index];
 
-            tilePosition.imageSource = utility.getRandomImage(
-                imagesSettings.path,
-                imagesSettings.quantity
-            );
-            tilePosition.velocityInY = this.maxVelocity;
-            this.allScenarioObjects.push({ ...tilePosition });
-        }
+      const imagesSettings = tilePosition.isInMiddle
+        ? baseMoatImages
+        : baseSidesImages;
 
-        const lastIndex = this.allScenarioObjects.length - 1;
-        this.allScenarioObjects[lastIndex].firstTile = true;
-    },
-    update: function () {
-        Log.debug(`Tiles quantity: ${this.allScenarioObjects.length}`);
+      tilePosition.imageSource = utility.getRandomImage(
+        imagesSettings.path,
+        imagesSettings.quantity
+      );
 
-        this.allScenarioObjects.forEach((tile, index) => {
-            if (!tile.velocityInY) tile.velocityInY = this.maxVelocity;
-            if (!tile.y) tile.y = 0;
+      tilePosition.velocityInY = this.maxVelocity;
+      this.allScenarioObjects.push({ ...tilePosition });
+    }
 
-            // if (tile.velocityInY < this.maxVelocity) tile.velocityInY += this.gravity;
-            tile.y += tile.velocityInY;
+    const lastIndex = this.allScenarioObjects.length - 1;
+    this.allScenarioObjects[lastIndex].firstTile = true;
+  },
+  update: function () {
+    Log.debug(`Tiles quantity: ${this.allScenarioObjects.length}`);
 
-            if ((tile.y - tile.height) > GAME_SETTINGS.BASE_HEIGHT) {
-                utility.clearRectUtil(tile.x, tile.y, tile.width, tile.height);
-                this.allScenarioObjects.splice(index, 1);
-                return;
-            }
-        });
-    },
+    this.allScenarioObjects.forEach((tile, index) => {
+      if (!tile.velocityInY) tile.velocityInY = this.maxVelocity;
+      if (!tile.y) tile.y = 0;
+
+      // if (tile.velocityInY < this.maxVelocity) tile.velocityInY += this.gravity;
+      tile.y += tile.velocityInY;
+
+      if (tile.y - tile.height > GAME_SETTINGS.BASE_HEIGHT) {
+        utility.clearRectUtil(tile.x, tile.y, tile.width, tile.height);
+        this.allScenarioObjects.splice(index, 1);
+        return;
+      }
+    });
+  },
 };
 
 /**
  * @returns {import('../types.js').Tile[]}
  */
 function generateLeftInitialTilesPositions() {
-    const array = [];
+  const array = [];
 
-    for (let index = 0; index < baseRows; index++) {
-        array.push({
-            x: 0,
-            y: baseHeight * index,
-            width: baseWidth,
-            height: baseHeight,
-            velocityInY: 0,
-            imageSource: utility.getRandomImage(
-                baseSidesImages.path,
-                baseSidesImages.quantity
-            ),
-        });
-    }
+  for (let index = 0; index < baseRows; index++) {
+    array.push({
+      x: 0,
+      y: baseTileHeight * index,
+      width: baseTileWidth,
+      height: baseTileHeight,
+      velocityInY: 0,
+      imageSource: utility.getRandomImage(
+        baseSidesImages.path,
+        baseSidesImages.quantity
+      ),
+    });
+  }
 
-    return array;
+  return array;
 }
 
 /**
  * @returns {import('../types.js').Tile[]}
  */
 function generateRightInitialTilesPositions() {
-    const array = [];
+  const array = [];
 
-    for (let index = 0; index < baseRows; index++) {
-        array.push({
-            x: GAME_SETTINGS.BASE_WIDTH - baseWidth,
-            y: baseHeight * index,
-            width: baseWidth,
-            height: baseHeight,
-            velocityInY: 0,
-            imageSource: utility.getRandomImage(
-                baseSidesImages.path,
-                baseSidesImages.quantity
-            )
-        })
-    }
+  for (let index = 0; index < baseRows; index++) {
+    array.push({
+      x: GAME_SETTINGS.BASE_WIDTH - baseTileWidth,
+      y: baseTileHeight * index,
+      width: baseTileWidth,
+      height: baseTileHeight,
+      velocityInY: 0,
+      imageSource: utility.getRandomImage(
+        baseSidesImages.path,
+        baseSidesImages.quantity
+      ),
+    });
+  }
 
-    return array;
+  return array;
 }
 
 /**
  * @returns {import('../types.js').Tile[]}
  */
 function generateMiddleInitialTilesPositions() {
-    const array = [];
-    const baseX = baseWidth;
+  const array = [];
+  const baseX = baseTileWidth;
 
-    for (let index = 0; index < baseRows; index++) {
-        array.push({
-            x: baseX,
-            y: baseHeight * index,
-            width: baseWidthMiddle,
-            height: baseHeight,
-            velocityInY: 0,
-            imageSource: utility.getRandomImage(
-                baseMoatImages.path,
-                baseMoatImages.quantity
-            )
-        });
-    }
+  for (let index = 0; index < baseRows; index++) {
+    array.push({
+      x: baseX,
+      y: baseTileHeight * index,
+      width: baseMiddleTileWidth,
+      height: baseTileHeight,
+      velocityInY: 0,
+      imageSource: utility.getRandomImage(
+        baseMoatImages.path,
+        baseMoatImages.quantity
+      ),
+    });
+  }
 
-    return array;
+  return array;
 }
-
-/**
- * @returns {import('../types.js').Tile[]}
- */
-const tilesCreationPositions = [{
-    x: 0,
-    y: -baseHeight,
-    width: baseWidth,
-    height: baseHeight,
-    velocityInY: 0,
-},
-{
-    x: baseWidth,
-    y: -baseHeight,
-    width: baseWidthMiddle,
-    height: baseHeight,
-    velocityInY: 0,
-    isInMiddle: true,
-},
-{
-    x: baseWidth + baseWidthMiddle,
-    y: -baseHeight,
-    width: baseWidth,
-    height: baseHeight,
-    velocityInY: 0,
-},
-]
