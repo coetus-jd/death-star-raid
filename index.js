@@ -1,13 +1,14 @@
 import GAME_STATE from "./constants/gameStates.js";
 import GAME_SETTINGS from "./constants/gameSettings.js";
+import LOCAL_STORAGE_KEYS from "./constants/localStorageKeys.js";
+
+import scoreController from "./controllers/scoreController.js";
 
 import player from "./components/player.js";
 import scenario from "./components/scenario.js";
 import bullet from "./components/bullet.js";
 import enemy from "./components/enemy.js";
 import { Log } from "./utils/log.js";
-import scoreController from "./controllers/scoreController.js";
-import gameSettings from "./constants/gameSettings.js";
 
 /** Starts the game only when the DOM is fully loaded */
 document.addEventListener("DOMContentLoaded", awake);
@@ -42,33 +43,47 @@ let currentScoreText = null;
 let pauseButton = null;
 /** @type {HTMLElement} */
 let debugButton = null;
+let creditsOn = false;
 
 // Sound config
 const soundLaser = new Audio();
 
-function soundConfig(){
-  soundLaser.src = './assets/Sounds/TieFighterSound.mp3'
-}
-
 // Inicial Screen
 const start = document.getElementById("content-start-game");
-const bStart = document.getElementById("start-game");
+const btnStart = document.getElementById("start-game");
 const animStart = document.getElementById("animStart");
 const game = document.getElementById("content-game");
 const endScreen = document.getElementById("content-score");
 const highScore = document.getElementById("high-score");
 const btnReturn = document.getElementById("return");
 const btnGitStart = document.getElementById("git-hub");
-const btnGitScore =  document.getElementById("git-hub-score")
+const btnGitScore = document.getElementById("git-hub-score");
 const btnReset = document.getElementById("reset");
-var delay = 1000;
 
+// Game content
+const left = document.getElementById("btn-left");
+const space = document.getElementById("btn-space");
+const right = document.getElementById("btn-right");
+const pause = document.getElementById("pause");
+
+//Score Screen
+const inputName = document.getElementById("credits-name");
+const sendName = document.getElementById("send");
+const creditScreen = document.getElementById("content-game-credit");
+
+/**
+ * Primary game configurations
+ */
 function awake() {
   sizeScreen();
   showScore();
   soundConfig();
+  configureGameEventsListeners();
   scoreController.verifyLocalScore();
+}
 
+function soundConfig() {
+  soundLaser.src = "./assets/Sounds/TieFighterSound.mp3";
 }
 
 function sizeScreen() {
@@ -80,102 +95,96 @@ function sizeScreen() {
   endScreen.style.width = GAME_SETTINGS.BASE_WIDTH + "px";
 }
 
-document.addEventListener("keypress", (event) => {
-  if (event.key === " " || event.code === "Space") {
-    displayStart();
-    if (bStart.value == "Start") {
-      startGame();
+function configureGameEventsListeners() {
+  document.addEventListener("keypress", (event) => {
+    if (event.key === " " || event.code === "Space") {
+      displayStart();
+
+      if (btnStart.value == "Start") {
+        startGame();
+      }
     }
-  }
-  if (event.key === "Enter" || event.code === "Enter") {
-    if(creditsOn == true)
-    {
+
+    if ((event.key === "Enter" || event.code === "Enter") && creditsOn) {
       scoreController.addName(inputName.value);
       sendName.click();
-      lostGame(GAME_STATE.PLAY);
-      creditScreen.style.display ="none";
+      creditScreen.style.display = "none";
       creditsOn = false;
+      lostGame(GAME_STATE.PLAY);
     }
-  }
-});
+  });
 
-function displayStart() {
-  if (bStart.value == "NoStart") {
-    animStart.style.display = "flex";
-    soundLaser.play();
+  document.addEventListener("keydown", (event) => {
+    if (
+      event.key === "a" ||
+      event.key === "A" ||
+      event.keyCode === 65 ||
+      event.key === "ArrowLeft" ||
+      event.keyCode === 37
+    ) {
+      left.style.opacity = "1";
+    }
+    if (
+      event.key === "d" ||
+      event.key === "D" ||
+      event.keyCode === 68 ||
+      event.key === "ArrowRight" ||
+      event.keyCode === 39
+    ) {
+      right.style.opacity = "1";
+    }
+    if (event.key === " " || event.code === "Space") {
+      space.style.opacity = "1";
+    }
+  });
 
-    setTimeout(function () {
-      game.style.display = "block";
-      pause.style.animation = "none"
-      bStart.value = "Start";
-      start.style.display = "none";
-      startPlay();
-    }, delay);
-  } 
+  document.addEventListener("keyup", (event) => {
+    if (
+      event.key === "a" ||
+      event.key === "A" ||
+      event.keyCode === 65 ||
+      event.key === "ArrowLeft" ||
+      event.keyCode === 37
+    ) {
+      left.style.opacity = "0";
+    }
+
+    if (
+      event.key === "d" ||
+      event.key === "D" ||
+      event.keyCode === 68 ||
+      event.key === "ArrowRight" ||
+      event.keyCode === 39
+    ) {
+      right.style.opacity = "0";
+    }
+
+    if (event.key === " " || event.code === "Space") {
+      space.style.opacity = "0";
+    }
+  });
+
+  highScore.addEventListener("click", displayScore);
+  btnReturn.addEventListener("click", displayInicialScreen);
+  btnGitStart.addEventListener("click", openGitHub);
+  btnGitScore.addEventListener("click", openGitHub);
+  btnReset.addEventListener("click", resetLocalScore);
 }
 
-// Game Credits
+function displayStart() {
+  if (btnStart.value !== "NoStart") return;
 
-// const bAbout = document.getElementById("about");
+  animStart.style.display = "flex";
+  soundLaser.play();
 
-// bAbout.addEventListener("mouseenter", displayAbout);
-// bAbout.addEventListener("mouseleave", displayAbout);
-
-// function displayAbout(){
-//     if(bAbout.value == 'NoClick'){
-//         about.style.display = "block";
-//         bAbout.value = 'Click';
-//     }
-//     else{
-//         about.style.display = "none";
-//         bAbout.value = 'NoClick';
-//     }
-// }
-
-// Game content
-
-const left = document.getElementById("btn-left");
-const space = document.getElementById("btn-space");
-const right = document.getElementById("btn-right");
-const pause = document.getElementById("pause");
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "a" || event.key === "A" || event.keyCode === 65 || event.key === "ArrowLeft" || event.keyCode === 37) {
-    left.style.opacity = "1";
-  }
-  if (event.key === "d" || event.key === "D" || event.keyCode === 68 || event.key === "ArrowRight" || event.keyCode === 39) {
-    right.style.opacity = "1";
-  }
-  if (event.key === " " || event.code === "Space") {
-    space.style.opacity = "1";
-  }
-});
-
-document.addEventListener("keyup", (event) => {
-  if (event.key === "a" || event.key === "A" || event.keyCode === 65 || event.key === "ArrowLeft" || event.keyCode === 37) {
-    left.style.opacity = "0";
-  }
-  if (event.key === "d" || event.key === "D" || event.keyCode === 68 || event.key === "ArrowRight" || event.keyCode === 39) {
-    right.style.opacity = "0";
-  }
-  if (event.key === " " || event.code === "Space") {
-    space.style.opacity = "0";
-  }
-  // console.log(event);
-});
-
-//Score Screen
-
-const inputName = document.getElementById("credits-name");
-const sendName = document.getElementById("send");
-const creditScreen = document.getElementById("content-game-credit");
-var creditsOn = false;
-
-highScore.addEventListener("click", displayScore);
-btnReturn.addEventListener("click", displayInicialScreen);
-btnGitStart.addEventListener("click", openGitHub);
-btnGitScore.addEventListener("click", openGitHub);
-btnReset.addEventListener("click",resetLocalScore);
+  setTimeout(() => {
+    game.style.display = "block";
+    pause.style.animation = "none";
+    btnStart.value = "Start";
+    start.style.display = "none";
+    startPlay();
+  }, 1000);
+}
 
 function displayScore() {
   endScreen.style.display = "block";
@@ -184,12 +193,12 @@ function displayScore() {
   showScore();
 }
 
-function writeName(){
-  creditScreen.style.display ="block";
+function writeName() {
+  creditScreen.style.display = "block";
   creditsOn = true;
 }
 
-function resetLocalScore(){
+function resetLocalScore() {
   scoreController.resetLocalScore();
   showScore();
 }
@@ -198,15 +207,13 @@ function displayInicialScreen() {
   endScreen.style.display = "none";
   game.style.display = "none";
   start.style.display = "block";
-  bStart.value = "NoStart";
+  btnStart.value = "NoStart";
   animStart.style.display = "none";
-
 }
 
 function openGitHub() {
-  window.open("https://github.com/coetus-jd", "_blank");
+  window.open("https://github.com/coetus-jd/death-star-raid", "_blank");
 }
-
 
 /**
  * Configure the canvas, scenario and canvas contexts
@@ -216,14 +223,19 @@ function startPlay() {
   configureTexts();
   configureButtons();
   configureCanvas();
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === " " || event.code === "Space") {
+      bullet.create();
+    }
+  });
+
   scenario.init(canvasBackgroundContext);
   enemy.init(canvasContext);
   bullet.init(canvasContext);
   player.init(canvasContext);
 
   scenario.createBasicElements();
-
-  // start();
 }
 
 /**
@@ -236,11 +248,10 @@ function run() {
   if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
     scoreController.verifyNewScore();
     game.style.display = "none";
-    if(GAME_SETTINGS.NEW_SCORE === true)
-    {
+
+    if (GAME_SETTINGS.NEW_SCORE === true) {
       writeName();
-    }
-    else{
+    } else {
       lostGame(GAME_STATE.PLAY);
     }
     return;
@@ -283,9 +294,9 @@ function configureCanvas() {
   canvasBackground.id = "backgroundCanvas";
   canvasBackground.width = GAME_SETTINGS.BASE_WIDTH;
   canvasBackground.height = GAME_SETTINGS.BASE_HEIGHT;
-  // canvas.style.border = "1px solid #000";
 
   canvasBackgroundContext = canvasBackground.getContext("2d", { alpha: false });
+
   // New shapes are drawn behind the existing canvas content
   // OBS: default is "source-over"
   // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
@@ -297,16 +308,10 @@ function configureCanvas() {
   canvas.id = "canvas";
   canvas.width = GAME_SETTINGS.BASE_WIDTH;
   canvas.height = GAME_SETTINGS.BASE_HEIGHT;
-  // canvas.style.border = "1px solid #000";
 
   canvasContext = canvas.getContext("2d");
 
   document.body.appendChild(canvas);
-  document.addEventListener("keydown", (event) => {
-    if (event.key === " " || event.code === "Space") {
-      bullet.create();
-    }
-  });
 }
 
 /**
@@ -318,23 +323,34 @@ function getScore() {
   let savedRecord = localStorage.getItem("record");
 
   if (!savedRecord) savedRecord = 0;
-
 }
 
 /**
  * Reset the game
  * @param {Number} gameState
  */
-
-function lostGame(gameState) { 
+function lostGame(gameState) {
   scoreController.verifyCurrentScore();
   GAME_SETTINGS.CURRENT_GAME_STATE = gameState;
-    player.reset();
-    enemy.reset();
-    bullet.reset();
-    document.getElementById("backgroundCanvas").parentNode.removeChild(document.getElementById("backgroundCanvas"));
-    document.getElementById("canvas").parentNode.removeChild(document.getElementById("canvas"));
-    displayScore();
+  player.reset();
+  enemy.reset();
+  bullet.reset();
+
+  removeCanvas();
+  displayScore();
+}
+
+/**
+ * Remove background and normal canvas from the DOM
+ */
+function removeCanvas() {
+  document
+    .getElementById("backgroundCanvas")
+    .parentNode.removeChild(document.getElementById("backgroundCanvas"));
+
+  document
+    .getElementById("canvas")
+    .parentNode.removeChild(document.getElementById("canvas"));
 }
 
 /**
@@ -342,9 +358,8 @@ function lostGame(gameState) {
  */
 function startGame() {
   GAME_SETTINGS.CURRENT_GAME_STATE = GAME_STATE.PLAYING;
-  bStart.value = "Credits";
+  btnStart.value = "Credits";
   run();
-
 }
 
 /**
@@ -356,9 +371,9 @@ function switchPauseGame() {
       ? GAME_STATE.PLAYING
       : GAME_STATE.PAUSED;
 
-    GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING
-      ? pause.style.animation = "none"
-      : pause.style.animation = "";
+  GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING
+    ? (pause.style.animation = "none")
+    : (pause.style.animation = "");
 
   if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.PLAYING) run();
 }
@@ -371,7 +386,7 @@ function configureButtons() {
   pauseButton.addEventListener("click", switchPauseGame);
 
   debugButton = document.getElementById("debugmode");
-  debugButton.addEventListener("click", setDebugMode);
+  debugButton.addEventListener("click", toggleDebugMode);
 }
 
 /**
@@ -382,34 +397,52 @@ function configureTexts() {
   currentScoreText.innerHTML = GAME_SETTINGS.RECORD || "000000";
 }
 
-// Show score in score Screen
-
+/**
+ * Show score in score Screen
+ */
 function showScore() {
-  firstScore = document.getElementById("first-score");
-  firstScore.innerHTML = ("000000" + Number(localStorage.first)).slice(-6) || "000000";
-  secondScore = document.getElementById("second-score");
-  secondScore.innerHTML = ("000000" + Number(localStorage.second)).slice(-6) || "000000";
-  thirdScore = document.getElementById("third-score");
-  thirdScore.innerHTML = ("000000" + Number(localStorage.third)).slice(-6) || "000000";
-  forthScore = document.getElementById("forth-score");
-  forthScore.innerHTML = ("000000" + Number(localStorage.forth)).slice(-6) || "000000";
-  fifthScore = document.getElementById("fifth-score");
-  fifthScore.innerHTML = ("000000" + Number(localStorage.fifth)).slice(-6) || "000000";
+  setNumberToShowOnScoreScreen("first-score", LOCAL_STORAGE_KEYS.FIRST_RECORD);
+  setNumberToShowOnScoreScreen(
+    "second-score",
+    LOCAL_STORAGE_KEYS.SECOND_RECORD
+  );
+  setNumberToShowOnScoreScreen("third-score", LOCAL_STORAGE_KEYS.THIRD_RECORD);
+  setNumberToShowOnScoreScreen("forth-score", LOCAL_STORAGE_KEYS.FORTH_RECORD);
+  setNumberToShowOnScoreScreen("fifth-score", LOCAL_STORAGE_KEYS.FIFTH_RECORD);
 
-  firstName = document.getElementById("first-name");
-  firstName.innerHTML = ("..." + localStorage.firstName).slice(-3) || "...";
-  secondName = document.getElementById("second-name");
-  secondName.innerHTML = ("..." + localStorage.secondName).slice(-3) || "...";
-  thirdName = document.getElementById("third-name");
-  thirdName.innerHTML = ("..." + localStorage.thirdName).slice(-3) || "...";
-  forthName = document.getElementById("forth-name");
-  forthName.innerHTML = ("..." + localStorage.forthName).slice(-3) || "...";
-  fifthName = document.getElementById("fifth-name");
-  fifthName.innerHTML = ("..." + localStorage.fifthName).slice(-3) || "...";
+  setNameToShowOnScoreScreen("first-name", LOCAL_STORAGE_KEYS.FIRST_NAME);
+  setNameToShowOnScoreScreen("second-name", LOCAL_STORAGE_KEYS.SECOND_NAME);
+  setNameToShowOnScoreScreen("third-name", LOCAL_STORAGE_KEYS.THIRD_NAME);
+  setNameToShowOnScoreScreen("forth-name", LOCAL_STORAGE_KEYS.FORTH_NAME);
+  setNameToShowOnScoreScreen("fifth-name", LOCAL_STORAGE_KEYS.FIFTH_NAME);
 }
 
-
-function setDebugMode() {
+function toggleDebugMode() {
   GAME_SETTINGS.DEBUG.DEBUG_ENABLED = !GAME_SETTINGS.DEBUG.DEBUG_ENABLED;
   GAME_SETTINGS.LOGS.DEBUG_ENABLED = !GAME_SETTINGS.LOGS.DEBUG_ENABLED;
+}
+
+/**
+ * @param {string} idOfElementOnDom
+ * @param {string} nameOfLocalStorageKey
+ */
+function setNumberToShowOnScoreScreen(idOfElementOnDom, nameOfLocalStorageKey) {
+  const scoreToSet = document.getElementById(idOfElementOnDom);
+  const localStorageValue = Number(
+    localStorage.getItem(nameOfLocalStorageKey) || "0"
+  );
+
+  scoreToSet.innerHTML = ("000000" + localStorageValue).slice(-6) || "000000";
+}
+
+/**
+ * @param {string} idOfElementOnDom
+ * @param {string} nameOfLocalStorageKey
+ */
+function setNameToShowOnScoreScreen(idOfElementOnDom, nameOfLocalStorageKey) {
+  const nameToSet = document.getElementById(idOfElementOnDom);
+  const localStorageValue =
+    localStorage.getItem(nameOfLocalStorageKey) || "...";
+
+  nameToSet.innerHTML = ("..." + localStorageValue).slice(-3) || "...";
 }
