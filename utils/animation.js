@@ -6,6 +6,9 @@ let utility = null;
 /** Object that holds reference to animations by a given key */
 const spritesTimes = {};
 
+/**
+ * Basic class to animate a serie of images on canvas
+ */
 export default {
   /**
    * @param {CanvasRenderingContext2D} newContext

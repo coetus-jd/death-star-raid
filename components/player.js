@@ -1,31 +1,47 @@
 import GAME_SETTINGS from "../constants/gameSettings.js";
 import GAME_STATES from "../constants/gameStates.js";
 import PLAYER_STATES from "../constants/playerState.js";
+import MOVEMENT_DIRECTIONS from "../constants/movementDirections.js";
 
 import { Utility } from "../utils/index.js";
 import animation from "../utils/animation.js";
 import gameController from "../controllers/gameController.js";
 
-/** @type Utility */
-let utility = null;
-const baseHeight = 150;
-const baseWidth = 150;
+const basePlayerHeight = 150;
+const basePlayerWidth = 150;
 const lifeBar = document.getElementById("life");
 
+const rightAnimations = [
+  "assets/TieFighter/0004 - DireitaLeve.png",
+  "assets/TieFighter/0005 - Direita.png",
+];
+
+const leftAnimations = [
+  "assets/TieFighter/0002 - EsquerdaLeve.png",
+  "assets/TieFighter/0001 - Esquerda.png",
+];
+
+/** @type Utility */
+let utility = null;
+
+/**
+ * Player settings and behaviors
+ */
 export default {
   /** Position in the X axis where the player will be created */
-  x: GAME_SETTINGS.BASE_WIDTH / 2 - baseWidth / 2,
+  x: GAME_SETTINGS.BASE_WIDTH / 2 - basePlayerWidth / 2,
   /** Position in the Y axis where the player will be created */
-  y: GAME_SETTINGS.BASE_HEIGHT - baseHeight,
+  y: GAME_SETTINGS.BASE_HEIGHT - basePlayerHeight,
   movementVelocity: 6,
-  height: baseHeight,
-  width: baseWidth,
+  height: basePlayerHeight,
+  width: basePlayerWidth,
   image: "assets/TieFighter/0003 - Neutro.png",
   gravity: 1.6,
-  /** Velocity of the movement of the player */
+  /** Velocity of movement of the player */
   velocity: 0,
   life: 3,
   currentAnimationFrame: 0,
+  /** Enum from {@link playerState.js} */
   state: PLAYER_STATES.IDLE,
   /**
    * @param {CanvasRenderingContext2D} newContext
@@ -42,7 +58,7 @@ export default {
         event.key === "ArrowRight" ||
         event.keyCode === 39
       ) {
-        this.movePlayer(1);
+        this.movePlayer(MOVEMENT_DIRECTIONS.RIGHT);
         return;
       }
 
@@ -53,7 +69,7 @@ export default {
         event.key === "ArrowLeft" ||
         event.keyCode === 37
       ) {
-        this.movePlayer(-1);
+        this.movePlayer(MOVEMENT_DIRECTIONS.LEFT);
         return;
       }
     });
@@ -71,7 +87,7 @@ export default {
         event.key === "ArrowLeft" ||
         event.keyCode === 37
       ) {
-        this.movePlayer(0);
+        this.movePlayer(MOVEMENT_DIRECTIONS.IDLE);
       }
     });
   },
@@ -126,57 +142,58 @@ export default {
   reset: function () {
     this.velocity = 0;
     this.life = 3;
-    this.x = GAME_SETTINGS.BASE_WIDTH / 2 - baseWidth / 2;
+    this.x = GAME_SETTINGS.BASE_WIDTH / 2 - basePlayerWidth / 2;
+    this.state = PLAYER_STATES.IDLE;
+
     lifeBar.style.backgroundImage =
       "url('assets/UX/TelaDeJogo/BarraDeVida/Full.png')";
-    this.state = PLAYER_STATES.IDLE;
-    // if (GAME_SETTINGS.RECORD > GAME_SETTINGS.BEST_RECORD) {
-    //     localStorage.setItem("record", GAME_SETTINGS.RECORD);
-    //     GAME_SETTINGS.RECORD = this.score;
-    // }
 
     if (utility) utility.clearRectUtil(this.x, this.y, this.width, this.height);
+
     GAME_SETTINGS.RECORD = 0;
   },
   /**
    * @param {Number} direction
-   * @returns
+   * @returns {void}
    */
-  movePlayer(direction = 0) {
-    if (!direction) {
+  movePlayer(direction = MOVEMENT_DIRECTIONS.IDLE) {
+    if (direction === MOVEMENT_DIRECTIONS.IDLE) {
       this.state = PLAYER_STATES.IDLE;
       return;
     }
+
     if (GAME_SETTINGS.CURRENT_GAME_STATE !== GAME_STATES.PLAYING) return;
 
     const newXPosition = this.movementVelocity * direction;
 
     if (
-      direction === 1 &&
-      this.x + baseWidth / 1.2 >= GAME_SETTINGS.LIMIT_IN_X.MAX
+      direction === MOVEMENT_DIRECTIONS.RIGHT &&
+      this.x + basePlayerWidth / 1.2 >= GAME_SETTINGS.LIMIT_IN_X.MAX
     ) {
       this.state = PLAYER_STATES.IDLE;
       return;
     }
 
     if (
-      direction === -1 &&
-      this.x + baseWidth / 5 <= GAME_SETTINGS.LIMIT_IN_X.MIN
+      direction === MOVEMENT_DIRECTIONS.LEFT &&
+      this.x + basePlayerWidth / 5 <= GAME_SETTINGS.LIMIT_IN_X.MIN
     ) {
       this.state = PLAYER_STATES.IDLE;
       return;
     }
 
-    if (
-      ![
-        PLAYER_STATES.FINISHED_MOVING_LEFT,
-        PLAYER_STATES.FINISHED_MOVING_RIGHT,
-      ].includes(this.state)
-    ) {
-      this.state =
-        direction === 1
+    const finishedRightOrLeftMovement = [
+      PLAYER_STATES.FINISHED_MOVING_LEFT,
+      PLAYER_STATES.FINISHED_MOVING_RIGHT,
+    ].includes(this.state);
+
+    if (!finishedRightOrLeftMovement) {
+      const newPlayerStateBasedOnDirection =
+        direction === MOVEMENT_DIRECTIONS.RIGHT
           ? PLAYER_STATES.MOVING_RIGHT
           : PLAYER_STATES.MOVING_LEFT;
+
+      this.state = newPlayerStateBasedOnDirection;
     }
 
     this.x += newXPosition;
@@ -190,28 +207,22 @@ export default {
       height: 80,
     };
   },
+  /**
+   * Make the player take damage and lost life
+   * @param {number} damage Quantity of damage that the player will take. Default is `1`
+   */
   takeDamage(damage = 1) {
     this.life -= damage;
 
-    if (this.life == 2) {
-      lifeBar.style.backgroundImage =
-        "url('assets/UX/TelaDeJogo/BarraDeVida/2lifes.png')";
-    } else if (this.life == 1) {
-      lifeBar.style.backgroundImage =
-        "url('assets/UX/TelaDeJogo/BarraDeVida/1life.png')";
-    } else {
-      lifeBar.style.backgroundImage =
-        "url('assets/UX/TelaDeJogo/BarraDeVida/Dead.png')";
-    }
+    const spritesToShowByLife = {
+      [2]: 'assets/UX/TelaDeJogo/BarraDeVida/2lifes.png',
+      [1]: 'assets/UX/TelaDeJogo/BarraDeVida/1life.png',
+      [0]: 'assets/UX/TelaDeJogo/BarraDeVida/Dead.png',
+      [null]: 'assets/UX/TelaDeJogo/BarraDeVida/Dead.png',
+    };
 
+    lifeBar.style.backgroundImage = `url(${spritesToShowByLife[this.life]})`;
     this.state = PLAYER_STATES.DAMAGE;
-  },
-  animatePlayerToRight: function () {
-    const self = this;
-
-    rightAnimations.forEach(function (animation) {
-      utility.drawImage(animation, self.x, self.y, self.width, self.height);
-    });
   },
 };
 
@@ -224,6 +235,10 @@ const explosionAnimations = [
   "assets/Damage/Explosão/0005.png",
 ];
 
+/**
+ * Play player's explosion animation
+ * @returns {void}
+ */
 function animatePlayerExplosion() {
   animation.animate("playerExplosion", 6, this, explosionAnimations, () => {
     gameController.lostGame();
@@ -243,28 +258,30 @@ const damageAnimations = [
   "assets/TieFighter/0003 - Neutro.png",
 ];
 
+/**
+ * Play player's damage animation
+ * @returns {void}
+ */
 function animatePlayerDamage() {
   animation.animate("playerDamage", 10, this, damageAnimations, () => {
     this.state = PLAYER_STATES.IDLE;
   });
 }
 
-const rightAnimations = [
-  "assets/TieFighter/0004 - DireitaLeve.png",
-  "assets/TieFighter/0005 - Direita.png",
-];
-
+/**
+ * Play player's right animation
+ * @returns {void}
+ */
 function animatePlayerRight() {
   animation.animate("playerRight", 20, this, rightAnimations, () => {
     this.state = PLAYER_STATES.FINISHED_MOVING_RIGHT;
   });
 }
 
-const leftAnimations = [
-  "assets/TieFighter/0002 - EsquerdaLeve.png",
-  "assets/TieFighter/0001 - Esquerda.png",
-];
-
+/**
+ * Play player's left animation
+ * @returns {void}
+ */
 function animatePlayerLeft() {
   animation.animate("playerLeft", 20, this, leftAnimations, () => {
     this.state = PLAYER_STATES.FINISHED_MOVING_LEFT;
