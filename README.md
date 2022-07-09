@@ -1,14 +1,14 @@
 <h1 align="right">
-  <img src="https://github.com/coetus-jd/death-star-raid/blob/e023bec68df599dca86f3dd87cc9c6a17e3e5161/assets/TieFighter/0003%20-%20Neutro.png" width="150px" align="left" />
+<img src="https://github.com/coetus-jd/death-star-raid/blob/main/assets/UX/TelaInicial/TelaInicial.png" height="150px" align="left" />
   Death Start Raid
 </h1>
 
 <p align="right">
-A Death Start Raid
+  Death Star Raid is a River Raid re-implementation using the Canvas API.
   <br><br>
   <!-- License -->
   <a>
-    <img alt="License" src="https://img.shields.io/badge/License-GPL--3.0-green?style=for-the-badge&labelColor=1C1E26&color=61ffca">
+    <img alt="License" src="https://img.shields.io/badge/License-GPL--3.0-green?style=for-the-badge&labelColor=1C1E26&color=CF202E">
   </a>
 </p>
 <br>
