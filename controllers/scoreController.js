@@ -21,7 +21,7 @@ export default {
       localStorage.getItem(LOCAL_STORAGE_KEYS.FIFTH_RECORD)
     );
 
-    GAME_SETTINGS.NEW_SCORE = GAME_SETTINGS.RECORD <= fifthRecord;
+    GAME_SETTINGS.NEW_SCORE = GAME_SETTINGS.RECORD >= fifthRecord;
   },
   verifyCurrentScore: function () {
     if (GAME_SETTINGS.RECORD <= Number(localStorage.fifth)) return;

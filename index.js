@@ -247,9 +247,10 @@ function run() {
 
   if (GAME_SETTINGS.CURRENT_GAME_STATE === GAME_STATE.LOST) {
     scoreController.verifyNewScore();
+
     game.style.display = "none";
 
-    if (GAME_SETTINGS.NEW_SCORE === true) {
+    if (GAME_SETTINGS.NEW_SCORE) {
       writeName();
     } else {
       lostGame(GAME_STATE.PLAY);
