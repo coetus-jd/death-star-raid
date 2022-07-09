@@ -13,16 +13,15 @@
 </p>
 <br>
 
-> Play on: https://coetus-jd.github.io/death-star-raid/
+> Play on: https://coetus-jd.github.io/death-star-raid
 
 ## :eyes: Overview
-<img src="./docs/home.png" width="300px" height="auto"/>
-<img src="./docs/playing.png" width="300px" height="auto"/>
-<img src="./docs/credits.png" width="300px" height="auto"/>
-<img src="./docs/new-score.png" width="300px" height="auto"/>
-<img src="./docs/debug-mode.png" width="300px" height="auto"/>
+<img src="./docs/home.png" width="450px" height="auto" align="left"/>
+<img src="./docs/credits.png" width="450px" height="auto" />
+<img src="./docs/playing.png" width="450px" height="auto"  align="left"/>
+<img src="./docs/debug-mode.png" width="450px" height="auto"/>
+<img src="./docs/new-score.png" width="450px" height="auto"/>
 
-> Basic debug mode
 
 ## :open_book: About 
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
