@@ -1,5 +1,5 @@
 <h1 align="right">
-  <img src="https://github.com/coetus-jd/river-raid/blob/e023bec68df599dca86f3dd87cc9c6a17e3e5161/assets/TieFighter/0003%20-%20Neutro.png" width="150px" align="left" />
+  <img src="https://github.com/coetus-jd/death-star-raid/blob/e023bec68df599dca86f3dd87cc9c6a17e3e5161/assets/TieFighter/0003%20-%20Neutro.png" width="150px" align="left" />
   Death Start Raid
 </h1>
 
@@ -13,7 +13,7 @@ A Death Start Raid
 </p>
 <br>
 
-> Play on: https://coetus-jd.github.io/river-raid/
+> Play on: https://coetus-jd.github.io/death-star-raid/
 
 ## :eyes: Overview
 <img src="./docs/home.png" width="1000px" height="auto"/> <br/><br/>
@@ -28,8 +28,8 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 - [Blender](https://www.blender.org/)
 
 ## 🏄‍♂️ Quick Start
- 1. Clone this repository `git clone https://github.com/coetus-jd/river-raid.git`
- 2. Enter in the project's folder: `cd river-raid`
+ 1. Clone this repository `git clone https://github.com/coetus-jd/death-star-raid.git`
+ 2. Enter in the project's folder: `cd death-star-raid`
  3. Finally serve the `index.html` with [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) for example  😃
  
 ## :recycle: Contribute
