@@ -16,15 +16,15 @@
 > Play on: https://coetus-jd.github.io/death-star-raid
 
 ## :eyes: Overview
-<img src="./docs/home.png" width="450px" height="auto" align="left"/>
-<img src="./docs/credits.png" width="450px" height="auto" />
-<img src="./docs/playing.png" width="450px" height="auto"  align="left"/>
-<img src="./docs/debug-mode.png" width="450px" height="auto"/>
-<img src="./docs/new-score.png" width="450px" height="auto"/>
+<img src="./docs/home.png" width="350px" height="auto" align="left"/>
+<img src="./docs/credits.png" width="350px" height="auto" />
+<img src="./docs/playing.png" width="350px" height="auto"  align="left"/>
+<img src="./docs/debug-mode.png" width="350px" height="auto"/>
+<img src="./docs/new-score.png" width="350px" height="auto"/>
 
 
 ## :open_book: About 
-This game is a re-implementation of the River Raid with inspiration on Star Wars using the Canvas API.
+This game is a re-implementation of the River Raid game with inspiration on Star Wars, using the Canvas API.
 
 ## :bricks: This project was built with: 
 - [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
