@@ -16,11 +16,11 @@
 > Play on: https://coetus-jd.github.io/death-star-raid
 
 ## :eyes: Overview
-<img src="./docs/home.png" width="450px" height="auto" align="left"/>
-<img src="./docs/credits.png" width="450px" height="auto" />
-<img src="./docs/playing.png" width="450px" height="auto"  align="left"/>
-<img src="./docs/debug-mode.png" width="450px" height="auto"/>
-<img src="./docs/new-score.png" width="450px" height="auto"/>
+<img src="./docs/home.png" width="420px" height="auto" align="left"/>
+<img src="./docs/credits.png" width="420px" height="auto" />
+<img src="./docs/playing.png" width="420px" height="auto"  align="left"/>
+<img src="./docs/debug-mode.png" width="420px" height="auto"/>
+<img src="./docs/new-score.png" width="420px" height="auto"/>
 
 
 ## :open_book: About 
