@@ -24,7 +24,7 @@
 
 
 ## :open_book: About 
-This game is a re-implementation of the River Raid with inspiration on Star Wars using the Canvas API.
+This game is a re-implementation of the River Raid game with inspiration on Star Wars, using the Canvas API.
 
 ## :bricks: This project was built with: 
 - [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
