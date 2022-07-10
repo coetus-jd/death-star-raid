@@ -24,7 +24,7 @@
 
 
 ## :open_book: About 
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+This game is a re-implementation of the River Raid with inspiration on Star Wars using the Canvas API.
 
 ## :bricks: This project was built with: 
 - [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
